@@ -9,7 +9,9 @@ Récupération des activités :
 ```bash
 git clone https://github.com/pe-st/garmin-connect-export.git
 cd garmin-connect-export
-python gcexport.py --username mailanto@protonmail.com -d ../activities --count all
+python gcexport.py --username antonin.info@protonmail.com -d ../activities --count all
+# Si une seule activité à récupérer :
+python gcexport.py --username antonin.info@protonmail.com -d ../activities --count 1
 ```
 
 Python 3.8 utilisé pour les développements.
