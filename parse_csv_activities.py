@@ -19,7 +19,9 @@ class Parse_csv_activities:
 
 	def __init__(self, activities_file):
 		self._activities_file = Path(activities_file)
-		self._list_activities_types = self.list_activities_types()
+
+		self._sports = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking",
+						"Open Water Swimming", "Pool Swimming", "Strength Training"]
 
 	def list_activities_types(self):
 		"""
@@ -42,126 +44,116 @@ class Parse_csv_activities:
 				sys.exit(1)
 
 		return list_activites
-	
-	def get_list_all_heart_rate(self):
-		"""Retourner une liste de integers contenant toutes les moyennes
-		des fréquence cardiaque pour toutes les activités"""
+
+	def get_list_heart_rate(self, month, sport):
+		"""
+		Retourner une liste comprenant tous les integers des moyennes
+		de fréquence cardiaque pour un mois choisi, et pour un sport choisi,
+		ou pour tous les temps pour tous les sports
+
+		sport accepte :
+			- "All"
+			- "Cyclisme"
+			- "Running"
+			- "Renfo"
+
+		month accepte :
+			- "All"
+			- "YYYY-MM"
+
+		Exemples : 
+		get_list_heart_rate(month="All", sport="All")
+		get_list_heart_rate(month="2020-07", sport="Running")
+		get_list_heart_rate(month="2020-07", sport="All")
+		get_list_heart_rate(month="All", sport="Cyclisme")
+		get_list_heart_rate(month="All", sport="Renfo")
+		"""
+
+		if sport == "All":
+			sport = self._sports
+		elif sport == "Cyclisme":
+			sport = ["Road Cycling", "Mountain Biking"]
+		elif sport == "Running":
+			sport = ["Street Running", "Trail Running"]
+		elif sport == "Renfo":
+			sport = ["Strength Training"]
+		elif sport == "Natation":
+			print("Données de fréquence cardiaque indisponibles en natation.")
+			sys.exit(1)
+		
 		list_heart_rate = []
 
 		with open(self._activities_file, newline='') as csvfile:
 			reader = csv.DictReader(csvfile)
+			
 			for row in reader:
-					heart_rate = row['Average Heart Rate (bpm)']
-					if heart_rate: # Ajouter uniquement les string non vides
-						list_heart_rate.append(heart_rate)
-				
+
+				heart_rate = row["Average Heart Rate (bpm)"]
+				month_row = row["Start Time"][:7]
+				sport_row = row["Activity Type"]
+
+				for i in sport:
+					if i == sport_row:
+
+						if month == "All":
+							if heart_rate: # Ajouter uniquement les string non vides
+								list_heart_rate.append(heart_rate)
+
+						elif month_row == month:
+							if heart_rate: # Ajouter uniquement les string non vides
+								list_heart_rate.append(heart_rate)
+
+		# Conversion items de la liste string vers int 
 		int_list_heart_rate = list(map(int, list_heart_rate))
 
 		return int_list_heart_rate
+		
+	def get_number_activities(self, month, sport):
+		"""
+		Compter le nombre d'activités
 
-	def get_list_heart_running_heart_rate(self):
-		"""Retourner la liste des fréquences cardiaques des
-		activités de running"""
+		sport accepte :
+			- "All"
+			- "Cyclisme"
+			- "Running"
+			- "Renfo"
 
-		list_heart_rate = []
-		running = ["Trail Running", "Street Running"]
+		month accepte :
+			- "All"
+			- "YYYY-MM"
+		"""
+
+		if sport == "All":
+			sport = self._sports
+		elif sport == "Cyclisme":
+			sport = ["Road Cycling", "Mountain Biking"]
+		elif sport == "Running":
+			sport = ["Street Running", "Trail Running"]
+		elif sport == "Renfo":
+			sport = ["Strength Training"]
+		elif sport == "Natation":
+			sport = ["Open Water Swimming", "Pool Swimming"]
+
+		number_activities = 0
 
 		with open(self._activities_file, newline='') as csvfile:
 			reader = csv.DictReader(csvfile)
+			
 			for row in reader:
-				sport = row['Activity Type']
-				heart_rate = row['Average Heart Rate (bpm)']
-				if heart_rate and sport in running: # Ajouter uniquement les string non vides
-					list_heart_rate.append(heart_rate)
-				
-		int_list_heart_rate = list(map(int, list_heart_rate))
 
-		return int_list_heart_rate
+				month_row = row["Start Time"][:7]
+				sport_row = row["Activity Type"]
 
-	def get_list_heart_cycling_heart_rate(self):
-		"""Retourner la liste des fréquences cardiaques des
-		activités de running"""
+				for i in sport:
+					if i == sport_row:
 
-		list_heart_rate = []
-		cycling = ["Road Cycling", "Mountain Biking"]
+						if month == "All":
+							number_activities += 1
 
-		with open(self._activities_file, newline='') as csvfile:
-			reader = csv.DictReader(csvfile)
-			for row in reader:
-				sport = row['Activity Type']
-				heart_rate = row['Average Heart Rate (bpm)']
-				if heart_rate and sport in cycling: # Ajouter uniquement les string non vides
-					list_heart_rate.append(heart_rate)
-				
-		int_list_heart_rate = list(map(int, list_heart_rate))
+						elif month_row == month:
+							number_activities += 1
 
-		return int_list_heart_rate
-
-	def number_total_activities(self):
-		"""Compter le nombre total d'activités tout sport confondu"""
-
-		nb_activities = len(self.list_activities_types())
-		return nb_activities
-
-	def number_running_activities(self):
-		"""Compter le nombre d'activités de running"""
-		
-		nb_activities = self.number_street_running_activities() + self.number_trail_running_activities()
-		return nb_activities
-
-	def number_trail_running_activities(self):
-		"""Compter le nombre d'activités de running trail"""
-
-		nb_trail_running = self._list_activities_types.count("Trail Running")
-		return nb_trail_running
-
-	def number_street_running_activities(self):
-		"""Compter le nombre d'activités de running sur route"""
-
-		nb_street_running = self._list_activities_types.count("Street Running")
-		return nb_street_running
-
-	def number_cycling_activities(self):
-		"""Compter le nombre d'activités de vélo"""
-
-		nb_activities = self.number_road_cycling_activities() + self.number_mountain_bike_activities()
-		return nb_activities
-
-	def number_road_cycling_activities(self):
-		"""Compter le nombre d'activités de vélo de route"""
-		
-		nb_road_cycling = self._list_activities_types.count("Road Cycling")
-		return nb_road_cycling
-	
-	def number_mountain_bike_activities(self):
-		"""Compter le nombre d'activités de VTT"""
-		
-		nb_mountain_bike = self._list_activities_types.count("Mountain Biking")
-		return nb_mountain_bike
-
-	def number_swimming_activities(self):
-		"""Compter le nombre d'activités de natation"""
-
-		nb_activities = self.number_open_swimming_activities() + self.number_swimming_pool_activities()
-		return nb_activities
-
-	def number_open_swimming_activities(self):
-		"""Compter le nombre d'activités de nage en eau libre"""
-
-		nb_open_swimming = self._list_activities_types.count("Open Water Swimming")
-		return nb_open_swimming
-		
-	def number_swimming_pool_activities(self):
-		"""Compter le nombre d'activités de nage en piscine"""
-		
-		nb_swimming_pool = self._list_activities_types.count("Pool Swimming")
-		return nb_swimming_pool
-
-	def number_strength_training_activities(self):
-		"""Compter le nombre d'activités de nage en piscine"""
-		
-		nb_strength_training = self._list_activities_types.count("Strength Training")
-		return nb_strength_training
+		return number_activities
 
 	"""
 	Getters and setters
@@ -175,10 +167,10 @@ class Parse_csv_activities:
 
 	activities_file = property(_get_activities_file, _set_activities_file)
 
-	
 
 if __name__ == "__main__":
 
 	activities = Parse_csv_activities("activities/activities.csv")
 
-	print(activities.number_mountain_bike_activities())
+	print(activities.get_list_heart_rate(month="2020-08", sport="Cyclisme"))
+	print(activities.get_number_activities(month="All", sport="Natation"))
