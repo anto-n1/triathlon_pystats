@@ -14,10 +14,10 @@ import sys
 class Parse_csv_activities:
 	"""
 	Lire les infos d'un fichier activities.csv et proposer
-	des données propres pour make_stats.py
+	des données brutes propres pour make_statistics.py
 	"""
 
-	def __init__(self, activities_file="activities.csv"):
+	def __init__(self, activities_file):
 		self._activities_file = Path(activities_file)
 		self._list_activities_types = self.list_activities_types()
 
@@ -72,6 +72,25 @@ class Parse_csv_activities:
 				sport = row['Activity Type']
 				heart_rate = row['Average Heart Rate (bpm)']
 				if heart_rate and sport in running: # Ajouter uniquement les string non vides
+					list_heart_rate.append(heart_rate)
+				
+		int_list_heart_rate = list(map(int, list_heart_rate))
+
+		return int_list_heart_rate
+
+	def get_list_heart_cycling_heart_rate(self):
+		"""Retourner la liste des fréquences cardiaques des
+		activités de running"""
+
+		list_heart_rate = []
+		cycling = ["Road Cycling", "Mountain Biking"]
+
+		with open(self._activities_file, newline='') as csvfile:
+			reader = csv.DictReader(csvfile)
+			for row in reader:
+				sport = row['Activity Type']
+				heart_rate = row['Average Heart Rate (bpm)']
+				if heart_rate and sport in cycling: # Ajouter uniquement les string non vides
 					list_heart_rate.append(heart_rate)
 				
 		int_list_heart_rate = list(map(int, list_heart_rate))
@@ -162,4 +181,4 @@ if __name__ == "__main__":
 
 	activities = Parse_csv_activities("activities/activities.csv")
 
-	print(activities.get_list_heart_rate())
+	print(activities.number_mountain_bike_activities())

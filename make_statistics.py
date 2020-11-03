@@ -11,6 +11,10 @@ from statistics import mean
 from parse_csv_activities import Parse_csv_activities
 
 class Make_statistics:
+    """
+    Classe effectuant des statistiques à partir des données
+    brutes remontées par la lecture du fichier CSV dans parse_csv_activities.py
+    """
 
     def __init__(self, activities_file):
         self._activities_file = activities_file
@@ -20,7 +24,7 @@ class Make_statistics:
         """Calcul de la moyenne du rythme cardiaque toute activités
         et tout temps confondu"""
 
-        average_heart_rate = mean(self._activities.get_list_heart_rate())
+        average_heart_rate = mean(self._activities.get_list_all_heart_rate())
         rouded_average_heart_rate = round(average_heart_rate) # Pas de virgule
         return rouded_average_heart_rate
     
