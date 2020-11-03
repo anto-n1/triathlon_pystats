@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from parse_csv_activities import Parse_csv_activities
 from make_statistics import Make_statistics
 
-class Create_graph:
+class Create_graphics:
     """
     Générer des graphiques
     """
@@ -22,16 +22,24 @@ class Create_graph:
         self._activities = Parse_csv_activities(self._activities_file)
         self._stats = Make_statistics(self._activities_file)
 
-    def activities_sharing_all_time(self):
-        """Générer un graphique camembert sur la répartition générale
-        des sports"""
+    def activities_sharing(self, month):
+        """
+        Générer un graphique camembert sur la répartition générale
+        des sports
+        
+        Générer un mois :
+        graphs.activities_sharing(month="2020-10")
+        
+        Générer toutes les activitités :
+        graphs.activities_sharing(month="All")
+        """
 
-        sports = ["Running", "Vélo", "Natation", "Renfo"]
+        sports = ["Cyclisme", "Running", "Natation", "Renfo"]
 
-        sizes = [ self._activities.get_number_activities(month="All", sport="Running"), 
-                    self._activities.get_number_activities(month="All", sport="Cyclisme"),
-                    self._activities.get_number_activities(month="All", sport="Natation"),
-                    self._activities.get_number_activities(month="All", sport="Renfo") ]
+        sizes = [ self._activities.get_number_activities(month=month, sport="Cyclisme"), 
+                    self._activities.get_number_activities(month=month, sport="Running"),
+                    self._activities.get_number_activities(month=month, sport="Natation"),
+                    self._activities.get_number_activities(month=month, sport="Renfo") ]
         
         colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
         explode = (0, 0.1, 0, 0)
@@ -43,14 +51,14 @@ class Create_graph:
         #plt.savefig('PieChart02.png')
         plt.show()
         
-    def activities_sharing_one_month(self, month="2020-11"):
+    def activities_sharing_year(self, year):
         """Générer un graphique camembert sur la répartition générale
         des sports sur un mois choisi"""
-        
+        pass
 
 
 if __name__ == "__main__":
 
-	graphs = Create_graph(activities_file="activities/activities.csv")
+	graphs = Create_graphics(activities_file="activities/activities.csv")
 
-	graphs.activities_sharing_all_time()
+	graphs.activities_sharing(month="All")

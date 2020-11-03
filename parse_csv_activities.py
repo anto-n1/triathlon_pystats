@@ -172,5 +172,5 @@ if __name__ == "__main__":
 
 	activities = Parse_csv_activities("activities/activities.csv")
 
-	print(activities.get_list_heart_rate(month="2020-08", sport="Cyclisme"))
-	print(activities.get_number_activities(month="All", sport="Natation"))
+	print(activities.get_list_heart_rate(month="2020-11", sport="Renfo"))
+	print(activities.get_number_activities(month="2020-11", sport="Cyclisme"))

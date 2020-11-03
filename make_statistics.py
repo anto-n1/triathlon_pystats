@@ -20,7 +20,7 @@ class Make_statistics:
         self._activities_file = activities_file
         self._activities = Parse_csv_activities(activities_file)
 
-    def average_heart_rate_all_time(self, month, sport):
+    def average_heart_rate(self, month, sport):
         """Calcul de la moyenne du rythme cardiaque"""
 
         average_heart_rate = mean(self._activities.get_list_heart_rate(month=month, sport=sport))
@@ -32,4 +32,4 @@ if __name__ == "__main__":
 
 	activities = Make_statistics("activities/activities.csv")
 
-	print(activities.average_heart_rate_all_time(month="2020-10", sport="All"))
+	print(activities.average_heart_rate(month="2020-11", sport="Cyclisme"))
