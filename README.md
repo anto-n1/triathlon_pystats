@@ -7,6 +7,14 @@ de kjkjava sur Github.
 
 Récupération des activités :
 
+```bash
+git clone https://github.com/kjkjava/garmin-connect-export.git
+cd garmin-connect-export
+python gcexport.py --username mailanto@protonmail.com -d ../activities --count all
+```
+
+Python 3.8 utilisé pour les développements.
+
 # TODO :
 
 * https://medium.com/@azholud/analysis-and-visualization-of-activities-from-garmin-connect-b3e021c62472
