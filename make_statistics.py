@@ -28,8 +28,21 @@ class Make_statistics:
 
         return rouded_average_heart_rate
     
+    def total_distance(self, month, sport):
+        """Calcul du total de distance"""
+
+        total_distance = 0
+        list_distances = self._activities.get_list_distances(month=month, sport=sport)
+        
+        for i in list_distances:
+            total_distance += i
+
+        rounded_total_distance = round(total_distance, 2)
+        return rounded_total_distance
+
+    
 if __name__ == "__main__":
 
 	activities = Make_statistics("activities/activities.csv")
 
-	print(activities.average_heart_rate(month="2020-11", sport="Cyclisme"))
+	print(activities.total_distance(month="All", sport="All"))

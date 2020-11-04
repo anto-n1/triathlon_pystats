@@ -20,9 +20,6 @@ class Parse_csv_activities:
 	def __init__(self, activities_file):
 		self._activities_file = Path(activities_file)
 
-		self._sports = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking",
-						"Open Water Swimming", "Pool Swimming", "Strength Training"]
-
 	def list_activities_types(self):
 		"""
 		Vérifier que les types d'activités ne sont pas génériques
@@ -70,7 +67,7 @@ class Parse_csv_activities:
 		"""
 
 		if sport == "All":
-			sport = self._sports
+			sport = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking", "Strength Training"]
 		elif sport == "Cyclisme":
 			sport = ["Road Cycling", "Mountain Biking"]
 		elif sport == "Running":
@@ -124,7 +121,8 @@ class Parse_csv_activities:
 		"""
 
 		if sport == "All":
-			sport = self._sports
+			sport = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking",
+						"Open Water Swimming", "Pool Swimming", "Strength Training"]
 		elif sport == "Cyclisme":
 			sport = ["Road Cycling", "Mountain Biking"]
 		elif sport == "Running":
@@ -155,6 +153,58 @@ class Parse_csv_activities:
 
 		return number_activities
 
+	def get_list_distances(self, month, sport):
+		"""
+		Connaitre une liste des distances en fonction
+		des sports ou en général
+
+		sport accepte :
+			- "All"
+			- "Cyclisme"
+			- "Running"
+			- "Natation"
+
+		month accepte :
+			- "All"
+			- "YYYY-MM"
+		"""
+		if sport == "All":
+			sport = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking",
+						"Open Water Swimming", "Pool Swimming"]
+		elif sport == "Cyclisme":
+			sport = ["Road Cycling", "Mountain Biking"]
+		elif sport == "Running":
+			sport = ["Street Running", "Trail Running"]
+		elif sport == "Renfo":
+			print("Données de distances indisponibles en renforcement musculaire.")
+			sys.exit(1)
+		elif sport == "Natation":
+			sport = ["Open Water Swimming", "Pool Swimming"]
+
+		list_distances = []
+
+		with open(self._activities_file, newline='') as csvfile:
+			reader = csv.DictReader(csvfile)
+			
+			for row in reader:
+
+				month_row = row["Start Time"][:7]
+				sport_row = row["Activity Type"]
+				distance_row = row["Distance (km)"]
+
+				for i in sport:
+					if i == sport_row:
+
+						if month == "All":
+							list_distances.append(distance_row)
+
+						elif month_row == month:
+							list_distances.append(distance_row)
+
+		# Conversion items de la liste string vers float
+		float_list_distance = list(map(float, list_distances))
+		return float_list_distance
+
 	"""
 	Getters and setters
 	"""
@@ -174,3 +224,4 @@ if __name__ == "__main__":
 
 	print(activities.get_list_heart_rate(month="2020-11", sport="Renfo"))
 	print(activities.get_number_activities(month="2020-11", sport="Cyclisme"))
+	print(activities.get_list_distances(month="2020-10", sport="Cyclisme"))
