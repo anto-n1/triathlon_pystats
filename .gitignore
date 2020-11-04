@@ -4,3 +4,13 @@ garmin-connect-export
 activities
 *.pdf
 rapport-triathlon*
+*.aux
+*.bcf
+*.fls
+*.log
+*.out
+*.run.xml
+*.fdb_latexmk
+*.synctex.gz
+*.toc
+images/graphs
