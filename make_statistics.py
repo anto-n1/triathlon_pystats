@@ -23,10 +23,37 @@ class Make_statistics:
     def average_heart_rate(self, month, sport):
         """Calcul de la moyenne du rythme cardiaque"""
 
-        average_heart_rate = mean(self._activities.get_list_heart_rate(month=month, sport=sport))
+        average_heart_rate = mean(self._activities.get_list_average_heart_rate(month=month, sport=sport))
         rouded_average_heart_rate = round(average_heart_rate) # Pas de virgule
 
         return rouded_average_heart_rate
+    
+    def number_activities_per_day(self, month, sport):
+        """Calculer le nombre de jours dans un mois"""
+
+        days_dict =	{
+            "2020-01": 31,
+            "2020-02": 29,
+            "2020-03": 31,
+            "2020-04": 30,
+            "2020-05": 31,
+            "2020-06": 30,
+            "2020-07": 31,
+            "2020-08": 31,
+            "2020-09": 30,
+            "2020-10": 31,
+            "2020-11": 30,
+            "2020-12": 31
+        }
+
+        days = days_dict[month]
+        number_activities = self._activities.get_number_activities(month=month, sport=sport)
+        
+        activities_per_day = number_activities / days
+
+        rounded_activities_per_day = round(activities_per_day, 2)
+        
+        return rounded_activities_per_day
     
     def total_distance(self, month, sport):
         """Calcul du total de distance"""
@@ -40,9 +67,20 @@ class Make_statistics:
         rounded_total_distance = round(total_distance, 2)
         return rounded_total_distance
 
+    def average_speed(self, month, sport):
+        """Calcul d'une vitesse moyenne"""
+
+        
+        list_speed = self._activities.get_list_speed(month=month, sport=sport)
+
+        average_speed = round(mean(list_speed), 2)
+
+        return average_speed
+        
+
     
 if __name__ == "__main__":
 
 	activities = Make_statistics("activities/activities.csv")
 
-	print(activities.total_distance(month="All", sport="All"))
+	print(activities.max_heart_rate(month="2020-11", sport="All"))

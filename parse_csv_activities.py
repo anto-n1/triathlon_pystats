@@ -42,7 +42,7 @@ class Parse_csv_activities:
 
 		return list_activites
 
-	def get_list_heart_rate(self, month, sport):
+	def get_list_average_heart_rate(self, month, sport):
 		"""
 		Retourner une liste comprenant tous les integers des moyennes
 		de fréquence cardiaque pour un mois choisi, et pour un sport choisi,
@@ -104,6 +104,47 @@ class Parse_csv_activities:
 		int_list_heart_rate = list(map(int, list_heart_rate))
 
 		return int_list_heart_rate
+
+	def get_max_heart_rate(self, month, sport):
+		"""Connaitre la fréquence cardiaque maximale atteinte"""
+
+		if sport == "All":
+			sport = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking", "Strength Training"]
+		elif sport == "Cyclisme":
+			sport = ["Road Cycling", "Mountain Biking"]
+		elif sport == "Running":
+			sport = ["Street Running", "Trail Running"]
+		elif sport == "Renfo":
+			sport = ["Strength Training"]
+		elif sport == "Natation":
+			print("Données de fréquence cardiaque indisponibles en natation.")
+			sys.exit(1)
+		
+		max_heart_rate = 0
+
+		with open(self._activities_file, newline='') as csvfile:
+			reader = csv.DictReader(csvfile)
+			
+			for row in reader:
+
+				max_heart_rate_row = row["Max. Heart Rate (bpm)"]
+				month_row = row["Start Time"][:7]
+				sport_row = row["Activity Type"]
+
+				for i in sport:
+					if i == sport_row:
+
+						if month == "All":
+							if max_heart_rate_row: # Ajouter uniquement les string non vides
+								if int(max_heart_rate_row) > max_heart_rate:
+									max_heart_rate = int(max_heart_rate_row)
+
+						elif month_row == month:
+							if max_heart_rate_row: # Ajouter uniquement les string non vides
+								if int(max_heart_rate_row) > max_heart_rate:
+									max_heart_rate = int(max_heart_rate_row)
+		return max_heart_rate
+
 		
 	def get_number_activities(self, month, sport):
 		"""
@@ -205,6 +246,49 @@ class Parse_csv_activities:
 		float_list_distance = list(map(float, list_distances))
 		return float_list_distance
 
+	def get_list_speed(self, month, sport):
+		"""
+		Retourne une liste comprenant la totalité des vitesses
+		des sports
+		"""
+
+		if sport == "All":
+			sport = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking",
+						"Open Water Swimming", "Pool Swimming"]
+		elif sport == "Cyclisme":
+			sport = ["Road Cycling", "Mountain Biking"]
+		elif sport == "Running":
+			sport = ["Street Running", "Trail Running"]
+		elif sport == "Renfo":
+			print("Données de vitesse indisponibles en renforcement musculaire.")
+			sys.exit(1)
+		elif sport == "Natation":
+			sport = ["Open Water Swimming", "Pool Swimming"]
+
+		list_speed = []
+
+		with open(self._activities_file, newline='') as csvfile:
+			reader = csv.DictReader(csvfile)
+			
+			for row in reader:
+
+				month_row = row["Start Time"][:7]
+				sport_row = row["Activity Type"]
+				speed_row = row["Average Speed (km/h)"]
+
+				for i in sport:
+					if i == sport_row:
+
+						if month == "All":
+							list_speed.append(speed_row)
+
+						elif month_row == month:
+							list_speed.append(speed_row)
+
+		# Conversion items de la liste string vers float
+		float_list_speed = list(map(float, list_speed))
+		return float_list_speed
+
 	"""
 	Getters and setters
 	"""
@@ -222,6 +306,6 @@ if __name__ == "__main__":
 
 	activities = Parse_csv_activities("activities/activities.csv")
 
-	print(activities.get_list_heart_rate(month="2020-11", sport="Renfo"))
-	print(activities.get_number_activities(month="2020-11", sport="Cyclisme"))
-	print(activities.get_list_distances(month="2020-10", sport="Cyclisme"))
+	print(activities.get_max_heart_rate(month="2020-09", sport="All"))
+	#print(activities.get_number_activities(month="2020-11", sport="Cyclisme"))
+	#print(activities.get_list_distances(month="2020-10", sport="Cyclisme"))

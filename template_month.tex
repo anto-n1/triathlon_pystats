@@ -32,18 +32,18 @@
 \titleformat{name=\chapter,numberless}[display]{\Huge\bfseries}{}{0pt}{}
 
 % Footer
-\usepackage{fancyhdr}
+%\usepackage{fancyhdr}
 
-\pagestyle{fancy}
-\fancyhf{}
+%\pagestyle{fancy}
+%\fancyhf{}
 
-\fancyfoot[LE,LO]{Rapport triathlon}
-\fancyfoot[CE,CO]{\thepage}
-\fancyfoot[RE,RO]{RMONTH}
+%\fancyfoot[LE,LO]{Rapport triathlon}
+%\fancyfoot[CE,CO]{\thepage}
+%\fancyfoot[RE,RO]{RMONTH}
 
 % Une ligne en bas mais pas en haut
-\renewcommand{\headrulewidth}{0.5pt}
-\renewcommand{\footrulewidth}{0.5pt}
+%\renewcommand{\headrulewidth}{0.5pt}
+%\renewcommand{\footrulewidth}{0.5pt}
 
 \usepackage{hyperref}
 \hypersetup{
@@ -124,9 +124,16 @@
 % Introduction
 % ------------------------------------------------------------------------------
 
-\chapter*{Introduction}
+\section*{Statistiques tous sports confondus}
 % Faire figurer l'introduction sur le sommaire quand même
-\addcontentsline{toc}{chapter}{Introduction}
+\addcontentsline{toc}{section}{Statistiques tous sports confondus}
+
+
+\noindent{\textbullet Nombre d'entraînements : \textbf{RACTIVITIES-NUMBER} - ratio de \textbf{RRATIO entraînement/jour}}\\
+\textbullet Distance totale parcourue : \textbf{RTOTAL-DISTANCE km} \\
+\textbullet Vitesse moyenne : \textbf{RAVERAGE-SPEED km} \\
+\textbullet Fréquence cardiaque moyenne : \textbf{RAVERAGE-HR bpm} - maximale atteinte \textbf{RMAX-HR bpm}\\
+  
 
 % ------------------------------------------------------------------------------
 % Contexte de l'entreprise
