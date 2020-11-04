@@ -71,7 +71,7 @@ class Make_statistics:
     def average_speed(self, month, sport):
         """Calcul de la vitesse moyenne en km/h"""
 
-        list_speed = self._activities.get_list_speed(month=month, sport=sport)
+        list_speed = self._activities.get_speed_list(month=month, sport=sport)
         average_speed = round(mean(list_speed), 2)
 
         return average_speed

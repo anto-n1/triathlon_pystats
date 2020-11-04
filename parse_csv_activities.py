@@ -13,49 +13,50 @@ import sys
 
 class Parse_csv_activities:
 	"""
-	Lire les infos d'un fichier activities.csv et proposer
-	des données brutes propres pour make_statistics.py
+	Parser les informations d'un fichier activities.csv et proposer
+	des données brutes et propres pour les autres classes
 	"""
 
 	def __init__(self, activities_file):
-		self._activities_file = Path(activities_file)
+		self._activities_file = activities_file
+		self._sports = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking",
+						"Open Water Swimming", "Pool Swimming", "Strength Training"]
+		self.verify_csv()
 
-	# TODO : fonction pour le calcul des sports
-
-	# Non utilisé -> à supprimer
-	def list_activities_types(self):
+	def verify_csv(self):
 		"""
-		Vérifier que les types d'activités ne sont pas génériques
-		Ex : 'Trail running' et non 'Running'
+		Vérifier que le fichier csv est de qualité :
+		- les types d'activités ne doivent pas être génériques (cela permet d'affiner les stats)
+		- les types d'activités doivent être connus
 		"""
 
-		list_activites = []
+		good_names_activities = self._sports
 		bad_activities_types = ['Swimming', 'Running', 'Cycling']
 
 		with open(self._activities_file, newline='') as csvfile:
 			reader = csv.DictReader(csvfile)
-			for row in reader:
-				list_activites.append(row['Activity Type'])
-			
-		for item in bad_activities_types:
-			if item in list_activites:
-				print("Il y a un élément {} dans les types d'activités du fichier CSV.".format(item))
-				print("Arrêt du programme.")
-				sys.exit(1)
 
-		return list_activites
+			for row in reader:
+			
+				activity_type = row["Activity Type"]
+				activity_date = row["Start Time"][:10]
+
+				if activity_type in bad_activities_types:
+					print("le type d'activité  {} daté du {} n'est pas accepté.".format(activity_type, activity_date))
+					print("Les types d'activités acceptés sont : {}.".format(str(good_names_activities)))
+					print("Arrêt du programme.")
+					sys.exit(1)
+				
+				if activity_type not in good_names_activities:
+					print("Le type d'activité {} daté du {} dans le fichier csv qui n'est pas reconnu.".format(activity_type, activity_date))
+					print("Arrêt du programme.")
+					sys.exit(1)
 
 	def get_list_average_heart_rate(self, month, sport):
 		"""
 		Retourner une liste comprenant tous les integers des moyennes
 		de fréquence cardiaque pour un mois choisi, et pour un sport choisi,
 		ou pour tous les temps pour tous les sports
-
-		sport accepte :
-			- "All"
-			- "Cyclisme"
-			- "Running"
-			- "Renfo"
 
 		month accepte :
 			- "All"
@@ -64,22 +65,9 @@ class Parse_csv_activities:
 		Exemples : 
 		get_list_heart_rate(month="All", sport="All")
 		get_list_heart_rate(month="2020-07", sport="Running")
-		get_list_heart_rate(month="2020-07", sport="All")
-		get_list_heart_rate(month="All", sport="Cyclisme")
-		get_list_heart_rate(month="All", sport="Renfo")
 		"""
 
-		if sport == "All":
-			sport = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking", "Strength Training"]
-		elif sport == "Cyclisme":
-			sport = ["Road Cycling", "Mountain Biking"]
-		elif sport == "Running":
-			sport = ["Street Running", "Trail Running"]
-		elif sport == "Renfo":
-			sport = ["Strength Training"]
-		elif sport == "Natation":
-			print("Données de fréquence cardiaque indisponibles en natation.")
-			sys.exit(1)
+		sport = self.sport_list(sport=sport, sport_type="heart_rate")
 		
 		list_heart_rate = []
 
@@ -111,17 +99,7 @@ class Parse_csv_activities:
 	def get_max_heart_rate(self, month, sport):
 		"""Connaitre la fréquence cardiaque maximale atteinte"""
 
-		if sport == "All":
-			sport = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking", "Strength Training"]
-		elif sport == "Cyclisme":
-			sport = ["Road Cycling", "Mountain Biking"]
-		elif sport == "Running":
-			sport = ["Street Running", "Trail Running"]
-		elif sport == "Renfo":
-			sport = ["Strength Training"]
-		elif sport == "Natation":
-			print("Données de fréquence cardiaque indisponibles en natation.")
-			sys.exit(1)
+		sport = self.sport_list(sport=sport, sport_type="heart_rate")
 		
 		max_heart_rate = 0
 
@@ -163,17 +141,7 @@ class Parse_csv_activities:
 			- "YYYY-MM"
 		"""
 
-		if sport == "All":
-			sport = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking",
-						"Open Water Swimming", "Pool Swimming", "Strength Training"]
-		elif sport == "Cyclisme":
-			sport = ["Road Cycling", "Mountain Biking"]
-		elif sport == "Running":
-			sport = ["Street Running", "Trail Running"]
-		elif sport == "Renfo":
-			sport = ["Strength Training"]
-		elif sport == "Natation":
-			sport = ["Open Water Swimming", "Pool Swimming"]
+		sport = self.sport_list(sport=sport)
 
 		number_activities = 0
 
@@ -197,32 +165,9 @@ class Parse_csv_activities:
 		return number_activities
 
 	def get_list_distances(self, month, sport):
-		"""
-		Connaitre une liste des distances en fonction
-		des sports ou en général
-
-		sport accepte :
-			- "All"
-			- "Cyclisme"
-			- "Running"
-			- "Natation"
-
-		month accepte :
-			- "All"
-			- "YYYY-MM"
-		"""
-		if sport == "All":
-			sport = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking",
-						"Open Water Swimming", "Pool Swimming"]
-		elif sport == "Cyclisme":
-			sport = ["Road Cycling", "Mountain Biking"]
-		elif sport == "Running":
-			sport = ["Street Running", "Trail Running"]
-		elif sport == "Renfo":
-			print("Données de distances indisponibles en renforcement musculaire.")
-			sys.exit(1)
-		elif sport == "Natation":
-			sport = ["Open Water Swimming", "Pool Swimming"]
+		"""Récupérer une liste comprenant les distances des activités"""
+		
+		sport = self.sport_list(sport=sport, sport_type="speed_distance")
 
 		list_distances = []
 
@@ -248,26 +193,12 @@ class Parse_csv_activities:
 		float_list_distance = list(map(float, list_distances))
 		return float_list_distance
 
-	def get_list_speed(self, month, sport):
-		"""
-		Retourne une liste comprenant la totalité des vitesses
-		des sports
-		"""
+	def get_speed_list(self, month, sport):
+		"""Récupérer une liste comprenant les vitesses des activités"""
 
-		if sport == "All":
-			sport = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking",
-						"Open Water Swimming", "Pool Swimming"]
-		elif sport == "Cyclisme":
-			sport = ["Road Cycling", "Mountain Biking"]
-		elif sport == "Running":
-			sport = ["Street Running", "Trail Running"]
-		elif sport == "Renfo":
-			print("Données de vitesse indisponibles en renforcement musculaire.")
-			sys.exit(1)
-		elif sport == "Natation":
-			sport = ["Open Water Swimming", "Pool Swimming"]
+		sport = self.sport_list(sport=sport, sport_type="speed_distance")
 
-		list_speed = []
+		speed_list = []
 
 		with open(self._activities_file, newline='') as csvfile:
 			reader = csv.DictReader(csvfile)
@@ -282,30 +213,19 @@ class Parse_csv_activities:
 					if i == sport_row:
 
 						if month == "All":
-							list_speed.append(speed_row)
+							speed_list.append(speed_row)
 
 						elif month_row == month:
-							list_speed.append(speed_row)
+							speed_list.append(speed_row)
 
 		# Conversion items de la liste string vers float
-		float_list_speed = list(map(float, list_speed))
-		return float_list_speed
+		float_speed_list = list(map(float, speed_list))
+		return float_speed_list
 
 	def get_duration_list(self, month, sport):
-		"""Récupérer une liste comprenant le
-		temps des activités"""
+		"""Récupérer une liste comprenant le temps des activités"""
 
-		if sport == "All":
-			sport = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking",
-						"Open Water Swimming", "Pool Swimming", "Strength Training"]
-		elif sport == "Cyclisme":
-			sport = ["Road Cycling", "Mountain Biking"]
-		elif sport == "Running":
-			sport = ["Street Running", "Trail Running"]
-		elif sport == "Renfo":
-			sport = ["Strength Training"]
-		elif sport == "Natation":
-			sport = ["Open Water Swimming", "Pool Swimming"]
+		sport = self.sport_list(sport=sport)
 
 		duration_list = []
 
@@ -330,13 +250,48 @@ class Parse_csv_activities:
 
 		return duration_list
 
-	def sport_list(self):
-		"""Connaître la liste des sports en fonction des activités"""
-		pass
+	def sport_list(self, sport, sport_type=None):
+		"""
+		Connaître la liste des sports en fonction des activités :
+		- supprimer la natation pour les activités demandant une FC
+		- supprimer le renfo pour les activités demandant une distance/vitesse
+		"""
 
-	"""
-	Getters and setters
-	"""
+		accepted_sports = ["All", "Cyclisme", "Running", "Natation", "Renfo"]
+		
+		if sport not in accepted_sports:
+			print("Le sport {} n'est pas reconnu.".format(sport))
+			print("Les sports acceptés sont : {}.".format(str(accepted_sports)))
+			print("Arrêt du programme.")
+			sys.exit(1)
+
+		not_heart_rate_sports = ["Open Water Swimming", "Pool Swimming"]
+		not_speed_distance_sports = ["Strength Training"]
+
+		if sport == "All":
+			sports = self._sports
+		elif sport == "Cyclisme":
+			sports = ["Road Cycling", "Mountain Biking"]
+		elif sport == "Running":
+			sports = ["Street Running", "Trail Running"]
+		elif sport == "Renfo":
+			sports = ["Strength Training"]
+		elif sport == "Natation":
+			sports = ["Open Water Swimming", "Pool Swimming"]
+		
+		if sport_type == "heart_rate":
+			for item in not_heart_rate_sports:
+				if item in sports:
+					sports.remove(item)
+
+		elif sport_type == "speed_distance":
+			for item in not_speed_distance_sports:
+				if item in sports:
+					sports.remove(item)
+
+		return sports
+
+	"""Getters and setters"""
 
 	def _get_activities_file(self):
 		return self._activities_file
@@ -346,11 +301,16 @@ class Parse_csv_activities:
 
 	activities_file = property(_get_activities_file, _set_activities_file)
 
+	def _get_sports(self):
+		return self._sports
+
+	def _set_sports(self, sports):
+		self._sports = sports
+
+	sports = property(_get_sports, _set_sports)
 
 if __name__ == "__main__":
 
 	activities = Parse_csv_activities("activities/activities.csv")
 
-	print(activities.get_max_heart_rate(month="2020-09", sport="All"))
-	#print(activities.get_number_activities(month="2020-11", sport="Cyclisme"))
-	#print(activities.get_list_distances(month="2020-10", sport="Cyclisme"))
+	print(activities.get_list_distances(month="2020-09", sport="Cyclisme"))
