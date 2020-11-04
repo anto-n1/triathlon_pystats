@@ -1,1 +1,142 @@
-% Se baser sur rapport école
+% --------------------------------------------------------------------
+% RAPPORT MENSUEL ACTIVITE DE TRIATHLON
+% RDATE
+% --------------------------------------------------------------------
+
+\documentclass[a4paper,french,11pt]{report}
+
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{titling}
+\usepackage{graphicx}
+\usepackage{csquotes} % Pour les double quotes ""
+\usepackage{microtype}
+
+% Permet de faire des listes
+\usepackage{blindtext}
+\usepackage{enumitem}
+
+
+% Permet d'utiliser les légendes sur les photos et tableaux 
+\usepackage{caption}
+\usepackage{wrapfig}
+
+\usepackage{xcolor}
+\usepackage[hmargin=2cm,vmargin=2.5cm]{geometry}
+
+\graphicspath{{images/}}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]{\Huge\bfseries}{}{0pt}{\thechapter.\ }
+\titleformat{name=\chapter,numberless}[display]{\Huge\bfseries}{}{0pt}{}
+
+% Footer
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyfoot[LE,LO]{Rapport triathlon}
+\fancyfoot[CE,CO]{\thepage}
+\fancyfoot[RE,RO]{RMONTH}
+
+% Une ligne en bas mais pas en haut
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\usepackage{hyperref}
+\hypersetup{
+    hyperfigures = true,
+    colorlinks = true,
+    linkcolor=black,
+    urlcolor=black,
+    citecolor=black
+}
+
+% Réduire espace avant chapitre
+\titlespacing*{\chapter}{0pt}{-20pt}{40pt}
+
+
+% --------------------------------------------------------------------
+% Definitions de commandes
+% --------------------------------------------------------------------
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}} 	% Ligne horizontale
+
+\makeatletter							% Titre
+\def\printtitle{%						
+    {\centering \@title\par}}
+\makeatother									
+
+\makeatletter							% Auteur
+\def\printauthor{%					
+    {\centering \large \@author}}				
+\makeatother							
+
+% --------------------------------------------------------------------
+% Métadonnées
+% --------------------------------------------------------------------
+\title{	\normalsize \textsc{\uppercase{ironman project}}
+		 	\\[1.2cm]
+			\HRule{0.7pt} \\
+			\vspace{0.5cm}
+			\LARGE \textbf{\uppercase{rapport activité triathlon}}	% Titre
+			\HRule{1pt} \\
+			\vspace{1.7cm}
+		}
+
+\author{
+		\textbf{RNAME}\\
+}
+
+% ------------------------------------------------------------------------------
+% Debut du document
+% ------------------------------------------------------------------------------
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% Page de titre
+% ------------------------------------------------------------------------------
+
+\thispagestyle{empty}		% Supprimer numéro de page sur cette page
+
+\printtitle					% Afficher le titre défini ci-dessus
+\printauthor				% Afficher l'auteur défini ce-dessus
+\vspace{1cm}
+
+\begin{center}
+
+\LARGE{\textbf{RMONTH}}\\
+\vspace{4cm}
+\includegraphics[height=6cm]{RIMAGE}\\
+
+\end{center}
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% Sommaire
+% ------------------------------------------------------------------------------
+
+%\tableofcontents
+
+% ------------------------------------------------------------------------------
+% Introduction
+% ------------------------------------------------------------------------------
+
+\chapter*{Introduction}
+% Faire figurer l'introduction sur le sommaire quand même
+\addcontentsline{toc}{chapter}{Introduction}
+
+% ------------------------------------------------------------------------------
+% Contexte de l'entreprise
+% ------------------------------------------------------------------------------
+
+\chapter{1}
+\includegraphics[height=6cm]{graphs/repartition_activites.png}
+\section{2}
+
+% ------------------------------------------------------------------------------
+% Fin du document
+% ------------------------------------------------------------------------------
+\end{document}
