@@ -7,6 +7,7 @@ __description__ = "Triathlon-pystats"
 __VERSION__ = "0.1"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
+import os
 import matplotlib.pyplot as plt
 
 from parse_csv_activities import Parse_csv_activities
@@ -21,6 +22,8 @@ class Create_graphics:
         self._activities_file = activities_file
         self._activities = Parse_csv_activities(self._activities_file)
         self._stats = Make_statistics(self._activities_file)
+        if not os.path.exists("images/graphs"):
+            os.mkdir("images/graphs")
 
     def activities_sharing(self, month):
         """
@@ -42,23 +45,34 @@ class Create_graphics:
                     self._activities.get_number_activities(month=month, sport="Renfo") ]
         
         colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
-        explode = (0, 0.1, 0, 0)
 
-        plt.pie(sizes, explode=explode, labels=sports, colors=colors, autopct='%1.1f%%', shadow=True, startangle=90)
+        plt.pie(sizes, labels=sports, colors=colors, autopct='%1.1f%%', shadow=True, startangle=90)
 
         plt.axis('equal')
 
-        plt.savefig("images/graphs/repartition_activites.png")
         #plt.show()
-        
-    def activities_sharing_year(self, year):
-        """Générer un graphique camembert sur la répartition générale
-        des sports sur un mois choisi"""
-        pass
+        plt.savefig("images/graphs/repartition_temps.png")
+    
+    def sharing_distance(self, month):
+        """Générer un diagramme camember sur la répartition des distances"""
+
+        sports = ["Cyclisme", "Running", "Natation"]
+
+        sizes = [ self._stats.total_distance(month=month, sport="Cyclisme"), 
+                    self._stats.total_distance(month=month, sport="Running"),
+                    self._stats.total_distance(month=month, sport="Natation")]
+
+        colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
+
+        plt.pie(sizes, labels=sports, colors=colors, autopct='%1.1f%%', shadow=True, startangle=90)
+
+        plt.axis('equal')
+        #plt.show()
+        plt.savefig("images/graphs/repartition_distance.png")
 
 
 if __name__ == "__main__":
 
 	graphs = Create_graphics(activities_file="activities/activities.csv")
 
-	graphs.activities_sharing(month="All")
+	graphs.sharing_distance(month="2020-11")

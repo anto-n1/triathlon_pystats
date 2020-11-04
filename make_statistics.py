@@ -8,6 +8,7 @@ __VERSION__ = "0.1"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
 from statistics import mean
+from datetime import timedelta
 from parse_csv_activities import Parse_csv_activities
 
 class Make_statistics:
@@ -68,19 +69,30 @@ class Make_statistics:
         return rounded_total_distance
 
     def average_speed(self, month, sport):
-        """Calcul d'une vitesse moyenne"""
+        """Calcul de la vitesse moyenne en km/h"""
 
-        
         list_speed = self._activities.get_list_speed(month=month, sport=sport)
-
         average_speed = round(mean(list_speed), 2)
 
         return average_speed
-        
+    
+    def activities_duration(self, month, sport):
+        """Calculer des sommes de temps d'activités"""
 
+        total_duration = timedelta(hours=0, minutes=0, seconds=0)
+        list_duration = self._activities.get_duration_list(month=month, sport=sport)
+
+        for duration in list_duration:
+            hours = int(duration[:2])
+            minutes = int(duration[3:5])
+            seconds = int(duration[6:8])
+
+            total_duration += timedelta(hours=hours, minutes=minutes, seconds=seconds)
+        
+        return total_duration
     
 if __name__ == "__main__":
 
 	activities = Make_statistics("activities/activities.csv")
 
-	print(activities.max_heart_rate(month="2020-11", sport="All"))
+	print(activities.total_distance(month="2020-09", sport="All"))

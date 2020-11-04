@@ -39,6 +39,9 @@ class Generate_pdf:
         # Distance totale
         total_distance = str(self._statistics.total_distance(month=month, sport="All"))
 
+        # Temps total d'activité
+        total_duration = str(self._statistics.activities_duration(month=month, sport="All"))
+
         # Vitesse moyenne tous sports confondus
         average_speed = str(self._statistics.average_speed(month=month, sport="All"))
         
@@ -56,6 +59,7 @@ class Generate_pdf:
         # Fréquences cardiaques moyenne pour chaque sport
         average_hr_cycling = self._statistics.average_heart_rate(month=month, sport="Cyclisme")
         average_hr_running = self._statistics.average_heart_rate(month=month, sport="Running")
+        
         # Ca existait pas en aout
         #average_hr_strength = self._statistics.average_heart_rate(month=month, sport="Renfo")
 
@@ -68,6 +72,7 @@ class Generate_pdf:
         # Génération des graphiques
         # Les noms des graphiques sont directement indiqués dans le template.tex
         self._graphs.activities_sharing(month=month)
+        self._graphs.sharing_distance(month=month)
 
         # Partie statistiques tous sports confondus
         with open(report_file_name, 'r+') as report_file:
@@ -79,6 +84,7 @@ class Generate_pdf:
             text = re.sub("RIMAGE", image_name, text)
             text = re.sub("RACTIVITIES-NUMBER", training_number_all, text)
             text = re.sub("RRATIO", training_per_day, text)
+            text = re.sub("RDURATION", total_duration, text)
             text = re.sub("RTOTAL-DISTANCE", total_distance, text)
             text = re.sub("RAVERAGE-SPEED", average_speed, text)
             text = re.sub("RAVERAGE-HR", average_hr, text)
@@ -92,17 +98,16 @@ class Generate_pdf:
         self.compile_latex_pdf(report_file_name)
 
 
-    def compile_latex_pdf(self, pdf_name):
+    def compile_latex_pdf(self, tex_filename):
         """
         Compiler le fichier .tex et supprimer les fichiers inutiles
         """
 
         extensions_to_delete = ["aux", "bcf", "fls", "log", "out", "run.xml", "fdb_latexmk", "synctex.gz", "toc"]
 
-        os.system("pdflatex {}".format(pdf_name))
+        os.system("pdflatex {}".format(tex_filename))
         
         dir = os.listdir("./")
-
         for item in dir:
             for extension in extensions_to_delete:
                 if item.endswith(extension):

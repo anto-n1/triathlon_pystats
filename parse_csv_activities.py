@@ -20,6 +20,9 @@ class Parse_csv_activities:
 	def __init__(self, activities_file):
 		self._activities_file = Path(activities_file)
 
+	# TODO : fonction pour le calcul des sports
+
+	# Non utilisé -> à supprimer
 	def list_activities_types(self):
 		"""
 		Vérifier que les types d'activités ne sont pas génériques
@@ -144,7 +147,6 @@ class Parse_csv_activities:
 								if int(max_heart_rate_row) > max_heart_rate:
 									max_heart_rate = int(max_heart_rate_row)
 		return max_heart_rate
-
 		
 	def get_number_activities(self, month, sport):
 		"""
@@ -288,6 +290,49 @@ class Parse_csv_activities:
 		# Conversion items de la liste string vers float
 		float_list_speed = list(map(float, list_speed))
 		return float_list_speed
+
+	def get_duration_list(self, month, sport):
+		"""Récupérer une liste comprenant le
+		temps des activités"""
+
+		if sport == "All":
+			sport = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking",
+						"Open Water Swimming", "Pool Swimming", "Strength Training"]
+		elif sport == "Cyclisme":
+			sport = ["Road Cycling", "Mountain Biking"]
+		elif sport == "Running":
+			sport = ["Street Running", "Trail Running"]
+		elif sport == "Renfo":
+			sport = ["Strength Training"]
+		elif sport == "Natation":
+			sport = ["Open Water Swimming", "Pool Swimming"]
+
+		duration_list = []
+
+		with open(self._activities_file, newline='') as csvfile:
+			reader = csv.DictReader(csvfile)
+			
+			for row in reader:
+
+				month_row = row["Start Time"][:7]
+				sport_row = row["Activity Type"]
+
+				duration_row = row["Duration (h:m:s)"]
+
+				for i in sport:
+					if i == sport_row:
+
+						if month == "All":
+							duration_list.append(duration_row)
+
+						elif month_row == month:
+							duration_list.append(duration_row)
+
+		return duration_list
+
+	def sport_list(self):
+		"""Connaître la liste des sports en fonction des activités"""
+		pass
 
 	"""
 	Getters and setters
