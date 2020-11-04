@@ -7,6 +7,9 @@ __description__ = "Triathlon-pystats"
 __VERSION__ = "0.1"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
+from shutil import copyfile
+import re
+
 from create_graphics import Create_graphics
 from make_statistics import Make_statistics
 from parse_csv_activities import Parse_csv_activities
@@ -50,9 +53,23 @@ class Generate_pdf:
 
         # Fréquences cardiaques moyenne pour chaque sport
         average_hr_cycling = self._statistics.average_heart_rate(month=month, sport="Cyclisme")
-        average_hr_swimming = self._statistics.average_heart_rate(month=month, sport="Natation")
         average_hr_running = self._statistics.average_heart_rate(month=month, sport="Running")
         average_hr_strength = self._statistics.average_heart_rate(month=month, sport="Renfo")
+
+        report_file_name = "rapport-triathlon-{}.tex".format(month)
+        copyfile("template_month.tex", report_file_name)
+
+        with open(report_file_name, 'r+') as report_file:
+            text = report_file.read()
+
+            # Remplacer le template
+            text = re.sub('rapport', 'test', text)
+            text = re.sub('Se', 'ouaiiiis', text)
+            text = re.sub('école', 'camarche', text)
+            
+            report_file.seek(0)
+            report_file.write(text)
+            report_file.truncate()
 
 
     def compile_latex_pdf(self, pdf_name):
