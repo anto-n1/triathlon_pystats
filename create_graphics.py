@@ -48,8 +48,8 @@ class Create_graphics:
 
         plt.axis('equal')
 
-        #plt.savefig('PieChart02.png')
-        plt.show()
+        plt.savefig("images/graphs/repartition_activites.png")
+        #plt.show()
         
     def activities_sharing_year(self, year):
         """Générer un graphique camembert sur la répartition générale

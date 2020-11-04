@@ -59,13 +59,17 @@ class Generate_pdf:
         report_file_name = "rapport-triathlon-{}.tex".format(month)
         copyfile("template_month.tex", report_file_name)
 
+        image_number = random.randrange(start=1, stop=8, step=1)
+        image_name = "triathlon-{}.png".format(image_number)
+
         with open(report_file_name, 'r+') as report_file:
             text = report_file.read()
 
             # Remplacer le template
-            text = re.sub('rapport', 'test', text)
-            text = re.sub('Se', 'ouaiiiis', text)
-            text = re.sub('école', 'camarche', text)
+            text = re.sub("RMONTH", month, text)
+            text = re.sub("RNAME", image_name, text)
+            text = re.sub("RIMAGE", , text)
+            text = re.sub("", , text)
             
             report_file.seek(0)
             report_file.write(text)
@@ -75,6 +79,18 @@ class Generate_pdf:
     def compile_latex_pdf(self, pdf_name):
         """
         Compiler le fichier .tex
+        """
+        """
+        SUPPRIMER
+        *.aux
+        *.bcf
+        *.fls
+        *.log
+        *.out
+        *.run.xml
+        *.fdb_latexmk
+        *.synctex.gz
+        *.toc
         """
         pass
 
