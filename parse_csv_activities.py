@@ -21,7 +21,7 @@ class Parse_csv_activities:
 		self._activities_file = activities_file
 		self._sports = [
 			"Trail Running", "Street Running",
-			"Road Cycling","Mountain Biking",
+			"Road Cycling", "Mountain Biking",
 			"Open Water Swimming", "Pool Swimming",
 			"Strength Training"
 			]
@@ -133,7 +133,9 @@ class Parse_csv_activities:
 		return max_heart_rate_list
 
 	def get_number_activities(self, date, sport):
-		"""Compter le nombre d'activités"""
+		"""
+		Compter le nombre d'activités
+		"""
 
 		# Vérification date conforme et récupération type
 		complete_date = self.verify_date(date=date)
@@ -162,7 +164,9 @@ class Parse_csv_activities:
 		return number_activities
 
 	def get_distances_list(self, date, sport):
-		"""Récupérer une liste comprenant les distances des activités"""
+		"""
+		Récupérer une liste comprenant les distances des activités
+		"""
 
 		# Vérification date conforme et récupération type
 		complete_date = self.verify_date(date=date)
@@ -200,7 +204,9 @@ class Parse_csv_activities:
 		return distances_list
 
 	def get_speed_list(self, date, sport):
-		"""Récupérer une liste comprenant les vitesses des activités"""
+		"""
+		Récupérer une liste comprenant les vitesses des activités
+		"""
 
 		# Vérification date conforme et récupération type
 		complete_date = self.verify_date(date=date)
@@ -238,7 +244,9 @@ class Parse_csv_activities:
 		return speed_list
 
 	def get_duration_list(self, date, sport):
-		"""Récupérer une liste comprenant le temps des activités"""
+		"""
+		Récupérer une liste comprenant le temps des activités
+		"""
 
 		# Vérification date conforme et récupération type
 		complete_date = self.verify_date(date=date)
@@ -316,19 +324,15 @@ class Parse_csv_activities:
 		"""
 
 		if len(date) == 4:
-			# date = ["type", date, ""
 			date = ["year", date, 4]
 
 		elif len(date) == 7:
-			# Mois
 			date = ["month", date, 7]
 
 		elif len(date) == 10:
-			# Jour
 			date = ["day", date, 10]
 
 		elif date == "all-time":
-			# Tous les temps
 			date = "all-time"
 
 		else:
