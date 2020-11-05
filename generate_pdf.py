@@ -29,39 +29,36 @@ class Generate_pdf:
     def generate_month_report(self, month):
         """
         Générer rapport mensuel
-        month -> 2020-11
         """
 
         # Nombre d'entrainements total du mois
-        training_number_all = str(self._activities.get_number_activities(month=month, sport="All"))
-        training_per_day = str(self._statistics.number_activities_per_day(month=month, sport="All"))
+        training_number = str(self._activities.get_number_activities(date=month, sport="all"))
+        training_per_day = str(self._statistics.number_activities_per_day(date=month, sport="all"))
 
         # Distance totale
-        total_distance = str(self._statistics.total_distance(month=month, sport="All"))
+        total_distance = str(self._statistics.total_distance(date=month, sport="all"))
 
         # Temps total d'activité
-        total_duration = str(self._statistics.activities_duration(month=month, sport="All"))
+        total_duration = str(self._statistics.activities_duration(date=month, sport="all"))
 
         # Vitesse moyenne tous sports confondus
-        average_speed = str(self._statistics.average_speed(month=month, sport="All"))
+        average_speed = str(self._statistics.average_speed(date=month, sport="all"))
         
         # Nombre d'entrainements cyclisme, natation, running et renfo
-        training_number_cycling = str(self._activities.get_number_activities(month=month, sport="Cyclisme"))
-        training_number_swimming = str(self._activities.get_number_activities(month=month, sport="Natation"))
-        training_number_running = str(self._activities.get_number_activities(month=month, sport="Running"))
-        training_number_strength = str(self._activities.get_number_activities(month=month, sport="Renfo"))
+        training_number_cycling = str(self._activities.get_number_activities(date=month, sport="cyclisme"))
+        training_number_swimming = str(self._activities.get_number_activities(date=month, sport="natation"))
+        training_number_running = str(self._activities.get_number_activities(date=month, sport="running"))
+        training_number_strength = str(self._activities.get_number_activities(date=month, sport="renfo"))
 
         # Fréquence cardiaque moyenne du mois
-        average_hr = str(self._statistics.average_heart_rate(month=month, sport="All"))
+        average_hr = str(self._statistics.average_heart_rate(date=month, sport="all"))
         # Fréquence cardiaque maximale
-        max_hr = str(self._activities.get_max_heart_rate(month=month, sport="All"))
+        max_hr = str(self._statistics.max_heart_rate(date=month, sport="all"))
 
         # Fréquences cardiaques moyenne pour chaque sport
-        average_hr_cycling = self._statistics.average_heart_rate(month=month, sport="Cyclisme")
-        average_hr_running = self._statistics.average_heart_rate(month=month, sport="Running")
-        
-        # Ca existait pas en aout
-        #average_hr_strength = self._statistics.average_heart_rate(month=month, sport="Renfo")
+        average_hr_cycling = self._statistics.average_heart_rate(date=month, sport="cyclisme")
+        average_hr_running = self._statistics.average_heart_rate(date=month, sport="running")   
+        average_hr_strength = self._statistics.average_heart_rate(date=month, sport="renfo")
 
         report_file_name = "rapport-triathlon-{}.tex".format(month)
         copyfile("template_month.tex", report_file_name)
@@ -71,8 +68,9 @@ class Generate_pdf:
 
         # Génération des graphiques
         # Les noms des graphiques sont directement indiqués dans le template.tex
-        self._graphs.activities_sharing(month=month)
-        self._graphs.sharing_distance(month=month)
+       # self._graphs.activities_sharing(date=month)
+        self._graphs.distance_sharing(date=month)
+        self._graphs.time_sharing(date=month)
 
         # Partie statistiques tous sports confondus
         with open(report_file_name, 'r+') as report_file:
@@ -82,14 +80,13 @@ class Generate_pdf:
             text = re.sub("RMONTH", month, text)
             text = re.sub("RNAME", "Antonin", text)
             text = re.sub("RIMAGE", image_name, text)
-            text = re.sub("RACTIVITIES-NUMBER", training_number_all, text)
+            text = re.sub("RACTIVITIES-NUMBER", training_number, text)
             text = re.sub("RRATIO", training_per_day, text)
             text = re.sub("RDURATION", total_duration, text)
             text = re.sub("RTOTAL-DISTANCE", total_distance, text)
             text = re.sub("RAVERAGE-SPEED", average_speed, text)
             text = re.sub("RAVERAGE-HR", average_hr, text)
             text = re.sub("RMAX-HR", max_hr, text)
-            
             
             report_file.seek(0)
             report_file.write(text)
@@ -103,7 +100,7 @@ class Generate_pdf:
         Compiler le fichier .tex et supprimer les fichiers inutiles
         """
 
-        extensions_to_delete = ["aux", "bcf", "fls", "log", "out", "run.xml", "fdb_latexmk", "synctex.gz", "toc"]
+        extensions_to_delete = ["aux", "bcf", "fls", "log", "out", "run.xml", "fdb_latexmk", "synctex.gz", "toc" ]
 
         os.system("pdflatex {}".format(tex_filename))
         
@@ -116,4 +113,4 @@ class Generate_pdf:
 if __name__ == "__main__":
 
     pdf = Generate_pdf(activities_file="activities/activities.csv")
-    pdf.generate_month_report(month="2020-08")
+    pdf.generate_month_report(month="2020-10")

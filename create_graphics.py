@@ -67,7 +67,12 @@ class Create_graphics:
             sizes.remove(nb_renfo)
             colors.remove(colors[1])
 
-        plt.pie(sizes, colors = colors, labels=sports, autopct='%1.1f%%', startangle=90, pctdistance=0.85)
+        plt.pie(sizes,
+                colors=colors,
+                labels=sports,
+                autopct='%1.1f%%',
+                startangle=90,
+                pctdistance=0.85)
         centre_circle = plt.Circle((0,0),0.70,fc='white')
         fig = plt.gcf()
         fig.gca().add_artist(centre_circle)
@@ -111,7 +116,13 @@ class Create_graphics:
             sizes.remove(distance_natation)
             colors.remove(colors[1])
 
-        plt.pie(sizes, colors = colors, labels=sports, autopct='%1.1f%%', startangle=90, pctdistance=0.85)
+        plt.pie(sizes,
+                colors=colors,
+                labels=sports,
+                autopct='%1.1f%%',
+                startangle=90,
+                pctdistance=0.85)
+
         centre_circle = plt.Circle((0,0),0.70,fc='white')
         fig = plt.gcf()
         fig.gca().add_artist(centre_circle)
@@ -143,41 +154,45 @@ class Create_graphics:
 
         sizes = [ time_cycling, time_running, time_natation, time_renfo ]
         colors = ['#ff9999','#66b3ff','#99ff99','#ffcc99']
-
-        zero_time = timedelta(hours=0, minutes=0, seconds=0)
         
         # Ne pas afficher les valeurs à 0
-        if time_cycling == zero_time:
+        if time_cycling == 0:
             sports.remove("Cyclisme")
             sizes.remove(time_cycling)
             colors.remove(colors[1])
 
-        if time_running == zero_time:
+        if time_running == 0:
             sports.remove("Running")
             sizes.remove(time_running)
             colors.remove(colors[1])
 
-        if time_natation == zero_time:
+        if time_natation == 0:
             sports.remove("Natation")
             sizes.remove(time_natation)
             colors.remove(colors[1])
 
-        if time_renfo == zero_time:
+        if time_renfo == 0:
             sports.remove("Renfo")
             sizes.remove(time_renfo)
             colors.remove(colors[1])
 
-        plt.pie(sizes, colors = colors, labels=sports, autopct='%1.1f%%', startangle=90, pctdistance=0.85)
+        plt.pie(sizes,
+                colors=colors,
+                labels=sports,
+                autopct='%1.1f%%',
+                startangle=90,
+                pctdistance=0.85)
+
         centre_circle = plt.Circle((0,0),0.70,fc='white')
         fig = plt.gcf()
         fig.gca().add_artist(centre_circle)
         plt.axis('equal')  
         plt.tight_layout()
-        plt.show()
-        #plt.savefig("images/graphs/repartition_temps.png")
+        #plt.show()
+        plt.savefig("images/graphs/repartition_temps.png", dpi=800)
 
 if __name__ == "__main__":
 
 	graphs = Create_graphics(activities_file="activities/activities.csv")
 
-	graphs.time_sharing(date="2020")
+	graphs.time_sharing(date="2020-11")

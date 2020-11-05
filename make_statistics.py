@@ -32,10 +32,15 @@ class Make_statistics:
         list_hr = self._activities.get_average_heart_rate_list(date=date,
                                                                sport=sport)
 
-        # Conversion des str en int
-        list_hr = list(map(int, list_hr))
-        # Calcul moyenne
-        average_heart_rate = mean(list_hr)
+        if len(list_hr) == 0:
+            average_heart_rate = "Aucune donnée"
+
+        else:
+            # Conversion des str en int
+            list_hr = list(map(int, list_hr))
+            # Calcul moyenne
+            average_heart_rate = mean(list_hr)
+            average_heart_rate = round(average_heart_rate)
 
         return average_heart_rate
 
