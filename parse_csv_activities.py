@@ -78,7 +78,6 @@ class Parse_csv_activities:
 
 			for row in reader:
 
-				date_row = row["Start Time"][:complete_date[2]]
 				sport_row = row["Activity Type"]
 				average_heart_rate_row = row["Average Heart Rate (bpm)"]
 
@@ -86,12 +85,21 @@ class Parse_csv_activities:
 				if not average_heart_rate_row:
 					continue
 
-				# Si tous les temps, alors on ajoute automatiquement
+				# Si tous les temps
 				if date == "all-time":
-					average_heart_rate_list.append(average_heart_rate_row)
+
+					if sport == "all":
+						average_heart_rate_list.append(average_heart_rate_row)
+
+					elif sport_row in sport:
+						average_heart_rate_list.append(average_heart_rate_row)
+
+					continue
+
+				date_row = row["Start Time"][:complete_date[2]]
 
 				# Sinon si c'est le sport souhaité et la bonne date
-				elif sport_row in sport and date_row == complete_date[1]:
+				if sport_row in sport and date_row == complete_date[1]:
 					average_heart_rate_list.append(average_heart_rate_row)
 
 		return average_heart_rate_list
@@ -114,7 +122,6 @@ class Parse_csv_activities:
 
 			for row in reader:
 
-				date_row = row["Start Time"][:complete_date[2]]
 				sport_row = row["Activity Type"]
 				max_heart_rate_row = row["Max. Heart Rate (bpm)"]
 
@@ -122,12 +129,21 @@ class Parse_csv_activities:
 				if not max_heart_rate_row:
 					continue
 
-				# Si tous les temps, alors on ajoute automatiquement
+				# Si tous les temps
 				if date == "all-time":
-					max_heart_rate_list.append(max_heart_rate_row)
+
+					if sport == "all":
+						max_heart_rate_list.append(max_heart_rate_row)
+
+					elif sport_row in sport:
+						max_heart_rate_list.append(max_heart_rate_row)
+
+					continue
+					
+				date_row = row["Start Time"][:complete_date[2]]
 
 				# Sinon si c'est le sport souhaité et la bonne date
-				elif sport_row in sport and date_row == complete_date[1]:
+				if sport_row in sport and date_row == complete_date[1]:
 					max_heart_rate_list.append(max_heart_rate_row)
 
 		return max_heart_rate_list
@@ -150,15 +166,23 @@ class Parse_csv_activities:
 
 			for row in reader:
 
-				date_row = row["Start Time"][:complete_date[2]]
 				sport_row = row["Activity Type"]
 
-				# Si tous les temps, alors on ajoute automatiquement
+				# Si tous les temps
 				if date == "all-time":
-					number_activities += 1
+
+					if sport == "all":
+						number_activities += 1
+
+					elif sport_row in sport:
+						number_activities += 1
+
+					continue
+					
+				date_row = row["Start Time"][:complete_date[2]]
 
 				# Sinon si c'est le sport souhaité et la bonne date
-				elif sport_row in sport and date_row == complete_date[1]:
+				if sport_row in sport and date_row == complete_date[1]:
 					number_activities += 1
 		
 		return number_activities
@@ -181,7 +205,6 @@ class Parse_csv_activities:
 
 			for row in reader:
 
-				date_row = row["Start Time"][:complete_date[2]]
 				sport_row = row["Activity Type"]
 				distance_row = row["Distance (km)"]
 
@@ -192,13 +215,22 @@ class Parse_csv_activities:
 				# Conversion en float avec 2 chiffres après virgule
 				distance_row = float(distance_row)
 				distance_row = round(distance_row, 2)
-
-				# Si tous les temps, alors on ajoute automatiquement
+				
+				# Si tous les temps
 				if date == "all-time":
-					distances_list.append(distance_row)
+
+					if sport == "all":
+						distances_list.append(distance_row)
+
+					elif sport_row in sport:
+						distances_list.append(distance_row)
+
+					continue
+
+				date_row = row["Start Time"][:complete_date[2]]
 
 				# Sinon si c'est le sport souhaité et la bonne date
-				elif sport_row in sport and date_row == complete_date[1]:
+				if sport_row in sport and date_row == complete_date[1]:
 					distances_list.append(distance_row)
 
 		return distances_list
@@ -221,7 +253,6 @@ class Parse_csv_activities:
 
 			for row in reader:
 
-				date_row = row["Start Time"][:complete_date[2]]
 				sport_row = row["Activity Type"]
 				speed_row = row["Average Speed (km/h)"]
 
@@ -233,12 +264,21 @@ class Parse_csv_activities:
 				speed_row = float(speed_row)
 				speed_row = round(speed_row, 2)
 
-				# Si tous les temps, alors on ajoute automatiquement
+				# Si tous les temps
 				if date == "all-time":
-					speed_list.append(speed_row)
+
+					if sport == "all":
+						speed_list.append(speed_row)
+
+					elif sport_row in sport:
+						speed_list.append(speed_row)
+
+					continue
+
+				date_row = row["Start Time"][:complete_date[2]]
 
 				# Sinon si c'est le sport souhaité et la bonne date
-				elif sport_row in sport and date_row == complete_date[1]:
+				if sport_row in sport and date_row == complete_date[1]:
 					speed_list.append(speed_row)
 
 		return speed_list
@@ -260,17 +300,25 @@ class Parse_csv_activities:
 			reader = csv.DictReader(csvfile)
 
 			for row in reader:
-
-				date_row = row["Start Time"][:complete_date[2]]
+				
 				sport_row = row["Activity Type"]
 				duration_row = row["Duration (h:m:s)"]
 
-				# Si tous les temps, alors on ajoute automatiquement
-				if complete_date == "all-time":
-					duration_list.append(duration_row)
+				# Si tous les temps
+				if date == "all-time":
+
+					if sport == "all":
+						duration_list.append(duration_row)
+
+					elif sport_row in sport:
+						duration_list.append(duration_row)
+
+					continue			
+				
+				date_row = row["Start Time"][:complete_date[2]]
 
 				# Sinon si c'est le sport souhaité et la bonne date
-				elif sport_row in sport and date_row == complete_date[1]:
+				if sport_row in sport and date_row == complete_date[1]:
 					duration_list.append(duration_row)
 
 		return duration_list
@@ -280,10 +328,24 @@ class Parse_csv_activities:
 		Connaître la liste des sports en fonction des activités :
 		- supprimer la natation pour les activités demandant une FC
 		- supprimer le renfo pour les activités demandant une distance/vitesse
+
+		Avertir l'utilisateur s'il demande des informations indisponibles :
+		- fréquence cardiaque en natation
+		- vitesse ou distance en renforcement musculaire
 		"""
 
-		accepted_sports = ["All", "Cyclisme", "Running", "Natation", "Renfo"]
+		accepted_sports = ["all", "cyclisme", "running", "natation", "renfo"]
+
+		if sport == "natation" and sport_type == "heart_rate":
+			print("Aucune donnée de fréquence cardiaque disponible" \
+				  " en natation.")
+			sys.exit(1)
 		
+		elif sport == "renfo" and sport_type == "speed_distance":
+			print("Aucune donnée de distance ou vitesse disponible" \
+				  " en renforcement musculaire.")
+			sys.exit(1)
+
 		if sport not in accepted_sports:
 			print("Le sport {} n'est pas reconnu.".format(sport))
 			print("Les sports acceptés sont : {}.".format(accepted_sports))
@@ -292,15 +354,15 @@ class Parse_csv_activities:
 		not_heart_rate_sports = ["Open Water Swimming", "Pool Swimming"]
 		not_speed_distance_sports = ["Strength Training"]
 
-		if sport == "All":
+		if sport == "all":
 			sports = self._sports
-		elif sport == "Cyclisme":
+		elif sport == "cyclisme":
 			sports = ["Road Cycling", "Mountain Biking"]
-		elif sport == "Running":
+		elif sport == "running":
 			sports = ["Street Running", "Trail Running"]
-		elif sport == "Renfo":
+		elif sport == "renfo":
 			sports = ["Strength Training"]
-		elif sport == "Natation":
+		elif sport == "natation":
 			sports = ["Open Water Swimming", "Pool Swimming"]
 		
 		if sport_type == "heart_rate":
@@ -366,4 +428,4 @@ if __name__ == "__main__":
 
 	activities = Parse_csv_activities("activities/activities.csv")
 
-	print(activities.get_speed_list(date="2020-10", sport="Cyclisme"))
+	print(activities.get_distances_list(date="all-time", sport="cyclisme"))

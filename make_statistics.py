@@ -4,83 +4,140 @@
 __author__ = "Antonin DOUILLARD"
 __email__ = "antonin.info@protonmail.com"
 __description__ = "Triathlon-pystats"
-__VERSION__ = "0.1"
+__VERSION__ = "0.2"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
+
+# A supprimer
+import sys
 
 from statistics import mean
 from datetime import timedelta
+
 from parse_csv_activities import Parse_csv_activities
 
 class Make_statistics:
     """
-    Classe effectuant des statistiques à partir des données
-    brutes remontées par la lecture du fichier CSV dans parse_csv_activities.py
+    Classe effectuant des statistiques à partir des données remontées par la
+    lecture du fichier CSV dans parse_csv_activities.py
     """
 
     def __init__(self, activities_file):
         self._activities_file = activities_file
         self._activities = Parse_csv_activities(activities_file)
 
-    def average_heart_rate(self, month, sport):
-        """Calcul de la moyenne du rythme cardiaque"""
+    def average_heart_rate(self, date, sport):
+        """
+        Calcul de la moyenne du rythme cardiaque
+        """
 
-        average_heart_rate = mean(self._activities.get_list_average_heart_rate(month=month, sport=sport))
-        rouded_average_heart_rate = round(average_heart_rate) # Pas de virgule
+        list_hr = self._activities.get_average_heart_rate_list(date=date,
+                                                               sport=sport)
 
-        return rouded_average_heart_rate
+        # Conversion des str en int
+        list_hr = list(map(int, list_hr))
+        # Calcul moyenne
+        average_heart_rate = mean(list_hr)
+
+        return average_heart_rate
+
+    def average_max_heart_rate(self, date, sport):
+        """
+        Calcul de la moyenne du rythme cardiaque maximale enregistré
+        pendant les activités
+        """
+
+        list_max_hr = self._activities.get_max_heart_rate_list(date=date,
+                                                               sport=sport)
+
+        # Conversion des str en int
+        list_max_hr = list(map(int, list_max_hr))
+        # Calcul moyenne
+        average_max_heart_rate = mean(list_max_hr)
+
+        return average_max_heart_rate
     
-    def number_activities_per_day(self, month, sport):
-        """Calculer le nombre de jours dans un mois"""
+    def max_heart_rate(self, date, sport):
+        """
+        Calcul du rythme cardiaque maximal enregistré
+        """
 
-        days_dict =	{
-            "2020-01": 31,
-            "2020-02": 29,
-            "2020-03": 31,
-            "2020-04": 30,
-            "2020-05": 31,
-            "2020-06": 30,
-            "2020-07": 31,
-            "2020-08": 31,
-            "2020-09": 30,
-            "2020-10": 31,
-            "2020-11": 30,
-            "2020-12": 31
+        list_max_hr = self._activities.get_max_heart_rate_list(date=date,
+                                                               sport=sport)
+        
+        # Conversion des str en int
+        list_max_hr = list(map(int, list_max_hr))
+        # Calcul de la valeur maximale dans la liste
+        max_heart_rate = max(list_max_hr)
+
+        return max_heart_rate
+    
+    def number_activities_per_day(self, date, sport):
+        """Calculer le nombre de jours dans un mois"""
+        # TODO : gérer les années bissextiles
+
+        type_date = self._activities.verify_date(date=date)
+        
+        # Gérer le fait que la fonction ne retourne pas de liste
+        # si on cherche "all-time"
+        if type_date != "all-time":
+            type_date = self._activities.verify_date(date=date)[0]
+        
+        number_days_month =	{
+            "01": 31,
+            "02": 29,
+            "03": 31,
+            "04": 30,
+            "05": 31,
+            "06": 30,
+            "07": 31,
+            "08": 31,
+            "09": 30,
+            "10": 31,
+            "11": 30,
+            "12": 31
         }
 
-        days = days_dict[month]
-        number_activities = self._activities.get_number_activities(month=month, sport=sport)
+        if type_date == "all-time":
+            print("Il n'est pas encore possible de calculer le ratio pour " \
+                  "la période 'all-time'.")
+            sys.exit(1)
+        elif type_date == "year":
+            days = 365
+        elif type_date == "month":
+            month = date[5:]
+            days = number_days_month[month]
         
+        number_activities = self._activities.get_number_activities(date=date, sport=sport)
         activities_per_day = number_activities / days
-
-        rounded_activities_per_day = round(activities_per_day, 2)
+        activities_per_day = round(activities_per_day, 2)
         
-        return rounded_activities_per_day
+        return activities_per_day
     
-    def total_distance(self, month, sport):
+    def total_distance(self, date, sport):
         """Calcul du total de distance"""
 
         total_distance = 0
-        list_distances = self._activities.get_list_distances(month=month, sport=sport)
+        list_distances = self._activities.get_distances_list(date=date, sport=sport)
         
         for i in list_distances:
             total_distance += i
 
-        rounded_total_distance = round(total_distance, 2)
-        return rounded_total_distance
+        total_distance = round(total_distance, 2)
+        return total_distance
 
-    def average_speed(self, month, sport):
+    def average_speed(self, date, sport):
         """Calcul de la vitesse moyenne en km/h"""
 
-        list_speed = self._activities.get_speed_list(month=month, sport=sport)
+        list_speed = self._activities.get_speed_list(date=date, sport=sport)
         average_speed = round(mean(list_speed), 2)
 
         return average_speed
     
-    def activities_duration(self, month, sport):
+    def activities_duration(self, date, sport):
         """Calculer des sommes de temps d'activités"""
 
         total_duration = timedelta(hours=0, minutes=0, seconds=0)
-        list_duration = self._activities.get_duration_list(month=month, sport=sport)
+        list_duration = self._activities.get_duration_list(date=date, sport=sport)
 
         for duration in list_duration:
             hours = int(duration[:2])
@@ -93,6 +150,6 @@ class Make_statistics:
     
 if __name__ == "__main__":
 
-	activities = Make_statistics("activities/activities.csv")
+	stats = Make_statistics("activities/activities.csv")
 
-	print(activities.total_distance(month="2020-09", sport="All"))
+	print(stats.activities_duration(date="2020", sport="running"))
