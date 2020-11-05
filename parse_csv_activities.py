@@ -4,33 +4,38 @@
 __author__ = "Antonin DOUILLARD"
 __email__ = "antonin.info@protonmail.com"
 __description__ = "Triathlon-pystats"
-__VERSION__ = "0.1"
+__VERSION__ = "0.2"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
-from pathlib import Path
+from datetime import timedelta
 import csv
 import sys
 
 class Parse_csv_activities:
 	"""
 	Parser les informations d'un fichier activities.csv et proposer
-	des données brutes et propres pour les autres classes
+	des données brutes pour les autres classes
 	"""
 
 	def __init__(self, activities_file):
 		self._activities_file = activities_file
-		self._sports = ["Trail Running", "Street Running", "Road Cycling", "Mountain Biking",
-						"Open Water Swimming", "Pool Swimming", "Strength Training"]
+		self._sports = [
+			"Trail Running", "Street Running",
+			"Road Cycling","Mountain Biking",
+			"Open Water Swimming", "Pool Swimming",
+			"Strength Training"
+			]
 		self.verify_csv()
 
 	def verify_csv(self):
 		"""
-		Vérifier que le fichier csv est de qualité :
-		- les types d'activités ne doivent pas être génériques (cela permet d'affiner les stats)
-		- les types d'activités doivent être connus
+		Vérifier que le fichier csv est de qualité.
+		Les vérifications faites sont :
+		- types d'activités non génériques (affinage des stats)
+		- types d'activités connus (bon fonctionnement du programme)
 		"""
 
-		good_names_activities = self._sports
+		good_activities_names = self._sports
 		bad_activities_types = ['Swimming', 'Running', 'Cycling']
 
 		with open(self._activities_file, newline='') as csvfile:
@@ -43,210 +48,218 @@ class Parse_csv_activities:
 
 				if activity_type in bad_activities_types:
 					print("le type d'activité  {} daté du {} n'est pas accepté.".format(activity_type, activity_date))
-					print("Les types d'activités acceptés sont : {}.".format(str(good_names_activities)))
-					print("Arrêt du programme.")
+					print("Les types d'activités acceptés sont : {}.".format(str(good_activities_names)))
 					sys.exit(1)
 				
-				if activity_type not in good_names_activities:
+				if activity_type not in good_activities_names:
 					print("Le type d'activité {} daté du {} dans le fichier csv qui n'est pas reconnu.".format(activity_type, activity_date))
-					print("Arrêt du programme.")
+
 					sys.exit(1)
 
-	def get_list_average_heart_rate(self, month, sport):
+	def get_average_heart_rate_list(self, date, sport):
 		"""
-		Retourner une liste comprenant tous les integers des moyennes
-		de fréquence cardiaque pour un mois choisi, et pour un sport choisi,
-		ou pour tous les temps pour tous les sports
-
-		month accepte :
-			- "All"
-			- "YYYY-MM"
-
-		Exemples : 
-		get_list_heart_rate(month="All", sport="All")
-		get_list_heart_rate(month="2020-07", sport="Running")
+		Retourner une liste comprenant des fréquences cardiaques moyennes
 		"""
 
+		# Vérification date conforme et récupération type
+		complete_date = self.verify_date(date=date)
+
+		# Connaître la liste des sports
 		sport = self.sport_list(sport=sport, sport_type="heart_rate")
-		
-		list_heart_rate = []
+
+		average_heart_rate_list = []
 
 		with open(self._activities_file, newline='') as csvfile:
 			reader = csv.DictReader(csvfile)
-			
+
 			for row in reader:
 
-				heart_rate = row["Average Heart Rate (bpm)"]
-				month_row = row["Start Time"][:7]
+				date_row = row["Start Time"][:complete_date[2]]
 				sport_row = row["Activity Type"]
+				average_heart_rate_row = row["Average Heart Rate (bpm)"]
 
-				for i in sport:
-					if i == sport_row:
+				# Si string vide, on passe
+				if not average_heart_rate_row:
+					continue
 
-						if month == "All":
-							if heart_rate: # Ajouter uniquement les string non vides
-								list_heart_rate.append(heart_rate)
+				# Si tous les temps, alors on ajoute automatiquement
+				if date == "all-time":
+					average_heart_rate_list.append(average_heart_rate_row)
 
-						elif month_row == month:
-							if heart_rate: # Ajouter uniquement les string non vides
-								list_heart_rate.append(heart_rate)
+				# Sinon si c'est le sport souhaité et la bonne date
+				elif sport_row in sport and date_row == complete_date[1]:
+					average_heart_rate_list.append(average_heart_rate_row)
 
-		# Conversion items de la liste string vers int 
-		int_list_heart_rate = list(map(int, list_heart_rate))
+		return average_heart_rate_list
 
-		return int_list_heart_rate
+	def get_max_heart_rate_list(self, date, sport):
+		"""
+		Récupérer une liste des fréquences cardiaques maximales atteintes
+		"""
 
-	def get_max_heart_rate(self, month, sport):
-		"""Connaitre la fréquence cardiaque maximale atteinte"""
+		# Vérification date conforme et récupération type
+		complete_date = self.verify_date(date=date)
 
+		# Connaître la liste des sports
 		sport = self.sport_list(sport=sport, sport_type="heart_rate")
-		
-		max_heart_rate = 0
+
+		max_heart_rate_list = []
 
 		with open(self._activities_file, newline='') as csvfile:
 			reader = csv.DictReader(csvfile)
-			
+
 			for row in reader:
 
+				date_row = row["Start Time"][:complete_date[2]]
+				sport_row = row["Activity Type"]
 				max_heart_rate_row = row["Max. Heart Rate (bpm)"]
-				month_row = row["Start Time"][:7]
-				sport_row = row["Activity Type"]
 
-				for i in sport:
-					if i == sport_row:
+				# Si string vide, on passe
+				if not max_heart_rate_row:
+					continue
 
-						if month == "All":
-							if max_heart_rate_row: # Ajouter uniquement les string non vides
-								if int(max_heart_rate_row) > max_heart_rate:
-									max_heart_rate = int(max_heart_rate_row)
+				# Si tous les temps, alors on ajoute automatiquement
+				if date == "all-time":
+					max_heart_rate_list.append(max_heart_rate_row)
 
-						elif month_row == month:
-							if max_heart_rate_row: # Ajouter uniquement les string non vides
-								if int(max_heart_rate_row) > max_heart_rate:
-									max_heart_rate = int(max_heart_rate_row)
-		return max_heart_rate
-		
-	def get_number_activities(self, month, sport):
-		"""
-		Compter le nombre d'activités
+				# Sinon si c'est le sport souhaité et la bonne date
+				elif sport_row in sport and date_row == complete_date[1]:
+					max_heart_rate_list.append(max_heart_rate_row)
 
-		sport accepte :
-			- "All"
-			- "Cyclisme"
-			- "Running"
-			- "Renfo"
+		return max_heart_rate_list
 
-		month accepte :
-			- "All"
-			- "YYYY-MM"
-		"""
+	def get_number_activities(self, date, sport):
+		"""Compter le nombre d'activités"""
 
+		# Vérification date conforme et récupération type
+		complete_date = self.verify_date(date=date)
+
+		# Connaître la liste des sports
 		sport = self.sport_list(sport=sport)
 
 		number_activities = 0
 
 		with open(self._activities_file, newline='') as csvfile:
 			reader = csv.DictReader(csvfile)
-			
+
 			for row in reader:
 
-				month_row = row["Start Time"][:7]
+				date_row = row["Start Time"][:complete_date[2]]
 				sport_row = row["Activity Type"]
 
-				for i in sport:
-					if i == sport_row:
+				# Si tous les temps, alors on ajoute automatiquement
+				if date == "all-time":
+					number_activities += 1
 
-						if month == "All":
-							number_activities += 1
-
-						elif month_row == month:
-							number_activities += 1
-
+				# Sinon si c'est le sport souhaité et la bonne date
+				elif sport_row in sport and date_row == complete_date[1]:
+					number_activities += 1
+		
 		return number_activities
 
-	def get_list_distances(self, month, sport):
+	def get_distances_list(self, date, sport):
 		"""Récupérer une liste comprenant les distances des activités"""
-		
+
+		# Vérification date conforme et récupération type
+		complete_date = self.verify_date(date=date)
+
+		# Connaître la liste des sports
 		sport = self.sport_list(sport=sport, sport_type="speed_distance")
 
-		list_distances = []
+		distances_list = []
 
 		with open(self._activities_file, newline='') as csvfile:
 			reader = csv.DictReader(csvfile)
-			
+
 			for row in reader:
 
-				month_row = row["Start Time"][:7]
+				date_row = row["Start Time"][:complete_date[2]]
 				sport_row = row["Activity Type"]
 				distance_row = row["Distance (km)"]
 
-				for i in sport:
-					if i == sport_row:
+				# Si string vide, on passe
+				if not distance_row:
+					continue
 
-						if month == "All":
-							list_distances.append(distance_row)
+				# Conversion en float avec 2 chiffres après virgule
+				distance_row = float(distance_row)
+				distance_row = round(distance_row, 2)
 
-						elif month_row == month:
-							list_distances.append(distance_row)
+				# Si tous les temps, alors on ajoute automatiquement
+				if date == "all-time":
+					distances_list.append(distance_row)
 
-		# Conversion items de la liste string vers float
-		float_list_distance = list(map(float, list_distances))
-		return float_list_distance
+				# Sinon si c'est le sport souhaité et la bonne date
+				elif sport_row in sport and date_row == complete_date[1]:
+					distances_list.append(distance_row)
 
-	def get_speed_list(self, month, sport):
+		return distances_list
+
+	def get_speed_list(self, date, sport):
 		"""Récupérer une liste comprenant les vitesses des activités"""
 
+		# Vérification date conforme et récupération type
+		complete_date = self.verify_date(date=date)
+
+		# Connaître la liste des sports
 		sport = self.sport_list(sport=sport, sport_type="speed_distance")
 
 		speed_list = []
 
 		with open(self._activities_file, newline='') as csvfile:
 			reader = csv.DictReader(csvfile)
-			
+
 			for row in reader:
 
-				month_row = row["Start Time"][:7]
+				date_row = row["Start Time"][:complete_date[2]]
 				sport_row = row["Activity Type"]
 				speed_row = row["Average Speed (km/h)"]
 
-				for i in sport:
-					if i == sport_row:
+				# Si string vide, on passe
+				if not speed_row:
+					continue
 
-						if month == "All":
-							speed_list.append(speed_row)
+				# Conversion en float avec 2 chiffres après virgule
+				speed_row = float(speed_row)
+				speed_row = round(speed_row, 2)
 
-						elif month_row == month:
-							speed_list.append(speed_row)
+				# Si tous les temps, alors on ajoute automatiquement
+				if date == "all-time":
+					speed_list.append(speed_row)
 
-		# Conversion items de la liste string vers float
-		float_speed_list = list(map(float, speed_list))
-		return float_speed_list
+				# Sinon si c'est le sport souhaité et la bonne date
+				elif sport_row in sport and date_row == complete_date[1]:
+					speed_list.append(speed_row)
 
-	def get_duration_list(self, month, sport):
+		return speed_list
+
+	def get_duration_list(self, date, sport):
 		"""Récupérer une liste comprenant le temps des activités"""
 
+		# Vérification date conforme et récupération type
+		complete_date = self.verify_date(date=date)
+
+		# Connaître la liste des sports
 		sport = self.sport_list(sport=sport)
 
 		duration_list = []
 
 		with open(self._activities_file, newline='') as csvfile:
 			reader = csv.DictReader(csvfile)
-			
+
 			for row in reader:
 
-				month_row = row["Start Time"][:7]
+				date_row = row["Start Time"][:complete_date[2]]
 				sport_row = row["Activity Type"]
-
 				duration_row = row["Duration (h:m:s)"]
 
-				for i in sport:
-					if i == sport_row:
+				# Si tous les temps, alors on ajoute automatiquement
+				if complete_date == "all-time":
+					duration_list.append(duration_row)
 
-						if month == "All":
-							duration_list.append(duration_row)
-
-						elif month_row == month:
-							duration_list.append(duration_row)
+				# Sinon si c'est le sport souhaité et la bonne date
+				elif sport_row in sport and date_row == complete_date[1]:
+					duration_list.append(duration_row)
 
 		return duration_list
 
@@ -261,8 +274,7 @@ class Parse_csv_activities:
 		
 		if sport not in accepted_sports:
 			print("Le sport {} n'est pas reconnu.".format(sport))
-			print("Les sports acceptés sont : {}.".format(str(accepted_sports)))
-			print("Arrêt du programme.")
+			print("Les sports acceptés sont : {}.".format(accepted_sports))
 			sys.exit(1)
 
 		not_heart_rate_sports = ["Open Water Swimming", "Pool Swimming"]
@@ -291,6 +303,39 @@ class Parse_csv_activities:
 
 		return sports
 
+	def verify_date(self, date):
+		"""
+		Vérifier la date données, et déduire si cette date est une année,
+		un mois ou un jour.
+
+		Retourne une liste contenant le type de date et la date
+		"""
+
+		if len(date) == 4:
+			# date = ["type", date, ""
+			date = ["year", date, 4]
+
+		elif len(date) == 7:
+			# Mois
+			date = ["month", date, 7]
+
+		elif len(date) == 10:
+			# Jour
+			date = ["day", date, 10]
+
+		elif date == "all-time":
+			# Tous les temps
+			date = "all-time"
+
+		else:
+			valid_dates = ["YYYY-MM-JJ", "YYYY-MM", "YYYY", "all-time"]
+
+			print("La date {} n'est pas reconnu.".format(date))
+			print("Les formats de date connus sont : {}.".format(valid_dates))
+			sys.exit(1)
+		
+		return date
+
 	"""Getters and setters"""
 
 	def _get_activities_file(self):
@@ -313,4 +358,4 @@ if __name__ == "__main__":
 
 	activities = Parse_csv_activities("activities/activities.csv")
 
-	print(activities.get_list_distances(month="2020-09", sport="Cyclisme"))
+	print(activities.get_speed_list(date="2020-10", sport="Cyclime"))
