@@ -47,13 +47,17 @@ class Parse_csv_activities:
 				activity_date = row["Start Time"][:10]
 
 				if activity_type in bad_activities_types:
-					print("le type d'activité  {} daté du {} n'est pas accepté.".format(activity_type, activity_date))
-					print("Les types d'activités acceptés sont : {}.".format(str(good_activities_names)))
+					print("le type d'activité '{}' daté du {} n'est pas " \
+						  "accepté.".format(activity_type, activity_date))
+
+					print("Les types d'activités acceptés sont : {}." \
+						  .format(str(good_activities_names)))
 					sys.exit(1)
 				
 				if activity_type not in good_activities_names:
-					print("Le type d'activité {} daté du {} dans le fichier csv qui n'est pas reconnu.".format(activity_type, activity_date))
-
+					print("Le type d'activité '{}' daté du {} dans le " \
+					    "fichier csv qui n'est pas reconnu." \
+						.format(activity_type, activity_date))
 					sys.exit(1)
 
 	def get_average_heart_rate_list(self, date, sport):
@@ -358,4 +362,4 @@ if __name__ == "__main__":
 
 	activities = Parse_csv_activities("activities/activities.csv")
 
-	print(activities.get_speed_list(date="2020-10", sport="Cyclime"))
+	print(activities.get_speed_list(date="2020-10", sport="Cyclisme"))
