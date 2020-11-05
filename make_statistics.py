@@ -7,9 +7,8 @@ __description__ = "Triathlon-pystats"
 __VERSION__ = "0.2"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
-# A supprimer
-import sys
 
+import sys
 from statistics import mean
 from datetime import timedelta
 

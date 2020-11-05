@@ -18,40 +18,65 @@ class Create_graphics:
     Générer des graphiques
     """
 
-    def __init__(self, activities_file="activities/activities.csv"):
+    def __init__(self, activities_file):
         self._activities_file = activities_file
         self._activities = Parse_csv_activities(self._activities_file)
         self._stats = Make_statistics(self._activities_file)
         if not os.path.exists("images/graphs"):
             os.mkdir("images/graphs")
 
-    def activities_sharing(self, month):
+    def activities_sharing(self, date):
         """
-        Générer un graphique camembert sur la répartition générale
-        des sports
-        
-        Générer un mois :
-        graphs.activities_sharing(month="2020-10")
-        
-        Générer toutes les activitités :
-        graphs.activities_sharing(month="All")
+        Générer un graphique camembert sur la répartition générale des sports
         """
 
         sports = ["Cyclisme", "Running", "Natation", "Renfo"]
 
-        sizes = [ self._activities.get_number_activities(month=month, sport="Cyclisme"), 
-                    self._activities.get_number_activities(month=month, sport="Running"),
-                    self._activities.get_number_activities(month=month, sport="Natation"),
-                    self._activities.get_number_activities(month=month, sport="Renfo") ]
+        nb_cycling = self._activities.get_number_activities(date=date,
+                                                            sport="cyclisme")
+        nb_running = self._activities.get_number_activities(date=date,
+                                                            sport="running")
+        nb_natation = self._activities.get_number_activities(date=date,
+                                                             sport="natation")
+        nb_renfo = self._activities.get_number_activities(date=date,
+                                                          sport="renfo")
         
-        colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
+        sizes = [ nb_cycling, nb_running, nb_natation, nb_renfo ]
+        colors = ['#ff9999','#66b3ff','#99ff99','#ffcc99']
+        #explode = (0.05 ,0.05 ,0.05 ,0.05)
 
-        plt.pie(sizes, labels=sports, colors=colors, autopct='%1.1f%%', shadow=True, startangle=90)
+        # Ne pas afficher les valeurs à 0
+        if nb_cycling == 0:
+            sports.remove("Cyclisme")
+            sizes.remove(nb_cycling)
+            colors.remove(colors[1])
 
-        plt.axis('equal')
+        if nb_running == 0:
+            sports.remove("Running")
+            sizes.remove(nb_running)
+            colors.remove(colors[1])
 
-        #plt.show()
+        if nb_natation == 0:
+            sports.remove("Natation")
+            sizes.remove(nb_natation)
+            colors.remove(colors[1])
+
+        if nb_renfo == 0:
+            sports.remove("Renfo")
+            sizes.remove(nb_renfo)
+            colors.remove(colors[1])
+
+        #https://medium.com/@kvnamipara/a-better-visualisation-of-pie-charts-by-matplotlib-935b7667d77f
+
+        plt.pie(sizes, colors = colors, labels=sports, autopct='%1.1f%%', startangle=90, pctdistance=0.85)#draw circle
+        centre_circle = plt.Circle((0,0),0.70,fc='white')
+        fig = plt.gcf()
+        fig.gca().add_artist(centre_circle)# Equal aspect ratio ensures that pie is drawn as a circle
+        plt.axis('equal')  
+        plt.tight_layout()
+        plt.show()
         plt.savefig("images/graphs/repartition_temps.png")
+
     
     def sharing_distance(self, month):
         """Générer un diagramme camember sur la répartition des distances"""
@@ -67,12 +92,12 @@ class Create_graphics:
         plt.pie(sizes, labels=sports, colors=colors, autopct='%1.1f%%', shadow=True, startangle=90)
 
         plt.axis('equal')
-        #plt.show()
-        plt.savefig("images/graphs/repartition_distance.png")
+        plt.show()
+        #plt.savefig("images/graphs/repartition_distance.png")
 
 
 if __name__ == "__main__":
 
 	graphs = Create_graphics(activities_file="activities/activities.csv")
 
-	graphs.sharing_distance(month="2020-11")
+	graphs.activities_sharing(date="2020-11")
