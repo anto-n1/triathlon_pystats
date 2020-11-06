@@ -4,7 +4,7 @@
 __author__ = "Antonin DOUILLARD"
 __email__ = "antonin.info@protonmail.com"
 __description__ = "Triathlon-pystats"
-__VERSION__ = "0.1"
+__version__ = "0.1"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
 from shutil import copyfile
@@ -45,10 +45,10 @@ class Generate_pdf:
         average_speed = str(self._statistics.average_speed(date=month, sport="all"))
         
         # Nombre d'entrainements cyclisme, natation, running et renfo
-        training_number_cycling = str(self._activities.get_number_activities(date=month, sport="cyclisme"))
-        training_number_swimming = str(self._activities.get_number_activities(date=month, sport="natation"))
-        training_number_running = str(self._activities.get_number_activities(date=month, sport="running"))
-        training_number_strength = str(self._activities.get_number_activities(date=month, sport="renfo"))
+        #training_number_cycling = str(self._activities.get_number_activities(date=month, sport="cyclisme"))
+        #training_number_swimming = str(self._activities.get_number_activities(date=month, sport="natation"))
+        #training_number_running = str(self._activities.get_number_activities(date=month, sport="running"))
+        #training_number_strength = str(self._activities.get_number_activities(date=month, sport="renfo"))
 
         # Fréquence cardiaque moyenne du mois
         average_hr = str(self._statistics.average_heart_rate(date=month, sport="all"))
@@ -56,9 +56,9 @@ class Generate_pdf:
         max_hr = str(self._statistics.max_heart_rate(date=month, sport="all"))
 
         # Fréquences cardiaques moyenne pour chaque sport
-        average_hr_cycling = self._statistics.average_heart_rate(date=month, sport="cyclisme")
-        average_hr_running = self._statistics.average_heart_rate(date=month, sport="running")   
-        average_hr_strength = self._statistics.average_heart_rate(date=month, sport="renfo")
+       # average_hr_cycling = self._statistics.average_heart_rate(date=month, sport="cyclisme")
+       # average_hr_running = self._statistics.average_heart_rate(date=month, sport="running")   
+       # average_hr_strength = self._statistics.average_heart_rate(date=month, sport="renfo")
 
         report_file_name = "rapport-triathlon-{}.tex".format(month)
         copyfile("template_month.tex", report_file_name)
@@ -68,9 +68,9 @@ class Generate_pdf:
 
         # Génération des graphiques
         # Les noms des graphiques sont directement indiqués dans le template.tex
-       # self._graphs.activities_sharing(date=month)
-        self._graphs.distance_sharing(date=month)
+        #self._graphs.activities_sharing(date=month)
         self._graphs.time_sharing(date=month)
+        self._graphs.distance_sharing(date=month)
 
         # Partie statistiques tous sports confondus
         with open(report_file_name, 'r+') as report_file:
@@ -94,7 +94,6 @@ class Generate_pdf:
         
         self.compile_latex_pdf(report_file_name)
 
-
     def compile_latex_pdf(self, tex_filename):
         """
         Compiler le fichier .tex et supprimer les fichiers inutiles
@@ -110,7 +109,9 @@ class Generate_pdf:
                 if item.endswith(extension):
                     os.remove(os.path.join(item))
 
+        os.remove(tex_filename)
+
 if __name__ == "__main__":
 
     pdf = Generate_pdf(activities_file="activities/activities.csv")
-    pdf.generate_month_report(month="2020-10")
+    pdf.generate_month_report(month="2020-07")

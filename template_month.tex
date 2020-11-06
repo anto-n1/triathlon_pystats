@@ -9,7 +9,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage{titling}
-\usepackage{graphicx}
+
 \usepackage{csquotes} % Pour les double quotes ""
 \usepackage{microtype}
 
@@ -17,15 +17,15 @@
 \usepackage{blindtext}
 \usepackage{enumitem}
 
-
 % Permet d'utiliser les légendes sur les photos et tableaux 
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{wrapfig}
 
 \usepackage{xcolor}
-\usepackage[hmargin=2cm,vmargin=2.5cm]{geometry}
+\usepackage[hmargin=1cm,vmargin=1.5cm]{geometry}
 
+\usepackage{graphicx}
 \graphicspath{{images/}}
 
 \usepackage{titlesec}
@@ -135,52 +135,53 @@
 \textbullet Temps total d'activité : \textbf{RDURATION} \\
 \textbullet Vitesse moyenne : \textbf{RAVERAGE-SPEED km} \\
 \textbullet Fréquence cardiaque moyenne : \textbf{RAVERAGE-HR bpm} - maximale atteinte \textbf{RMAX-HR bpm}\\
-  
-\begin{figure}[h]
 
-\begin{subfigure}{0.5\textwidth}
-\includegraphics[width=0.9\linewidth, height=7cm]{graphs/repartition_temps.png} 
-\caption{Caption1}
-\label{fig:subim1}
-\end{subfigure}
-\begin{subfigure}{0.5\textwidth}
-\includegraphics[width=0.9\linewidth, height=6cm]{graphs/repartition_distance.png}
-%\caption{Caption 2}
-\label{fig:subim2}
+
+
+\begin{figure}[!ht]
+\begin{subfigure}{.49\linewidth}
+
+\centering
+
+%\includegraphics[width=0.5\textwidth]{graphs/repartition_temps.png}
+\includegraphics[width=\linewidth]{graphs/repartition_temps.png}
+\caption*{Répartition du temps passé}
+
+\end{subfigure}\hfill
+\begin{subfigure}{.49\linewidth}
+
+\centering
+
+\includegraphics[width=\linewidth]{graphs/repartition_distance.png}
+\caption*{Répartition des distances parcourues}
+
 \end{subfigure}
 
-%\caption{Caption for this figure with two images}
-\label{fig:image2}
 \end{figure}
 
-\begin{figure}
-     \centering
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{graphs/repartition_temps.png}
-         \caption{$y=x$}
-         \label{fig:y equals x}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{graphs/repartition_distance.png}
-         \caption{$y=3sinx$}
-         \label{fig:three sin x}
-     \end{subfigure}
-     \hfill
-\end{figure}
 
-Praesent blandit blandit mauris. Praesent
-lectus tellus, aliquet aliquam, luctus a, egestas a, turpis. Mauris 
-lacinia loremsit amet ipsum. Nunc quis urna dictum turpis accumsan 
-semper.
 
-%Répartition du temps d'activité :\\
-%\includegraphics[height=6cm]{graphs/repartition_temps.png}\\
 
-%Répartition des distances :\\
-%\includegraphics[height=6cm]{graphs/repartition_distance.png}
+
+%\begin{figure}[!ht]
+%\begin{subfigure}{.49\linewidth}
+%
+%\centering
+%
+%\includegraphics[width=\linewidth]{graphs/repartition_temps.png}
+%\caption*{Répartition du temps passé sur chaque activité}
+%
+%\end{subfigure}\hfill
+%\begin{subfigure}{.49\linewidth}
+%
+%\centering
+%
+%\includegraphics[width=\linewidth]{graphs/repartition_distance.png}
+%\caption*{Répartition des distances parcourues pour chaque activité}
+%
+%\end{subfigure}
+%
+%\end{figure}
 
 % ------------------------------------------------------------------------------
 % Fin du document
