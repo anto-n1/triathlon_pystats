@@ -65,9 +65,7 @@ class Make_statistics:
         return average_max_heart_rate
     
     def max_heart_rate(self, date, sport):
-        """
-        Calcul du rythme cardiaque maximal enregistré
-        """
+        """Calcul du rythme cardiaque maximal enregistré"""
 
         list_max_hr = self._activities.get_max_heart_rate_list(date=date,
                                                                sport=sport)
@@ -129,7 +127,8 @@ class Make_statistics:
         """Calcul du total de distance"""
 
         total_distance = 0
-        list_distances = self._activities.get_distances_list(date=date, sport=sport)
+        list_distances = self._activities.get_distances_list(date=date,
+                                                             sport=sport)
         
         for i in list_distances:
             total_distance += i
@@ -181,10 +180,11 @@ class Make_statistics:
     def max_elevation(self, date, sport):
         """Calcul du dénivelé maximal enregistré"""
 
-        list_elevation = self._activities.get_elevation_list(date=date, sport=sport)
+        list_elevation = self._activities.get_elevation_list(date=date,
+                                                             sport=sport)
 
         if len(list_elevation) == 0:
-            max_vo2max = "Aucune donnée."
+            max_elevation = "Aucune donnée."
         
         else:
             # Calcul de la valeur maximale dans la liste
@@ -195,7 +195,8 @@ class Make_statistics:
     def total_elevation(self, date, sport):
         """Calcul du dénivelé total enregistré"""
 
-        list_elevation = self._activities.get_elevation_list(date=date, sport=sport)
+        list_elevation = self._activities.get_elevation_list(date=date,
+                                                             sport=sport)
 
         total_elevation = 0
 
@@ -215,19 +216,59 @@ class Make_statistics:
         """Calculer des sommes de temps d'activités"""
 
         total_duration = timedelta(hours=0, minutes=0, seconds=0)
-        list_duration = self._activities.get_duration_list(date=date, sport=sport)
+        list_duration = self._activities.get_duration_list(date=date,
+                                                           sport=sport)
 
         for duration in list_duration:
             hours = int(duration[:2])
             minutes = int(duration[3:5])
             seconds = int(duration[6:8])
 
-            total_duration += timedelta(hours=hours, minutes=minutes, seconds=seconds)
+            total_duration += timedelta(hours=hours,
+                                        minutes=minutes,
+                                        seconds=seconds)
         
         return total_duration
-    
+
+    def activities_location(self, date, sport):
+        """
+        Calculer le nombre d'activités effectuées dans différents lieux
+        Retourne un dictionnaire
+        """
+
+        location_list = self._activities.get_location_list(date=date,
+                                                           sport=sport)
+
+        location_1 = "La Haie-Fouassière"
+        location_2 = "Angers"
+        location_3 = "Cholet"
+        location_4 = "Autre"
+
+        location_dict = {
+            location_1 : 0,
+            location_2 : 0,
+            location_3 : 0,
+            location_4 : 0
+        }
+
+        for location in location_list:
+
+            if location == location_1:
+                location_dict[location_1] += 1
+            
+            elif location == location_2:
+                location_dict[location_2] += 1
+
+            elif location == location_3:
+                location_dict[location_3] += 1
+        
+            else:
+                location_dict[location_4] += 1
+
+        return location_dict
+
 if __name__ == "__main__":
 
 	stats = Make_statistics("activities/activities.csv")
 
-	print(stats.total_elevation(date="2020", sport="all"))
+	print(stats.activities_location(date="2020-11", sport="cyclisme"))

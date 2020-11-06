@@ -411,6 +411,50 @@ class Parse_csv_activities:
 
 		return elevation_list
 
+	def get_location_list(self, date, sport):
+		"""
+		Récupérer une liste des villes où sont réalisées les activités
+		"""
+
+		# Vérification date conforme et récupération type
+		complete_date = self.verify_date(date=date)
+
+		# Connaître la liste des sports
+		sport = self.sport_list(sport=sport, sport_type="speed_distance")
+
+		location_list = []
+
+		with open(self._activities_file, newline='') as csvfile:
+			reader = csv.DictReader(csvfile)
+
+			for row in reader:
+
+				sport_row = row["Activity Type"]
+				location_row = row["Location Name"]
+
+				# Si string vide, on passe
+				if not location_row:
+					continue
+
+				# Si tous les temps
+				if date == "all-time":
+
+					if sport == "all":
+						location_list.append(location_row)
+
+					elif sport_row in sport:
+						location_list.append(location_row)
+
+					continue
+				
+				date_row = row["Start Time"][:complete_date[2]]
+
+				# Sinon si c'est le sport souhaité et la bonne date
+				if sport_row in sport and date_row == complete_date[1]:
+					location_list.append(location_row)
+
+		return location_list
+
 	def sport_list(self, sport, sport_type=None):
 		"""
 		Connaître la liste des sports en fonction des activités :
@@ -531,4 +575,4 @@ if __name__ == "__main__":
 
 	activities = Parse_csv_activities("activities/activities.csv")
 
-	print(activities.get_elevation_list(date="2020-01", sport="cyclisme"))
+	print(activities.get_location_list(date="all-time", sport="cyclisme"))

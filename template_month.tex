@@ -81,7 +81,7 @@
 		 	\\[1.2cm]
 			\HRule{0.7pt} \\
 			\vspace{0.5cm}
-			\LARGE \textbf{\uppercase{rapport activité triathlon}}	% Titre
+			\LARGE \textbf{\uppercase{statistiques triathlon}}	% Titre
 			\HRule{1pt} \\
 			\vspace{1.7cm}
 		}
@@ -127,12 +127,13 @@
 \section*{Statistiques tous sports confondus}
 % Faire figurer l'introduction sur le sommaire quand même
 \addcontentsline{toc}{section}{Statistiques tous sports confondus}
+\thispagestyle{empty}
 
 
 \noindent{\textbullet Nombre d'entraînements : \textbf{RACTIVITIES-NUMBER} - ratio de \textbf{RRATIO entraînement/jour}}\\
 \textbullet Distance totale parcourue : \textbf{RTOTAL-DISTANCE km} - avec \textbf{RELEVATION m} de dénivelé positif\\
 \textbullet Temps total d'activité : \textbf{RDURATION} \\
-\textbullet Vitesse moyenne : \textbf{RAVERAGE-SPEED km} \\
+\textbullet Vitesse moyenne : \textbf{RAVERAGE-SPEED km/h} \\
 \textbullet Fréquence cardiaque moyenne : \textbf{RAVERAGE-HR bpm} - maximale atteinte \textbf{RMAX-HR bpm}\\
 \textbullet VO2max moyenne approximative : \textbf{RAVERAGE-VO2 ml/kg/min} - maximale atteinte \textbf{RMAX-VO2 ml/kg/min}\\
 
@@ -158,25 +159,25 @@
 \end{figure}
 
 
-%\begin{figure}[!ht]
-%\begin{subfigure}{.49\linewidth}
-%
-%\centering
-%
-%\includegraphics[width=\linewidth]{graphs/repartition_temps.png}
-%\caption*{Répartition du temps passé sur chaque activité}
-%
-%\end{subfigure}\hfill
-%\begin{subfigure}{.49\linewidth}
-%
-%\centering
-%
-%\includegraphics[width=\linewidth]{graphs/repartition_distance.png}
-%\caption*{Répartition des distances parcourues pour chaque activité}
-%
-%\end{subfigure}
-%
-%\end{figure}
+\begin{figure}[!ht]
+\begin{subfigure}{.49\linewidth}
+
+\centering
+
+\includegraphics[width=\linewidth]{graphs/repartition_nombre_activites.png}
+\caption*{Répartition du nombre d'activités}
+
+\end{subfigure}\hfill
+\begin{subfigure}{.49\linewidth}
+
+\centering
+
+\includegraphics[width=\linewidth]{graphs/repartition_place.png}
+\caption*{Répartition des lieux d'activité (running et cyclisme)}
+
+\end{subfigure}
+
+\end{figure}
 
 % ------------------------------------------------------------------------------
 % Fin du document

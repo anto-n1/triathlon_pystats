@@ -36,9 +36,6 @@ class Create_graphics:
         if os.path.exists(filename):
             os.remove(filename)
 
-
-        sports = [ "Cyclisme", "Running", "Natation", "Renfo" ]
-
         nb_cycling = self._activities.get_number_activities(date=date,
                                                             sport="cyclisme")
         nb_running = self._activities.get_number_activities(date=date,
@@ -47,28 +44,33 @@ class Create_graphics:
                                                              sport="natation")
         nb_renfo = self._activities.get_number_activities(date=date,
                                                           sport="renfo")
+
+        sports = [ "Cyclisme\n{} activité(s)".format(nb_cycling),
+                   "Running\n{} activité(s)".format(nb_running),
+                   "Natation\n{} activité(s)".format(nb_natation),
+                   "Renfo\n{} activité(s)".format(nb_renfo) ]
         
         sizes = [ nb_cycling, nb_running, nb_natation, nb_renfo ]
         colors = ['#ff9999','#66b3ff','#99ff99','#ffcc99']
 
         # Ne pas afficher les valeurs à 0
         if nb_cycling == 0:
-            sports.remove("Cyclisme")
+            sports.remove("Cyclisme\n{} activité(s)".format(nb_cycling))
             sizes.remove(nb_cycling)
             colors.remove(colors[0])
 
         if nb_running == 0:
-            sports.remove("Running")
+            sports.remove("Running\n{} activité(s)".format(nb_running))
             sizes.remove(nb_running)
             colors.remove(colors[0])
 
         if nb_natation == 0:
-            sports.remove("Natation")
+            sports.remove("Natation\n{} activité(s)".format(nb_natation))
             sizes.remove(nb_natation)
             colors.remove(colors[0])
 
         if nb_renfo == 0:
-            sports.remove("Renfo")
+            sports.remove("Renfo\n{} activité(s)".format(nb_renfo))
             sizes.remove(nb_renfo)
             colors.remove(colors[1])
 
@@ -79,13 +81,13 @@ class Create_graphics:
                 startangle=90,
                 pctdistance=0.85)
 
-        centre_circle = plt.Circle((0,0),0.70,fc='white')
+        centre_circle = plt.Circle((0, 0), 0.70, fc="white")
         fig = plt.gcf()
         fig.gca().add_artist(centre_circle)
-        plt.axis('equal')  
+        plt.axis("equal")  
         plt.tight_layout()
         #plt.show()
-        plt.savefig(filename, dpi=800, bbox_inches='tight')
+        plt.savefig(filename, dpi=800, bbox_inches="tight")
         plt.close()
     
     def distance_sharing(self, date):
@@ -105,9 +107,9 @@ class Create_graphics:
         distance_natation = self._stats.total_distance(date=date,
                                                        sport="natation")
 
-        sports = [ "Cyclisme ({} km)".format(distance_cycling),
-                   "Running ({} km)".format(distance_running),
-                   "Natation ({} km)".format(distance_natation) ]
+        sports = [ "Cyclisme\n{} km".format(distance_cycling),
+                   "Running\n{} km".format(distance_running),
+                   "Natation\n{} km".format(distance_natation) ]
 
         sizes = [ distance_cycling, distance_running, distance_natation ]
 
@@ -115,17 +117,17 @@ class Create_graphics:
 
         # Ne pas afficher les valeurs à 0
         if distance_cycling == 0:
-            sports.remove("Cyclisme ({} km)".format(distance_cycling))
+            sports.remove("Cyclisme\n{} km".format(distance_cycling))
             sizes.remove(distance_cycling)
             colors.remove(colors[0])
 
         if distance_running == 0:
-            sports.remove("Running ({} km)".format(distance_running))
+            sports.remove("Running\n{} km".format(distance_running))
             sizes.remove(distance_running)
             colors.remove(colors[0])
 
         if distance_natation == 0:
-            sports.remove("Natation ({} km)".format(distance_natation))
+            sports.remove("Natation\n{} km".format(distance_natation))
             sizes.remove(distance_natation)
             colors.remove(colors[0])
 
@@ -136,13 +138,13 @@ class Create_graphics:
                 startangle=90,
                 pctdistance=0.85)
 
-        centre_circle = plt.Circle((0,0),0.70,fc='white')
+        centre_circle = plt.Circle((0, 0), 0.70, fc="white")
         fig = plt.gcf()
         fig.gca().add_artist(centre_circle)
-        plt.axis('equal')  
+        plt.axis("equal")  
         plt.tight_layout()
         #plt.show()
-        plt.savefig(filename, dpi=800, bbox_inches='tight')
+        plt.savefig(filename, dpi=800, bbox_inches="tight")
         plt.close()
 
     def time_sharing(self, date):
@@ -164,10 +166,10 @@ class Create_graphics:
         time_renfo = self._stats.activities_duration(date=date,
                                                      sport="renfo")
 
-        sports = [ "Cyclisme ({})".format(time_cycling),
-                   "Running ({})".format(time_running),
-                   "Natation ({})".format(time_natation),
-                   "Renfo ({})".format(time_renfo) ]
+        sports = [ "Cyclisme\n{}".format(time_cycling),
+                   "Running\n{}".format(time_running),
+                   "Natation\n{}".format(time_natation),
+                   "Renfo\n{}".format(time_renfo) ]
 
         time_cycling_seconds = time_cycling.total_seconds()
         time_natation_seconds = time_natation.total_seconds()
@@ -183,22 +185,22 @@ class Create_graphics:
         
         # Ne pas afficher les valeurs à 0
         if time_cycling_seconds == 0:
-            sports.remove("Cyclisme ({})".format(time_cycling))
+            sports.remove("Cyclisme\n{}".format(time_cycling))
             sizes.remove(time_cycling_seconds)
             colors.remove(colors[0])
 
         if time_running_seconds == 0:
-            sports.remove("Running ({})".format(time_running))
+            sports.remove("Running\n{}".format(time_running))
             sizes.remove(time_running_seconds)
             colors.remove(colors[0])
 
         if time_natation_seconds == 0:
-            sports.remove("Natation ({})".format(time_natation))
+            sports.remove("Natation\n{}".format(time_natation))
             sizes.remove(time_natation_seconds)
             colors.remove(colors[0])
 
         if time_renfo_seconds == 0:
-            sports.remove("Renfo ({})".format(time_renfo))
+            sports.remove("Renfo\n{}".format(time_renfo))
             sizes.remove(time_renfo_seconds)
             colors.remove(colors[0])
 
@@ -209,13 +211,85 @@ class Create_graphics:
                 startangle=90,
                 pctdistance=0.85)
 
-        centre_circle = plt.Circle((0,0),0.70,fc='white')
+        centre_circle = plt.Circle((0, 0), 0.70, fc="white")
         fig = plt.gcf()
         fig.gca().add_artist(centre_circle)
-        plt.axis('equal')  
+        plt.axis("equal")  
         plt.tight_layout()
         #plt.show()
-        plt.savefig(filename, dpi=800, bbox_inches='tight')
+        plt.savefig(filename, dpi=800, bbox_inches="tight")
+        plt.close()
+
+    def location_sharing_all_sports(self, date):
+        """
+        Générer un graphique camembert sur la répartition générale des sports
+        par rapport au lieu
+        """
+
+        filename = "images/graphs/repartition_place.png"
+        if os.path.exists(filename):
+            os.remove(filename)
+
+        location_1 = "La Haie-Fouassière"
+        location_2 = "Angers"
+        location_3 = "Cholet"
+        location_4 = "Autre"
+
+        location_cycling_dict = self._stats.activities_location(date=date,
+            sport="cyclisme")
+        
+        location_running_dict = self._stats.activities_location(date=date,
+            sport="running")
+
+        nb_location_1 = location_cycling_dict[location_1] + location_running_dict[location_1]
+        nb_location_2 = location_cycling_dict[location_2] + location_running_dict[location_2]
+        nb_location_3 = location_cycling_dict[location_3] + location_running_dict[location_3]
+        nb_location_4 = location_cycling_dict[location_4] + location_running_dict[location_4]
+
+        sports = [ "{}\n{} fois".format(location_1, nb_location_1),
+                   "{}\n{} fois".format(location_2, nb_location_2),
+                   "{}\n{} fois".format(location_3, nb_location_3),
+                   "{}\n{} fois".format(location_4, nb_location_4) ]
+
+        sizes = [ nb_location_1, nb_location_2, nb_location_3, nb_location_4 ]
+
+        colors = ['#ff9999','#66b3ff','#99ff99','#ffcc99']
+
+        # Ne pas afficher les valeurs à 0
+        if nb_location_1 == 0:
+            sports.remove("{}\n{} fois".format(location_1, nb_location_1))
+            sizes.remove(nb_location_1)
+            colors.remove(colors[0])
+
+        if nb_location_2 == 0:
+            sports.remove("{}\n{} fois".format(location_2, nb_location_2))
+            sizes.remove(nb_location_2)
+            colors.remove(colors[0])
+
+        if nb_location_3 == 0:
+            sports.remove("{}\n{} fois".format(location_3, nb_location_3))
+            sizes.remove(nb_location_3)
+            colors.remove(colors[0])
+        
+        if nb_location_4 == 0:
+            sports.remove("{}\n{} fois".format(location_4, nb_location_4))
+            sizes.remove(nb_location_4)
+            colors.remove(colors[0])
+
+        plt.pie(sizes,
+                colors=colors,
+                labels=sports,
+                autopct='%1.1f%%',
+                startangle=90,
+                pctdistance=0.85)
+
+        centre_circle = plt.Circle((0, 0), 0.70, fc="white")
+        fig = plt.gcf()
+        fig.gca().add_artist(centre_circle)
+        plt.axis("equal")  
+        plt.tight_layout()
+        #plt.show()
+        plt.savefig(filename, dpi=800, bbox_inches="tight")
         plt.close()
         
 
@@ -223,4 +297,4 @@ if __name__ == "__main__":
 
 	graphs = Create_graphics(activities_file="activities/activities.csv")
 
-	graphs.gauge_vo2max()
+	graphs.location_sharing_all_sports(date="2020")

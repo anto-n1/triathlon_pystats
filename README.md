@@ -49,3 +49,4 @@ en cours de rédaction...
 * Ajouter des graphiques sur différents lieux : [atricle Medium](https://medium.com/@azholud/analysis-and-visualization-of-activities-from-garmin-connect-b3e021c62472)
 * Expliquer fonctionnement de la génération des PDF sur le Readme
 * Calculer le ratio pour tous les temps
+* Ajouter une classe triathlete.py ?
