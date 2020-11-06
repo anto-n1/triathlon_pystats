@@ -53,10 +53,14 @@ class Make_statistics:
         list_max_hr = self._activities.get_max_heart_rate_list(date=date,
                                                                sport=sport)
 
-        # Conversion des str en int
-        list_max_hr = list(map(int, list_max_hr))
-        # Calcul moyenne
-        average_max_heart_rate = mean(list_max_hr)
+        if len(list_max_hr) == 0:
+            average_max_heart_rate = "Aucune donnée."
+
+        else:
+            # Conversion des str en int
+            list_max_hr = list(map(int, list_max_hr))
+            # Calcul moyenne
+            average_max_heart_rate = mean(list_max_hr)
 
         return average_max_heart_rate
     
@@ -67,11 +71,15 @@ class Make_statistics:
 
         list_max_hr = self._activities.get_max_heart_rate_list(date=date,
                                                                sport=sport)
+
+        if len(list_max_hr) == 0:
+            max_heart_rate = "Aucune donnée."
         
-        # Conversion des str en int
-        list_max_hr = list(map(int, list_max_hr))
-        # Calcul de la valeur maximale dans la liste
-        max_heart_rate = max(list_max_hr)
+        else:
+            # Conversion des str en int
+            list_max_hr = list(map(int, list_max_hr))
+            # Calcul de la valeur maximale dans la liste
+            max_heart_rate = max(list_max_hr)
 
         return max_heart_rate
     
@@ -133,7 +141,12 @@ class Make_statistics:
         """Calcul de la vitesse moyenne en km/h"""
 
         list_speed = self._activities.get_speed_list(date=date, sport=sport)
-        average_speed = round(mean(list_speed), 2)
+
+        if len(list_speed) == 0:
+            average_speed = "Aucune donnée"
+
+        else:
+            average_speed = round(mean(list_speed), 2)
 
         return average_speed
     
@@ -156,4 +169,4 @@ if __name__ == "__main__":
 
 	stats = Make_statistics("activities/activities.csv")
 
-	print(stats.activities_duration(date="2020", sport="running"))
+	print(stats.average_speed(date="2020-01", sport="renfo"))

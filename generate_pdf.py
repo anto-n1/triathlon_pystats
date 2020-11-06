@@ -114,4 +114,4 @@ class Generate_pdf:
 if __name__ == "__main__":
 
     pdf = Generate_pdf(activities_file="activities/activities.csv")
-    pdf.generate_month_report(month="2020-07")
+    pdf.generate_month_report(month="2020-06")

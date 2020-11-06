@@ -55,17 +55,17 @@ class Create_graphics:
         if nb_cycling == 0:
             sports.remove("Cyclisme")
             sizes.remove(nb_cycling)
-            colors.remove(colors[1])
+            colors.remove(colors[0])
 
         if nb_running == 0:
             sports.remove("Running")
             sizes.remove(nb_running)
-            colors.remove(colors[1])
+            colors.remove(colors[0])
 
         if nb_natation == 0:
             sports.remove("Natation")
             sizes.remove(nb_natation)
-            colors.remove(colors[1])
+            colors.remove(colors[0])
 
         if nb_renfo == 0:
             sports.remove("Renfo")
@@ -110,23 +110,24 @@ class Create_graphics:
                    "Natation ({} km)".format(distance_natation) ]
 
         sizes = [ distance_cycling, distance_running, distance_natation ]
+
         colors = ['#ff9999','#66b3ff','#99ff99']
 
         # Ne pas afficher les valeurs à 0
         if distance_cycling == 0:
             sports.remove("Cyclisme ({} km)".format(distance_cycling))
             sizes.remove(distance_cycling)
-            colors.remove(colors[1])
+            colors.remove(colors[0])
 
         if distance_running == 0:
             sports.remove("Running ({} km)".format(distance_running))
             sizes.remove(distance_running)
-            colors.remove(colors[1])
+            colors.remove(colors[0])
 
         if distance_natation == 0:
-            sports.remove("Natation({} km)".format(distance_natation))
+            sports.remove("Natation ({} km)".format(distance_natation))
             sizes.remove(distance_natation)
-            colors.remove(colors[1])
+            colors.remove(colors[0])
 
         plt.pie(sizes,
                 colors=colors,
@@ -165,7 +166,7 @@ class Create_graphics:
 
         sports = [ "Cyclisme ({})".format(time_cycling),
                    "Running ({})".format(time_running),
-                   "Natation({})".format(time_natation),
+                   "Natation ({})".format(time_natation),
                    "Renfo ({})".format(time_renfo) ]
 
         time_cycling_seconds = time_cycling.total_seconds()
@@ -184,22 +185,22 @@ class Create_graphics:
         if time_cycling_seconds == 0:
             sports.remove("Cyclisme ({})".format(time_cycling))
             sizes.remove(time_cycling_seconds)
-            colors.remove(colors[1])
+            colors.remove(colors[0])
 
         if time_running_seconds == 0:
             sports.remove("Running ({})".format(time_running))
             sizes.remove(time_running_seconds)
-            colors.remove(colors[1])
+            colors.remove(colors[0])
 
         if time_natation_seconds == 0:
-            sports.remove("Natation({})".format(time_natation))
+            sports.remove("Natation ({})".format(time_natation))
             sizes.remove(time_natation_seconds)
-            colors.remove(colors[1])
+            colors.remove(colors[0])
 
         if time_renfo_seconds == 0:
             sports.remove("Renfo ({})".format(time_renfo))
             sizes.remove(time_renfo_seconds)
-            colors.remove(colors[1])
+            colors.remove(colors[0])
 
         plt.pie(sizes,
                 colors=colors,
@@ -221,4 +222,4 @@ if __name__ == "__main__":
 
 	graphs = Create_graphics(activities_file="activities/activities.csv")
 
-	graphs.distance_sharing(date="2020-10")
+	graphs.distance_sharing(date="2020-01")
