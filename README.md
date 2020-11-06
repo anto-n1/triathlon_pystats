@@ -2,8 +2,8 @@
 
 L'objectif du programme est de générer des PDF contenant des statistiques
 écrites, et sous formes de graphiques. Il est possible de générer des PDF
-pour des périodes mensuelles. Les périodes annuelles et "tous les temps"
-sont prévues.
+pour des périodes mensuelles et anuelles. La période "tous les temps" est
+prévue.
 
 Exemple du rendu PDF :
 
@@ -33,8 +33,16 @@ python gcexport.py --username <email> -d ../activities --count 1
 Commandes pour générer les PDF :
 
 ```bash
-en cours de rédaction...
+python triathlon-pystats.py --date
+
+# OU
+
+python triathlon-pystats.py -d YYYY-MM-DD
+
+# Afficher l'aide
+python triathlon-pystats.py --help
 ```
+
 
 ## Informations
 
@@ -46,9 +54,11 @@ en cours de rédaction...
 ## TODO :
 
 * Génération de PDF anuelles et tous les temps
-* Ajouter des graphiques sur différents lieux : [atricle Medium](https://medium.com/@azholud/analysis-and-visualization-of-activities-from-garmin-connect-b3e021c62472)
+* Ajouter des graphiques sur différents lieux : 
+[atricle Medium](https://medium.com/@azholud/analysis-and-visualization-of-activities-from-garmin-connect-b3e021c62472)
 * Expliquer fonctionnement de la génération des PDF sur le Readme
 * Calculer le ratio pour tous les temps
 * Ajouter une classe triathlete.py ?
 * Ajouter le nom des mois
 * Faire des graphiques pour montrer des évolutions sur plusieurs mois
+* Ajoute la récupération d'activité via CLI

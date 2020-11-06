@@ -265,6 +265,8 @@ class Generate_pdf:
         # Compilation fichier tex
         self.compile_latex_pdf(report_file_name)
 
+        print("\nFichier généré dans {}.".format(report_file_name.replace("tex", "pdf")))
+
     def compile_latex_pdf(self, tex_filename):
         """
         Compiler le fichier .tex et supprimer les fichiers inutiles
