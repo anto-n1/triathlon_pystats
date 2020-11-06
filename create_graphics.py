@@ -72,7 +72,7 @@ class Create_graphics:
         if nb_renfo == 0:
             sports.remove("Renfo\n{} activité(s)".format(nb_renfo))
             sizes.remove(nb_renfo)
-            colors.remove(colors[1])
+            colors.remove(colors[0])
 
         plt.pie(sizes,
                 colors=colors,

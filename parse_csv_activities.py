@@ -446,7 +446,7 @@ class Parse_csv_activities:
 						location_list.append(location_row)
 
 					continue
-				
+
 				date_row = row["Start Time"][:complete_date[2]]
 
 				# Sinon si c'est le sport souhaité et la bonne date
@@ -469,6 +469,7 @@ class Parse_csv_activities:
 		accepted_sports = ["all", "cyclisme", "running", "natation", "renfo"]
 
 		not_elevation = [ "renfo", "natation" ]
+		not_special_distance = [ "renfo", "cyclisme" ]
 
 		if sport == "natation" and sport_type == "heart_rate":
 			print("Aucune donnée de fréquence cardiaque disponible" \
@@ -483,6 +484,11 @@ class Parse_csv_activities:
 		elif (sport in not_elevation) and (sport_type == "elevation"):
 			print("Aucune donnée de dénivelé disponible en natation et" \
 				  " en renforcement musculaire.")
+			sys.exit(1)
+
+		elif (sport in not_special_distance) and (sport_type == "special_distance"):
+			print("Impossible de calculer des vitesses spécifiques pour le" \
+				  "cyclisme et le renforcement musculaire.")
 			sys.exit(1)
 
 		if sport not in accepted_sports:
@@ -575,4 +581,4 @@ if __name__ == "__main__":
 
 	activities = Parse_csv_activities("activities/activities.csv")
 
-	print(activities.get_location_list(date="all-time", sport="cyclisme"))
+	print(activities.get_elevation_list(date="2021", sport="cyclisme"))

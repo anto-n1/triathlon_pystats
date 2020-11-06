@@ -116,6 +116,8 @@ class Make_statistics:
         elif type_date == "month":
             month = date[5:]
             days = number_days_month[month]
+        elif type_date == "day":
+            days = 1
         
         number_activities = self._activities.get_number_activities(date=date, sport=sport)
         activities_per_day = number_activities / days
@@ -208,7 +210,7 @@ class Make_statistics:
             for item in list_elevation:
                 total_elevation += item
         
-        total_elevation = round(total_elevation)
+            total_elevation = round(total_elevation)
             
         return total_elevation
     
@@ -271,4 +273,4 @@ if __name__ == "__main__":
 
 	stats = Make_statistics("activities/activities.csv")
 
-	print(stats.activities_location(date="2020-11", sport="cyclisme"))
+	print(stats.total_elevation(date="2021", sport="cyclisme"))

@@ -50,3 +50,5 @@ en cours de rédaction...
 * Expliquer fonctionnement de la génération des PDF sur le Readme
 * Calculer le ratio pour tous les temps
 * Ajouter une classe triathlete.py ?
+* Ajouter le nom des mois
+* Faire des graphiques pour montrer des évolutions sur plusieurs mois
