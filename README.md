@@ -1,7 +1,5 @@
 # Triathlon-pystats
 
-## Objectifs du programme Triathlon-pystats
-
 L'objectif du programme est de générer des PDF contenant des statistiques
 écrites, et sous formes de graphiques. Il est possible de générer des PDF
 pour des périodes mensuelles. Les périodes annuelles et "tous les temps"
@@ -43,6 +41,7 @@ en cours de rédaction...
 * Version python : 3.8
 * Génération des PDF basée sur [LaTeX](https://www.latex-project.org)
 * Génération des graphiques basée sur [Matplotlib](https://matplotlib.org)
+* Développé sous Linux Fedora 33 et macOS 10.15.7, non testé sur Windows 10
 
 ## TODO :
 

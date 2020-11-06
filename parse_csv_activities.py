@@ -4,7 +4,7 @@
 __author__ = "Antonin DOUILLARD"
 __email__ = "antonin.info@protonmail.com"
 __description__ = "Triathlon-pystats"
-__VERSION__ = "0.2"
+__version__ = "0.2"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
 from datetime import timedelta
@@ -323,6 +323,94 @@ class Parse_csv_activities:
 
 		return duration_list
 
+	def get_vo2max_list(self, date, sport):
+		"""
+		Récupérer une liste comprenant les VO2max
+		"""
+
+		# Vérification date conforme et récupération type
+		complete_date = self.verify_date(date=date)
+
+		# Connaître la liste des sports
+		sport = self.sport_list(sport=sport, sport_type="heart_rate")
+
+		vo2max_list = []
+
+		with open(self._activities_file, newline='') as csvfile:
+			reader = csv.DictReader(csvfile)
+
+			for row in reader:
+				
+				sport_row = row["Activity Type"]
+				vo2max_row = row["VO2max"]
+
+				# Si string vide, on passe
+				if not vo2max_row:
+					continue
+
+				# Si tous les temps
+				if date == "all-time":
+
+					if sport == "all":
+						vo2max_list.append(vo2max_row)
+
+					elif sport_row in sport:
+						vo2max_list.append(vo2max_row)
+
+					continue			
+				
+				date_row = row["Start Time"][:complete_date[2]]
+
+				# Sinon si c'est le sport souhaité et la bonne date
+				if sport_row in sport and date_row == complete_date[1]:
+					vo2max_list.append(vo2max_row)
+
+		return vo2max_list
+
+	def get_elevation_list(self, date, sport):
+		"""
+		Récupérer une liste comprenant les dénivelés
+		"""
+
+		# Vérification date conforme et récupération type
+		complete_date = self.verify_date(date=date)
+
+		# Connaître la liste des sports
+		sport = self.sport_list(sport=sport, sport_type="elevation")
+
+		elevation_list = []
+
+		with open(self._activities_file, newline='') as csvfile:
+			reader = csv.DictReader(csvfile)
+
+			for row in reader:
+				
+				sport_row = row["Activity Type"]
+				elevation_row = row["Elevation Gain (m)"]
+
+				# Si string vide, on passe
+				if not elevation_row:
+					continue
+
+				# Si tous les temps
+				if date == "all-time":
+
+					if sport == "all":
+						elevation_list.append(elevation_row)
+
+					elif sport_row in sport:
+						elevation_list.append(elevation_row)
+
+					continue			
+				
+				date_row = row["Start Time"][:complete_date[2]]
+
+				# Sinon si c'est le sport souhaité et la bonne date
+				if sport_row in sport and date_row == complete_date[1]:
+					elevation_list.append(elevation_row)
+
+		return elevation_list
+
 	def sport_list(self, sport, sport_type=None):
 		"""
 		Connaître la liste des sports en fonction des activités :
@@ -336,6 +424,8 @@ class Parse_csv_activities:
 
 		accepted_sports = ["all", "cyclisme", "running", "natation", "renfo"]
 
+		not_elevation = [ "renfo", "natation" ]
+
 		if sport == "natation" and sport_type == "heart_rate":
 			print("Aucune donnée de fréquence cardiaque disponible" \
 				  " en natation.")
@@ -343,6 +433,11 @@ class Parse_csv_activities:
 		
 		elif sport == "renfo" and sport_type == "speed_distance":
 			print("Aucune donnée de distance ou vitesse disponible" \
+				  " en renforcement musculaire.")
+			sys.exit(1)
+		
+		elif (sport in not_elevation) and (sport_type == "elevation"):
+			print("Aucune donnée de dénivelé disponible en natation et" \
 				  " en renforcement musculaire.")
 			sys.exit(1)
 
@@ -353,6 +448,9 @@ class Parse_csv_activities:
 
 		not_heart_rate_sports = ["Open Water Swimming", "Pool Swimming"]
 		not_speed_distance_sports = ["Strength Training"]
+		not_elevation_sports = [ "Open Water Swimming",
+								 "Pool Swimming",
+								 "Strength Training" ]
 
 		if sport == "all":
 			sports = self._sports
@@ -372,6 +470,11 @@ class Parse_csv_activities:
 
 		elif sport_type == "speed_distance":
 			for item in not_speed_distance_sports:
+				if item in sports:
+					sports.remove(item)
+		
+		elif sport_type == "elevation":
+			for item in not_elevation_sports:
 				if item in sports:
 					sports.remove(item)
 
@@ -428,4 +531,4 @@ if __name__ == "__main__":
 
 	activities = Parse_csv_activities("activities/activities.csv")
 
-	print(activities.get_distances_list(date="all-time", sport="cyclisme"))
+	print(activities.get_elevation_list(date="2020-01", sport="cyclisme"))

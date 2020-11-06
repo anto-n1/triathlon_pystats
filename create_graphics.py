@@ -4,7 +4,7 @@
 __author__ = "Antonin DOUILLARD"
 __email__ = "antonin.info@protonmail.com"
 __description__ = "Triathlon-pystats"
-__VERSION__ = "0.1"
+__version__ = "0.2"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
 import os
@@ -217,9 +217,10 @@ class Create_graphics:
         #plt.show()
         plt.savefig(filename, dpi=800, bbox_inches='tight')
         plt.close()
+        
 
 if __name__ == "__main__":
 
 	graphs = Create_graphics(activities_file="activities/activities.csv")
 
-	graphs.distance_sharing(date="2020-01")
+	graphs.gauge_vo2max()

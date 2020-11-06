@@ -4,7 +4,7 @@
 __author__ = "Antonin DOUILLARD"
 __email__ = "antonin.info@protonmail.com"
 __description__ = "Triathlon-pystats"
-__VERSION__ = "0.2"
+__version = "0.2"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
 
@@ -150,6 +150,67 @@ class Make_statistics:
 
         return average_speed
     
+    def average_vo2max(self, date, sport):
+        """Calcul de la VO2max moyenne"""
+
+        list_vo2max = self._activities.get_vo2max_list(date=date, sport=sport)
+
+        if len(list_vo2max) == 0:
+            average_vo2max = "Aucune donnée"
+
+        else:
+            list_vo2max = list(map(float, list_vo2max))
+            average_vo2max = round(mean(list_vo2max), 1)
+
+        return average_vo2max
+    
+    def max_vo2max(self, date, sport):
+        """Calcul de la vo2max maximale enregistré"""
+
+        list_vo2max = self._activities.get_vo2max_list(date=date, sport=sport)
+
+        if len(list_vo2max) == 0:
+            max_vo2max = "Aucune donnée."
+        
+        else:
+            # Calcul de la valeur maximale dans la liste
+            max_vo2max = max(list_vo2max)
+
+        return max_vo2max
+    
+    def max_elevation(self, date, sport):
+        """Calcul du dénivelé maximal enregistré"""
+
+        list_elevation = self._activities.get_elevation_list(date=date, sport=sport)
+
+        if len(list_elevation) == 0:
+            max_vo2max = "Aucune donnée."
+        
+        else:
+            # Calcul de la valeur maximale dans la liste
+            max_elevation = max(list_elevation)
+
+        return max_elevation
+
+    def total_elevation(self, date, sport):
+        """Calcul du dénivelé total enregistré"""
+
+        list_elevation = self._activities.get_elevation_list(date=date, sport=sport)
+
+        total_elevation = 0
+
+        if len(list_elevation) == 0:
+            total_elevation = "Aucune donnée"
+
+        else:
+            list_elevation = list(map(float, list_elevation))
+            for item in list_elevation:
+                total_elevation += item
+        
+        total_elevation = round(total_elevation)
+            
+        return total_elevation
+    
     def activities_duration(self, date, sport):
         """Calculer des sommes de temps d'activités"""
 
@@ -169,4 +230,4 @@ if __name__ == "__main__":
 
 	stats = Make_statistics("activities/activities.csv")
 
-	print(stats.average_speed(date="2020-01", sport="renfo"))
+	print(stats.total_elevation(date="2020", sport="all"))
