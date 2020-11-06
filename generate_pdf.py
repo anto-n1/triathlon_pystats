@@ -29,52 +29,57 @@ class Generate_pdf:
 
     def generate_report(self, date):
         """
-        Générer rapport
+        Générer rapport journalier/mensuel/annuel
+        Ce rapport contient des statistiques basiques sans historique
         """
         
         self._activities.verify_date(date=date)
 
-        # Nom du fichier
+        # Nom du fichier pdf à générer
         report_file_name = "rapport-triathlon-{}.tex".format(date)
         copyfile("template.tex", report_file_name)
 
         # Choix de l'image à afficher sur la page de titre
+        # Image choisie au hasard parmis les 8 disponibles
         image_number = random.randrange(start=1, stop=8, step=1)
         image_name = "triathlon-{}.png".format(image_number)
 
-        # TOUS LES SPORTS
+        # Page 1 : tous sports confondus
 
         # Nombre d'entrainements total du mois
-        training_number = str(self._activities.get_number_activities(date=date, sport="all"))
-        training_per_day = str(self._stats.number_activities_per_day(date=date, sport="all"))
+        training_nb = str(self._activities.get_number_activities(date=date,
+                                                                sport="all"))
+        training_ratio = str(self._stats.number_activities_per_day(date=date,
+                                                                sport="all"))
 
         # Distance totale
-        total_distance = str(self._stats.total_distance(date=date, sport="all"))
+        distance = str(self._stats.total_distance(date=date, sport="all"))
 
         # Dénivelé
         total_elevation = str(self._stats.total_elevation(date=date, sport="all"))
 
         # Temps total d'activité
-        total_duration = str(self._stats.activities_duration(date=date, sport="all"))
+        duration = str(self._stats.activities_duration(date=date,sport="all"))
 
         # Vitesse moyenne tous sports confondus
         average_speed = str(self._stats.average_speed(date=date, sport="all"))
         
         # Fréquence cardiaque moyenne du mois
         average_hr = str(self._stats.average_heart_rate(date=date,
-                                                             sport="all"))
+                                                        sport="all"))
 
         # Fréquence cardiaque maximale
         max_hr = str(self._stats.max_heart_rate(date=date, sport="all"))
 
         # VO2max moyenne
-        average_vo2max = str(self._stats.average_vo2max(date=date, sport="all"))
+        average_vo2max = str(self._stats.average_vo2max(date=date,
+                                                        sport="all"))
 
         # VO2max max
         max_vo2max = str(self._stats.max_vo2max(date=date, sport="all"))
 
         # Génération des graphiques
-        # Les noms des graphiques sont directement indiqués dans le template.tex
+        # Les noms des graphiques sont directement indiqués dans template.tex
         self._graphs.activities_sharing(date=date)
         self._graphs.time_sharing(date=date)
         self._graphs.distance_sharing(date=date)
@@ -84,14 +89,14 @@ class Generate_pdf:
         with open(report_file_name, 'r+') as report_file:
             text = report_file.read()
 
-            # Remplacer le template
+            # Remplacer les termes dans le template tex
             text = re.sub("RDATE", date, text)
             text = re.sub("RNAME", "Antonin", text)
             text = re.sub("RIMAGE", image_name, text)
-            text = re.sub("RACTIVITIES-NUMBER", training_number, text)
-            text = re.sub("RRATIO", training_per_day, text)
-            text = re.sub("RDURATION", total_duration, text)
-            text = re.sub("RTOTAL-DISTANCE", total_distance, text)
+            text = re.sub("RACTIVITIES-NUMBER", training_nb, text)
+            text = re.sub("RRATIO", training_ratio, text)
+            text = re.sub("RDURATION", duration, text)
+            text = re.sub("RTOTAL-DISTANCE", distance, text)
             text = re.sub("RAVERAGE-SPEED", average_speed, text)
             text = re.sub("RAVERAGE-HR", average_hr, text)
             text = re.sub("RMAX-HR", max_hr, text)
@@ -103,33 +108,40 @@ class Generate_pdf:
             report_file.write(text)
             report_file.truncate()
 
-        # CYCLISME
 
-        # Nombre d'entrainements total du mois
-        training_number = str(self._activities.get_number_activities(date=date, sport="cyclisme"))
-        training_per_day = str(self._stats.number_activities_per_day(date=date, sport="cyclisme"))
+        # Cyclisme
+
+        # Nombre d'entrainements total du mois et ratio
+        training_nb = str(self._activities.get_number_activities(date=date,
+                                                            sport="cyclisme"))
+        training_ratio = str(self._stats.number_activities_per_day(date=date,
+                                                            sport="cyclisme"))
 
         # Distance totale
-        total_distance = str(self._stats.total_distance(date=date, sport="cyclisme"))
+        distance = str(self._stats.total_distance(date=date,sport="cyclisme"))
 
         # Dénivelé
-        total_elevation = str(self._stats.total_elevation(date=date, sport="cyclisme"))
+        elevation = str(self._stats.total_elevation(date=date,
+                                                    sport="cyclisme"))
 
         # Temps total d'activité
-        total_duration = str(self._stats.activities_duration(date=date, sport="cyclisme"))
+        duration = str(self._stats.activities_duration(date=date,
+                                                       sport="cyclisme"))
 
         # Vitesse moyenne tous sports confondus
-        average_speed = str(self._stats.average_speed(date=date, sport="cyclisme"))
+        average_speed = str(self._stats.average_speed(date=date,
+                                                      sport="cyclisme"))
         
         # Fréquence cardiaque moyenne du mois
         average_hr = str(self._stats.average_heart_rate(date=date,
-                                                             sport="cyclisme"))
+                                                        sport="cyclisme"))
 
         # Fréquence cardiaque maximale
         max_hr = str(self._stats.max_heart_rate(date=date, sport="cyclisme"))
 
         # VO2max moyenne
-        average_vo2max = str(self._stats.average_vo2max(date=date, sport="cyclisme"))
+        average_vo2max = str(self._stats.average_vo2max(date=date,
+                                                        sport="cyclisme"))
 
         # VO2max max
         max_vo2max = str(self._stats.max_vo2max(date=date, sport="cyclisme"))
@@ -138,48 +150,54 @@ class Generate_pdf:
             text = report_file.read()
 
             # Remplacer le template
-            text = re.sub("RCACTIVITIES-NUMBER", training_number, text)
-            text = re.sub("RCRATIO", training_per_day, text)
-            text = re.sub("RCDURATION", total_duration, text)
-            text = re.sub("RCTOTAL-DISTANCE", total_distance, text)
+            text = re.sub("RCACTIVITIES-NUMBER", training_nb, text)
+            text = re.sub("RCRATIO", training_ratio, text)
+            text = re.sub("RCDURATION", duration, text)
+            text = re.sub("RCTOTAL-DISTANCE", distance, text)
             text = re.sub("RCAVERAGE-SPEED", average_speed, text)
             text = re.sub("RCAVERAGE-HR", average_hr, text)
             text = re.sub("RCMAX-HR", max_hr, text)
             text = re.sub("RCMAX-VO2", max_vo2max, text)
             text = re.sub("RCAVERAGE-VO2", average_vo2max, text)
-            text = re.sub("RCELEVATION", total_elevation, text)
+            text = re.sub("RCELEVATION", elevation, text)
             
             report_file.seek(0)
             report_file.write(text)
             report_file.truncate()
 
-        # RUNNING
+        # Running
 
         # Nombre d'entrainements total du mois
-        training_number = str(self._activities.get_number_activities(date=date, sport="running"))
-        training_per_day = str(self._stats.number_activities_per_day(date=date, sport="running"))
+        training_nb = str(self._activities.get_number_activities(date=date,
+                                                            sport="running"))
+        training_ratio = str(self._stats.number_activities_per_day(date=date,
+                                                            sport="running"))
 
         # Distance totale
-        total_distance = str(self._stats.total_distance(date=date, sport="running"))
+        distance = str(self._stats.total_distance(date=date, sport="running"))
 
         # Dénivelé
-        total_elevation = str(self._stats.total_elevation(date=date, sport="running"))
+        elevation = str(self._stats.total_elevation(date=date,
+                                                    sport="running"))
 
         # Temps total d'activité
-        total_duration = str(self._stats.activities_duration(date=date, sport="running"))
+        duration = str(self._stats.activities_duration(date=date,
+                                                       sport="running"))
 
         # Vitesse moyenne tous sports confondus
-        average_speed = str(self._stats.average_speed(date=date, sport="running"))
+        average_speed = str(self._stats.average_speed(date=date,
+                                                      sport="running"))
         
         # Fréquence cardiaque moyenne du mois
         average_hr = str(self._stats.average_heart_rate(date=date,
-                                                             sport="running"))
+                                                        sport="running"))
 
         # Fréquence cardiaque maximale
         max_hr = str(self._stats.max_heart_rate(date=date, sport="running"))
 
         # VO2max moyenne
-        average_vo2max = str(self._stats.average_vo2max(date=date, sport="running"))
+        average_vo2max = str(self._stats.average_vo2max(date=date,
+                                                        sport="running"))
 
         # VO2max max
         max_vo2max = str(self._stats.max_vo2max(date=date, sport="running"))
@@ -188,58 +206,66 @@ class Generate_pdf:
             text = report_file.read()
 
             # Remplacer le template
-            text = re.sub("RPACTIVITIES-NUMBER", training_number, text)
-            text = re.sub("RPRATIO", training_per_day, text)
-            text = re.sub("RPDURATION", total_duration, text)
-            text = re.sub("RPTOTAL-DISTANCE", total_distance, text)
+            text = re.sub("RPACTIVITIES-NUMBER", training_nb, text)
+            text = re.sub("RPRATIO", training_ratio, text)
+            text = re.sub("RPDURATION", duration, text)
+            text = re.sub("RPTOTAL-DISTANCE", distance, text)
             text = re.sub("RPAVERAGE-SPEED", average_speed, text)
             text = re.sub("RPAVERAGE-HR", average_hr, text)
             text = re.sub("RPMAX-HR", max_hr, text)
             text = re.sub("RPMAX-VO2", max_vo2max, text)
             text = re.sub("RPAVERAGE-VO2", average_vo2max, text)
-            text = re.sub("RPELEVATION", total_elevation, text)
+            text = re.sub("RPELEVATION", elevation, text)
             
             report_file.seek(0)
             report_file.write(text)
             report_file.truncate()
 
-        # NATATION
+        # Natation
 
         # Nombre d'entrainements total du mois
-        training_number = str(self._activities.get_number_activities(date=date, sport="natation"))
-        training_per_day = str(self._stats.number_activities_per_day(date=date, sport="natation"))
+        training_nb = str(self._activities.get_number_activities(date=date,
+                                                            sport="natation"))
+        training_ratio = str(self._stats.number_activities_per_day(date=date,
+                                                            sport="natation"))
 
         # Distance totale
-        total_distance = str(self._stats.total_distance(date=date, sport="natation"))
+        distance = str(self._stats.total_distance(date=date,
+                                                sport="natation"))
 
         # Temps total d'activité
-        total_duration = str(self._stats.activities_duration(date=date, sport="natation"))
+        duration = str(self._stats.activities_duration(date=date,
+                                                       sport="natation"))
 
         # Vitesse moyenne tous sports confondus
-        average_speed = str(self._stats.average_speed(date=date, sport="natation"))
+        average_speed = str(self._stats.average_speed(date=date,
+                                                      sport="natation"))
 
         with open(report_file_name, 'r+') as report_file:
             text = report_file.read()
 
             # Remplacer le template
-            text = re.sub("RNACTIVITIES-NUMBER", training_number, text)
-            text = re.sub("RNRATIO", training_per_day, text)
-            text = re.sub("RNDURATION", total_duration, text)
-            text = re.sub("RNTOTAL-DISTANCE", total_distance, text)
+            text = re.sub("RNACTIVITIES-NUMBER", training_nb, text)
+            text = re.sub("RNRATIO", training_ratio, text)
+            text = re.sub("RNDURATION", duration, text)
+            text = re.sub("RNTOTAL-DISTANCE", distance, text)
             text = re.sub("RNAVERAGE-SPEED", average_speed, text)
             
             report_file.seek(0)
             report_file.write(text)
             report_file.truncate()
 
-        # RENFO
+        # Renforcement musculaire
 
         # Nombre d'entrainements total du mois
-        training_number = str(self._activities.get_number_activities(date=date, sport="renfo"))
-        training_per_day = str(self._stats.number_activities_per_day(date=date, sport="renfo"))
+        training_nb = str(self._activities.get_number_activities(date=date,
+                                                            sport="renfo"))
+        training_ratio = str(self._stats.number_activities_per_day(date=date,
+                                                            sport="renfo"))
 
         # Temps total d'activité
-        total_duration = str(self._stats.activities_duration(date=date, sport="renfo"))
+        total_duration = str(self._stats.activities_duration(date=date,
+                                                             sport="renfo"))
         
         # Fréquence cardiaque moyenne
         average_hr = str(self._stats.average_heart_rate(date=date,
@@ -252,8 +278,8 @@ class Generate_pdf:
             text = report_file.read()
 
             # Remplacer le template
-            text = re.sub("RMACTIVITIES-NUMBER", training_number, text)
-            text = re.sub("RMRATIO", training_per_day, text)
+            text = re.sub("RMACTIVITIES-NUMBER", training_nb, text)
+            text = re.sub("RMRATIO", training_ratio, text)
             text = re.sub("RMDURATION", total_duration, text)
             text = re.sub("RMAVERAGE-HR", average_hr, text)
             text = re.sub("RMMAX-HR", max_hr, text)

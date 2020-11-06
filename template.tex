@@ -1,6 +1,5 @@
 % --------------------------------------------------------------------
-% RAPPORT MENSUEL ACTIVITE DE TRIATHLON
-% RDATE
+% RAPPORT ACTIVITE TRIATHLON
 % --------------------------------------------------------------------
 
 \documentclass[a4paper,french,11pt]{report}
@@ -10,7 +9,6 @@
 \usepackage{lmodern}
 \usepackage{titling}
 
-\usepackage{csquotes} % Pour les double quotes ""
 \usepackage{microtype}
 
 % Permet de faire des listes
@@ -32,32 +30,8 @@
 \titleformat{\chapter}[display]{\Huge\bfseries}{}{0pt}{\thechapter.\ }
 \titleformat{name=\chapter,numberless}[display]{\Huge\bfseries}{}{0pt}{}
 
-% Footer
-%\usepackage{fancyhdr}
-
-%\pagestyle{fancy}
-%\fancyhf{}
-
-%\fancyfoot[LE,LO]{Rapport triathlon}
-%\fancyfoot[CE,CO]{\thepage}
-%\fancyfoot[RE,RO]{RMONTH}
-
-% Une ligne en bas mais pas en haut
-%\renewcommand{\headrulewidth}{0.5pt}
-%\renewcommand{\footrulewidth}{0.5pt}
-
-\usepackage{hyperref}
-\hypersetup{
-    hyperfigures = true,
-    colorlinks = true,
-    linkcolor=black,
-    urlcolor=black,
-    citecolor=black
-}
-
 % Réduire espace avant chapitre
 \titlespacing*{\chapter}{0pt}{-20pt}{40pt}
-
 
 % --------------------------------------------------------------------
 % Definitions de commandes
@@ -116,17 +90,11 @@
 \newpage
 
 % ------------------------------------------------------------------------------
-% Sommaire
-% ------------------------------------------------------------------------------
-%\tableofcontents
-
-% ------------------------------------------------------------------------------
 % Statistiques globales tous sports confondus
 % ------------------------------------------------------------------------------
 
 \section*{Statistiques tous sports confondus}
-\thispagestyle{empty}
-
+\thispagestyle{empty} % Pas de numéro de page
 
 \noindent{\textbullet Nombre d'entraînements : \textbf{RACTIVITIES-NUMBER} - ratio de \textbf{RRATIO entraînement/jour}}\\
 \textbullet Distance totale parcourue : \textbf{RTOTAL-DISTANCE km} - avec \textbf{RELEVATION m} de dénivelé positif\\
