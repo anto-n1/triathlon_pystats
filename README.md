@@ -24,6 +24,7 @@ Commande pour récupérer les activités et le fichier activities.csv :
 ```bash
 git clone https://github.com/pe-st/garmin-connect-export.git
 cd garmin-connect-export
+
 # Récupérer toutes les activités
 python gcexport.py --username <email> -d ../activities --count all
 
@@ -31,11 +32,20 @@ python gcexport.py --username <email> -d ../activities --count all
 python gcexport.py --username <email> -d ../activities --count 1
 ```
 
-## Informations environnement développement
+Commandes pour générer les PDF :
+
+```bash
+en cours de rédaction...
+```
+
+## Informations
 
 * Version python : 3.8
+* Génération des PDF basée sur [LaTeX](https://www.latex-project.org)
+* Génération des graphiques basée sur [Matplotlib](https://matplotlib.org)
 
 ## TODO :
 
 * Génération de PDF anuelles et tous les temps
 * Ajouter des graphiques sur différents lieux : [atricle Medium](https://medium.com/@azholud/analysis-and-visualization-of-activities-from-garmin-connect-b3e021c62472)
+* Expliquer fonctionnement de la génération des PDF sur le Readme
