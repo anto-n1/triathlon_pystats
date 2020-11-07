@@ -4,12 +4,13 @@
 __author__ = "Antonin DOUILLARD"
 __email__ = "antonin.info@protonmail.com"
 __description__ = "Triathlon-pystats"
-__version__ = "0.2"
+__version__ = "1.0"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
 from datetime import timedelta
 import csv
 import sys
+import os
 
 class Parse_csv_activities:
 	"""
@@ -37,6 +38,11 @@ class Parse_csv_activities:
 
 		good_activities_names = self._sports
 		bad_activities_types = ['Swimming', 'Running', 'Cycling']
+
+		if not os.path.exists(self._activities_file):
+			print("Le fichier csv n'est pas trouvé.")
+			print("Veuillez télécharger les activités.")
+			sys.exit(1)
 
 		with open(self._activities_file, newline='') as csvfile:
 			reader = csv.DictReader(csvfile)
@@ -332,7 +338,7 @@ class Parse_csv_activities:
 		complete_date = self.verify_date(date=date)
 
 		# Connaître la liste des sports
-		sport = self.sport_list(sport=sport, sport_type="heart_rate")
+		sport = self.sport_list(sport=sport, sport_type="vo2max")
 
 		vo2max_list = []
 
@@ -518,6 +524,8 @@ class Parse_csv_activities:
 		not_elevation = [ "renfo", "natation" ]
 		not_special_distance = [ "renfo", "cyclisme" ]
 
+		not_vo2max = [ "renfo", "cyclisme", "natation"]
+
 		if sport == "natation" and sport_type == "heart_rate":
 			print("Aucune donnée de fréquence cardiaque disponible" \
 				  " en natation.")
@@ -536,6 +544,11 @@ class Parse_csv_activities:
 		elif (sport in not_special_distance) and (sport_type == "special_distance"):
 			print("Impossible de calculer des vitesses spécifiques pour le" \
 				  "cyclisme et le renforcement musculaire.")
+			sys.exit(1)
+
+		elif (sport in not_vo2max) and (sport_type == "vo2max"):
+			print("Impossible de calculer la vo2max le cyclisme," \
+				  " la natation et le renforcement musculaire.")
 			sys.exit(1)
 
 		if sport not in accepted_sports:
@@ -575,21 +588,54 @@ class Parse_csv_activities:
 				if item in sports:
 					sports.remove(item)
 
+		elif sport_type == "vo2max":
+			for item in not_vo2max:
+				if item in sports:
+					sports.remove(item)
+
 		return sports
+	
+	def month_name(self, date):
+		"""Connaître le nom du mois"""
+
+		month = date[5:7]
+		year = date[:4]
+
+		dict_month = {
+			"01": "Janvier",
+			"02": "Février",
+			"03": "Mars",
+			"04": "Avril",
+			"05": "Mai",
+			"06": "Juin",
+			"07": "Juillet",
+			"08": "Août",
+			"09": "Septembre",
+			"10": "Octobre",
+			"11": "Novembre",
+			"12": "Décembre"
+		}
+		
+		month_name = dict_month[month]+" "+year
+
+		return month_name
 
 	def verify_date(self, date):
 		"""
 		Vérifier la date données, et déduire si cette date est une année,
 		un mois ou un jour.
 
-		Retourne une liste contenant le type de date et la date
+		Retourne une liste contenant le type de date et la date sous la forme
+		date = [ "type", date, "où tronquer la date" ]
 		"""
 
 		if len(date) == 4:
-			date = ["year", date, 4]
+			date_name = "Année {}".format(date)
+			date = ["year", date, 4, date_name]
 
 		elif len(date) == 7:
-			date = ["month", date, 7]
+			month_name = self.month_name(date=date)
+			date = ["month", date, 7, month_name]
 
 		elif len(date) == 10:
 			date = ["day", date, 10]

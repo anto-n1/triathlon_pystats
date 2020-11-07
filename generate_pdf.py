@@ -4,7 +4,7 @@
 __author__ = "Antonin DOUILLARD"
 __email__ = "antonin.info@protonmail.com"
 __description__ = "Triathlon-pystats"
-__version__ = "0.2"
+__version__ = "1.0"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
 from shutil import copyfile
@@ -33,7 +33,13 @@ class Generate_pdf:
         Ce rapport contient des statistiques basiques sans historique
         """
         
-        self._activities.verify_date(date=date)
+        verify_date = self._activities.verify_date(date=date)
+
+        # Nom du mois et de l'année en français
+        month_name = verify_date[3]
+
+        if date == "all-time":
+            month_name = "Tous les temps"
 
         # Nom du fichier pdf à générer
         report_file_name = "statistiques-triathlon-{}.tex".format(date)
@@ -91,7 +97,7 @@ class Generate_pdf:
             text = report_file.read()
 
             # Remplacer les termes dans le template tex
-            text = re.sub("RDATE", date, text)
+            text = re.sub("RDATE", month_name, text)
             text = re.sub("RNAME", "Antonin", text)
             text = re.sub("RIMAGE", image_name, text)
             text = re.sub("RACTIVITIES-NUMBER", training_nb, text)
@@ -140,13 +146,6 @@ class Generate_pdf:
         # Fréquence cardiaque maximale
         max_hr = str(self._stats.max_heart_rate(date=date, sport="cyclisme"))
 
-        # VO2max moyenne
-        average_vo2max = str(self._stats.average_vo2max(date=date,
-                                                        sport="cyclisme"))
-
-        # VO2max max
-        max_vo2max = str(self._stats.max_vo2max(date=date, sport="cyclisme"))
-
         with open(report_file_name, 'r+') as report_file:
             text = report_file.read()
 
@@ -158,8 +157,6 @@ class Generate_pdf:
             text = re.sub("RCAVERAGE-SPEED", average_speed, text)
             text = re.sub("RCAVERAGE-HR", average_hr, text)
             text = re.sub("RCMAX-HR", max_hr, text)
-            text = re.sub("RCMAX-VO2", max_vo2max, text)
-            text = re.sub("RCAVERAGE-VO2", average_vo2max, text)
             text = re.sub("RCELEVATION", elevation, text)
             
             report_file.seek(0)
@@ -316,4 +313,4 @@ if __name__ == "__main__":
 
     pdf = Generate_pdf(activities_file="activities/activities.csv")
 
-    pdf.generate_report(date="2020-11")
+    pdf.generate_report(date="all-time")

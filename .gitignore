@@ -14,3 +14,4 @@ rapport-triathlon*
 *.synctex.gz
 *.toc
 images/graphs
+gcexport.log

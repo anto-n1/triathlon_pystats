@@ -13,36 +13,26 @@ Exemple du rendu PDF :
 
 La réalisation de statistiques se base sur un fichier "activities.csv",
 obtenu à partir de l'API Garmin Connect (Polar non compatible). Pour
-obtenir le fichier, il faut utiliser le script python
-[garmin-connect-export](https://github.com/pe-st/garmin-connect-export) sur
-Github.
-
-Commande pour récupérer les activités et le fichier activities.csv :
-
-```bash
-git clone https://github.com/pe-st/garmin-connect-export.git
-cd garmin-connect-export
-
-# Récupérer toutes les activités
-python gcexport.py --username <email> -d ../activities --count all
-
-# Récupérer la dernière activité
-python gcexport.py --username <email> -d ../activities --count 1
-```
+obtenir le fichier, le programme utilise
+[garmin-connect-export](https://github.com/pe-st/garmin-connect-export)
+disponible sur Github.
 
 Commandes pour générer les PDF :
 
 ```bash
-python triathlon-pystats.py --date
+# Télécharger les activités et générer un PDF
+python triathlon-pystats.py --mail-garmin <mail_garmin_connect@mail.com> --date 2020
+python triathlon-pystats.py -m <mail_garmin_connect@mail.com> -d 2020
 
-# OU
-
-python triathlon-pystats.py -d YYYY-MM-DD
+# Générer un rapport PDF sans télécharger les activités
+# Les activités doivent avoir été téléchargées au préalable
+python triathlon-pystats.py -d 2020
 
 # Afficher l'aide
 python triathlon-pystats.py --help
 ```
 
+Les formats de date disponibles sont : 'YYYY', 'YYYY-MM', 'YYYY-MM-DD', 'all-time'.
 
 ## Informations
 
@@ -53,12 +43,6 @@ python triathlon-pystats.py --help
 
 ## TODO :
 
-* Génération de PDF anuelles et tous les temps
-* Ajouter des graphiques sur différents lieux : 
 [atricle Medium](https://medium.com/@azholud/analysis-and-visualization-of-activities-from-garmin-connect-b3e021c62472)
-* Expliquer fonctionnement de la génération des PDF sur le Readme
-* Calculer le ratio pour tous les temps
 * Ajouter une classe triathlete.py ?
-* Ajouter le nom des mois
 * Faire des graphiques pour montrer des évolutions sur plusieurs mois
-* Ajoute la récupération d'activité via CLI

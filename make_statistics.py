@@ -4,13 +4,13 @@
 __author__ = "Antonin DOUILLARD"
 __email__ = "antonin.info@protonmail.com"
 __description__ = "Triathlon-pystats"
-__version = "0.2"
+__version = "1.0"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
 
 import sys
 from statistics import mean
-from datetime import timedelta
+import datetime
 
 from parse_csv_activities import Parse_csv_activities
 
@@ -82,7 +82,7 @@ class Make_statistics:
         return max_heart_rate
     
     def number_activities_per_day(self, date, sport):
-        """Calculer le nombre de jours dans un mois"""
+        """Calculer le ratio du nombre d'activité par jour"""
         # TODO : gérer les années bissextiles
 
         type_date = self._activities.verify_date(date=date)
@@ -114,32 +114,37 @@ class Make_statistics:
                 sport=sport
             )
 
-            max_year = max(days_list[:4])
-            max_month = max(days_list[5:7])
-            max_day = max(days_list[8:10])
+            date_list = []
 
-            for day in days_list:
-                min_year = 
+            for d in days_list:
+
+                year = int(d[:4])
+                month = int(d[5:7])
+                day = int(d[8:10])
+
+                date_activity = datetime.date(year, month, day)
+                date_list.append(date_activity)
             
+            min_day = min(date_list)
+            today = datetime.date.today()
+
+            nb_days = (today-min_day).days
             
-
-            #days = len(days_list)
-
         elif type_date == "year":
-            days = 365
+            nb_days = 365
         
         elif type_date == "month":
             month = date[5:]
-            days = number_days_month[month]
+            nb_days = number_days_month[month]
         
         elif type_date == "day":
-            days = 1
+            nb_days = 1
         
         number_activities = self._activities.get_number_activities(
             date=date,
             sport=sport)
 
-        activities_per_day = number_activities / days
+        activities_per_day = number_activities / nb_days
         activities_per_day = round(activities_per_day, 2)
         
         return activities_per_day
@@ -243,7 +248,7 @@ class Make_statistics:
     def activities_duration(self, date, sport):
         """Calculer des sommes de temps d'activités"""
 
-        total_duration = timedelta(hours=0, minutes=0, seconds=0)
+        total_duration = datetime.timedelta(hours=0, minutes=0, seconds=0)
         list_duration = self._activities.get_duration_list(date=date,
                                                            sport=sport)
 
@@ -252,9 +257,9 @@ class Make_statistics:
             minutes = int(duration[3:5])
             seconds = int(duration[6:8])
 
-            total_duration += timedelta(hours=hours,
-                                        minutes=minutes,
-                                        seconds=seconds)
+            total_duration += datetime.timedelta(hours=hours,
+                                                 minutes=minutes,
+                                                 seconds=seconds)
         
         return total_duration
 
@@ -300,4 +305,4 @@ if __name__ == "__main__":
 
 	stats = Make_statistics("activities/activities.csv")
 
-	print(stats.number_activities_per_day(date="all-time", sport="all"))
+	print(stats.max_vo2max(date="all-time", sport="cyclisme"))
