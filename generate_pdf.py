@@ -36,7 +36,7 @@ class Generate_pdf:
         self._activities.verify_date(date=date)
 
         # Nom du fichier pdf à générer
-        report_file_name = "rapport-triathlon-{}.tex".format(date)
+        report_file_name = "statistiques-triathlon-{}.tex".format(date)
         copyfile("template.tex", report_file_name)
 
         # Choix de l'image à afficher sur la page de titre
@@ -56,7 +56,8 @@ class Generate_pdf:
         distance = str(self._stats.total_distance(date=date, sport="all"))
 
         # Dénivelé
-        total_elevation = str(self._stats.total_elevation(date=date, sport="all"))
+        total_elevation = str(self._stats.total_elevation(date=date,
+                                                          sport="all"))
 
         # Temps total d'activité
         duration = str(self._stats.activities_duration(date=date,sport="all"))

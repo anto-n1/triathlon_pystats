@@ -100,8 +100,10 @@ class Create_graphics:
         if os.path.exists(filename):
             os.remove(filename)
 
-        distance_cycling = self._stats.total_distance(date=date,
-                                                      sport="cyclisme")
+        distance_cycling = self._stats.total_distance(
+            date=date,
+            sport="cyclisme")
+
         distance_running = self._stats.total_distance(date=date,
                                                       sport="running")
         distance_natation = self._stats.total_distance(date=date,
@@ -235,11 +237,15 @@ class Create_graphics:
         location_3 = "Cholet"
         location_4 = "Autre"
 
-        location_cycling_dict = self._stats.activities_location(date=date,
-            sport="cyclisme")
+        location_cycling_dict = self._stats.activities_location(
+            date=date,
+            sport="cyclisme"
+        )
         
-        location_running_dict = self._stats.activities_location(date=date,
-            sport="running")
+        location_running_dict = self._stats.activities_location(
+            date=date,
+            sport="running"
+        )
 
         nb_location_1 = location_cycling_dict[location_1] + location_running_dict[location_1]
         nb_location_2 = location_cycling_dict[location_2] + location_running_dict[location_2]

@@ -108,23 +108,43 @@ class Make_statistics:
         }
 
         if type_date == "all-time":
-            print("Il n'est pas encore possible de calculer le ratio pour " \
-                  "la période 'all-time'.")
-            sys.exit(1)
+            
+            days_list = self._activities.get_date_activities_list(
+                date=date,
+                sport=sport
+            )
+
+            max_year = max(days_list[:4])
+            max_month = max(days_list[5:7])
+            max_day = max(days_list[8:10])
+
+            for day in days_list:
+                min_year = 
+            
+            
+
+            #days = len(days_list)
+
         elif type_date == "year":
             days = 365
+        
         elif type_date == "month":
             month = date[5:]
             days = number_days_month[month]
+        
         elif type_date == "day":
             days = 1
         
-        number_activities = self._activities.get_number_activities(date=date, sport=sport)
+        number_activities = self._activities.get_number_activities(
+            date=date,
+            sport=sport)
+
         activities_per_day = number_activities / days
         activities_per_day = round(activities_per_day, 2)
         
         return activities_per_day
-    
+
+
     def total_distance(self, date, sport):
         """Calcul du total de distance"""
 
@@ -137,6 +157,7 @@ class Make_statistics:
 
         total_distance = round(total_distance, 2)
         return total_distance
+
 
     def average_speed(self, date, sport):
         """Calcul de la vitesse moyenne en km/h"""
@@ -151,6 +172,7 @@ class Make_statistics:
 
         return average_speed
     
+
     def average_vo2max(self, date, sport):
         """Calcul de la VO2max moyenne"""
 
@@ -165,6 +187,7 @@ class Make_statistics:
 
         return average_vo2max
     
+
     def max_vo2max(self, date, sport):
         """Calcul de la vo2max maximale enregistré"""
 
@@ -179,6 +202,7 @@ class Make_statistics:
 
         return max_vo2max
     
+
     def max_elevation(self, date, sport):
         """Calcul du dénivelé maximal enregistré"""
 
@@ -193,6 +217,7 @@ class Make_statistics:
             max_elevation = max(list_elevation)
 
         return max_elevation
+
 
     def total_elevation(self, date, sport):
         """Calcul du dénivelé total enregistré"""
@@ -214,6 +239,7 @@ class Make_statistics:
             
         return total_elevation
     
+
     def activities_duration(self, date, sport):
         """Calculer des sommes de temps d'activités"""
 
@@ -231,6 +257,7 @@ class Make_statistics:
                                         seconds=seconds)
         
         return total_duration
+
 
     def activities_location(self, date, sport):
         """
@@ -273,4 +300,4 @@ if __name__ == "__main__":
 
 	stats = Make_statistics("activities/activities.csv")
 
-	print(stats.total_elevation(date="2021", sport="cyclisme"))
+	print(stats.number_activities_per_day(date="all-time", sport="all"))
