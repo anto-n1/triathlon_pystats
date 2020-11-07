@@ -32,7 +32,7 @@ python triathlon-pystats.py -d 2020
 python triathlon-pystats.py --help
 ```
 
-Les formats de date disponibles sont : 'YYYY', 'YYYY-MM', 'YYYY-MM-DD', 'all-time'.
+Les formats de date disponibles sont : "YYYY", "YYYY-MM", "YYYY-MM-DD", "all-time".
 
 ## Informations
 
@@ -44,5 +44,4 @@ Les formats de date disponibles sont : 'YYYY', 'YYYY-MM', 'YYYY-MM-DD', 'all-tim
 ## TODO :
 
 [atricle Medium](https://medium.com/@azholud/analysis-and-visualization-of-activities-from-garmin-connect-b3e021c62472)
-* Ajouter une classe triathlete.py ?
 * Faire des graphiques pour montrer des évolutions sur plusieurs mois
