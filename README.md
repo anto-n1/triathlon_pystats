@@ -28,11 +28,13 @@ python triathlon-pystats.py -m <mail_garmin_connect@mail.com> -d 2020
 
 * Générer un rapport PDF sans télécharger les activités (Les activités doivent
 avoir été téléchargées au préalable)
+
 ```bash
 python triathlon-pystats.py -d 2020
 ```
 
 * Afficher l'aide
+
 ```bash
 python triathlon-pystats.py --help
 ```
