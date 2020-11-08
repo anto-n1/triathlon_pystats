@@ -308,6 +308,52 @@ class Generate_pdf:
 
         print("\nFichier généré dans {}.".format(report_file_name.replace("tex", "pdf")))
 
+    def generate_report_history(self, date):
+        """
+        Générer rapport annuel/tous les temps avec historique de temps
+        Ce rapport contient des statistiques pour évaluer la progression
+        """
+        
+        verify_date = self._activities.verify_date(date=date)
+
+        # Nom du mois et de l'année en français
+        month_name = verify_date[3]
+
+        # Nom du fichier pdf à générer
+        report_file_name = "statistiques-triathlon-{}.tex".format(date)
+        copyfile("template.tex", report_file_name)
+
+        if date == "all-time":
+            month_name = "Tous les temps"
+
+            today = datetime.date.today()
+            generation_date = today.strftime("%b-%d-%Y")
+
+            date_text = month_name + " (au " + generation_date + ")"
+
+            with open(report_file_name, 'r+') as report_file:
+                text = report_file.read()
+
+                # Remplacer les termes dans le template tex
+                text = re.sub("RDATE", date_text, text)
+
+                report_file.seek(0)
+                report_file.write(text)
+                report_file.truncate()
+
+
+        # Choix de l'image à afficher sur la page de titre
+        # Image choisie au hasard parmis les 8 disponibles
+        image_number = random.randrange(start=1, stop=8, step=1)
+        image_name = "triathlon-{}.png".format(image_number)
+
+        # Page 1 : tous sports confondus
+
+        # Compilation fichier tex
+        self.compile_latex_pdf(report_file_name)
+
+        print("\nFichier généré dans {}.".format(report_file_name.replace("tex", "pdf")))
+
     def compile_latex_pdf(self, tex_filename):
         """
         Compiler le fichier .tex et supprimer les fichiers inutiles

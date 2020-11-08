@@ -1,0 +1,245 @@
+% --------------------------------------------------------------------
+% RAPPORT ACTIVITE TRIATHLON
+% --------------------------------------------------------------------
+
+\documentclass[a4paper,french,11pt]{report}
+
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{titling}
+
+\usepackage{microtype}
+
+% Permet de faire des listes
+\usepackage{blindtext}
+\usepackage{enumitem}
+
+% Permet d'utiliser les légendes sur les photos et tableaux 
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+
+\usepackage{xcolor}
+\usepackage[hmargin=1cm,vmargin=1.5cm]{geometry}
+
+\usepackage{graphicx}
+\graphicspath{{images/}}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]{\Huge\bfseries}{}{0pt}{\thechapter.\ }
+\titleformat{name=\chapter,numberless}[display]{\Huge\bfseries}{}{0pt}{}
+
+% Réduire espace avant chapitre
+\titlespacing*{\chapter}{0pt}{-20pt}{40pt}
+
+% --------------------------------------------------------------------
+% Definitions de commandes
+% --------------------------------------------------------------------
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}} 	% Ligne horizontale
+
+\makeatletter							% Titre
+\def\printtitle{%						
+    {\centering \@title\par}}
+\makeatother									
+
+\makeatletter							% Auteur
+\def\printauthor{%					
+    {\centering \large \@author}}				
+\makeatother							
+
+% --------------------------------------------------------------------
+% Métadonnées
+% --------------------------------------------------------------------
+\title{	\normalsize \textsc{\uppercase{ironman project}}
+		 	\\[1.2cm]
+			\HRule{0.7pt} \\
+			\vspace{0.5cm}
+			\LARGE \textbf{\uppercase{statistiques triathlon}}
+			\HRule{1pt} \\
+			\vspace{1.7cm}
+		}
+
+\author{
+		\textbf{RNAME}\\
+}
+
+% ------------------------------------------------------------------------------
+% Debut du document
+% ------------------------------------------------------------------------------
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% Page de titre
+% ------------------------------------------------------------------------------
+
+\thispagestyle{empty}		% Supprimer numéro de page sur cette page
+
+\printtitle					% Afficher le titre défini ci-dessus
+\printauthor				% Afficher l'auteur défini ce-dessus
+
+\vspace{1cm}
+
+\begin{center}
+
+\LARGE{\textbf{RDATE}}\\
+\vspace{4cm}
+\includegraphics[height=6cm]{RIMAGE}\\
+
+\end{center}
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% Statistiques globales tous sports confondus
+% ------------------------------------------------------------------------------
+
+\section*{Statistiques tous sports confondus RDATE}
+\thispagestyle{empty} % Pas de numéro de page
+
+\vspace{0.5cm}
+
+\textbullet Nombre d'entraînements : \textbf{RACTIVITIES-NUMBER} -
+ratio de \textbf{RRATIO entraînement/jour}
+
+\textbullet Distance totale parcourue : \textbf{RTOTAL-DISTANCE km} -
+avec \textbf{RELEVATION m} de dénivelé positif
+
+\textbullet Temps total d'activité : \textbf{RDURATION}
+
+\textbullet Vitesse moyenne : \textbf{RAVERAGE-SPEED km/h}
+
+\textbullet Fréquence cardiaque moyenne : \textbf{RAVERAGE-HR bpm} -
+maximale atteinte \textbf{RMAX-HR bpm}
+
+\textbullet VO2max moyenne approximative : \textbf{RAVERAGE-VO2 ml/kg/min} -
+maximale atteinte \textbf{RMAX-VO2 ml/kg/min}
+
+\vspace{1cm}
+
+\begin{figure}[!ht]
+\begin{subfigure}{.49\linewidth}
+
+\centering
+
+%\includegraphics[width=0.5\textwidth]{graphs/repartition_temps.png}
+\includegraphics[width=\linewidth]{graphs/repartition_temps.png}
+\caption*{Répartition du temps passé}
+
+\end{subfigure}\hfill
+\begin{subfigure}{.49\linewidth}
+
+\centering
+
+\includegraphics[width=\linewidth]{graphs/repartition_distance.png}
+\caption*{Répartition des distances parcourues}
+
+\end{subfigure}
+
+\end{figure}
+
+
+\begin{figure}[!ht]
+\begin{subfigure}{.49\linewidth}
+
+\centering
+
+\includegraphics[width=\linewidth]{graphs/repartition_nombre_activites.png}
+\caption*{Répartition du nombre d'activités}
+
+\end{subfigure}\hfill
+\begin{subfigure}{.49\linewidth}
+
+\centering
+
+\includegraphics[width=\linewidth]{graphs/repartition_place.png}
+\caption*{Répartition des lieux d'activité (running et cyclisme)}
+
+\end{subfigure}
+
+\end{figure}
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% Statistiques pour la natation
+% ------------------------------------------------------------------------------
+
+\section*{Statistiques natation}
+\thispagestyle{empty}
+
+
+\textbullet Nombre d'entraînements : \textbf{RNACTIVITIES-NUMBER} -
+ratio de \textbf{RNRATIO entraînement/jour}
+
+\textbullet Distance totale parcourue : \textbf{RNTOTAL-DISTANCE km}
+
+\textbullet Temps total d'activité : \textbf{RNDURATION}
+
+\textbullet Vitesse moyenne : \textbf{RNAVERAGE-SPEED km/h}
+
+% ------------------------------------------------------------------------------
+% Statistiques pour le cyclisme
+% ------------------------------------------------------------------------------
+
+\section*{Statistiques cyclisme}
+\thispagestyle{empty}
+
+
+\textbullet Nombre d'entraînements : \textbf{RCACTIVITIES-NUMBER} -
+ratio de \textbf{RCRATIO entraînement/jour}
+
+\textbullet Distance totale parcourue : \textbf{RCTOTAL-DISTANCE km} -
+avec \textbf{RCELEVATION m} de dénivelé positif
+
+\textbullet Temps total d'activité : \textbf{RCDURATION}
+
+\textbullet Vitesse moyenne : \textbf{RCAVERAGE-SPEED km/h}
+
+\textbullet Fréquence cardiaque moyenne : \textbf{RCAVERAGE-HR bpm} -
+maximale atteinte \textbf{RCMAX-HR bpm}
+
+% ------------------------------------------------------------------------------
+% Statistiques pour le running
+% ------------------------------------------------------------------------------
+
+\section*{Statistiques running}
+\thispagestyle{empty}
+
+
+\textbullet Nombre d'entraînements : \textbf{RPACTIVITIES-NUMBER} -
+ratio de \textbf{RPRATIO entraînement/jour}
+
+\textbullet Distance totale parcourue : \textbf{RPTOTAL-DISTANCE km} -
+avec \textbf{RPELEVATION m} de dénivelé positif
+
+\textbullet Temps total d'activité : \textbf{RPDURATION}
+
+\textbullet Vitesse moyenne : \textbf{RPAVERAGE-SPEED km/h}
+
+\textbullet Fréquence cardiaque moyenne : \textbf{RPAVERAGE-HR bpm} -
+maximale atteinte \textbf{RPMAX-HR bpm}
+
+\textbullet VO2max moyenne approximative : \textbf{RPAVERAGE-VO2 ml/kg/min} -
+maximale atteinte \textbf{RPMAX-VO2 ml/kg/min}
+
+% ------------------------------------------------------------------------------
+% Statistiques pour le renforcement musculaire
+% ------------------------------------------------------------------------------
+
+\section*{Statistiques renforcement musculaire}
+\thispagestyle{empty}
+
+
+\textbullet Nombre d'entraînements : \textbf{RMACTIVITIES-NUMBER} -
+ratio de \textbf{RMRATIO entraînement/jour}
+
+\textbullet Temps total d'activité : \textbf{RMDURATION}
+
+\textbullet Fréquence cardiaque moyenne : \textbf{RMAVERAGE-HR bpm} -
+maximale atteinte \textbf{RMMAX-HR bpm}
+
+% ------------------------------------------------------------------------------
+% Fin du document
+% ------------------------------------------------------------------------------
+\end{document}
