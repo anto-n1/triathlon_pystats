@@ -10,6 +10,7 @@ __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 from git import Repo
 import os
 import shutil
+import sys
 
 class Download_data:
     """
@@ -43,9 +44,26 @@ class Download_data:
 
         if self._number == "all":
             if os.path.exists("activities"):
-                shutil.rmtree("activities")
 
-        os.system("python garmin-connect-export/gcexport.py --username {} -d activities --count {}".format(self._garmin_connect_mail, self._number))
+                print("Un répertoire d'activités est déjà présent.")
+                question = "Shouaitez-vous supprimer ce répertoire et les télécharger à nouveau ? (y/n) "
+                
+                choice = input(question).lower()
+                
+                yes = {'yes','y', 'ye', ''}
+                no = {'no','n'}
+                
+                if choice in yes:
+                    shutil.rmtree("activities")
+                    os.system("python garmin-connect-export/gcexport.py --username {} -d activities --count {}".format(self._garmin_connect_mail, self._number))
+
+                elif choice in no:
+                    pass
+
+                else:
+                    sys.stdout.write("Please respond with 'yes' or 'no'")
+                    
+
 
 
 if __name__ == "__main__":

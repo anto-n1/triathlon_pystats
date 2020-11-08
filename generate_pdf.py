@@ -12,6 +12,7 @@ import re
 import os
 import random
 import sys
+import datetime
 
 from create_graphics import Create_graphics
 from make_statistics import Make_statistics
@@ -38,12 +39,28 @@ class Generate_pdf:
         # Nom du mois et de l'année en français
         month_name = verify_date[3]
 
-        if date == "all-time":
-            month_name = "Tous les temps"
-
         # Nom du fichier pdf à générer
         report_file_name = "statistiques-triathlon-{}.tex".format(date)
         copyfile("template.tex", report_file_name)
+
+        if date == "all-time":
+            month_name = "Tous les temps"
+
+            today = datetime.date.today()
+            generation_date = today.strftime("%b-%d-%Y")
+
+            date_text = month_name + " (au " + generation_date + ")"
+
+            with open(report_file_name, 'r+') as report_file:
+                text = report_file.read()
+
+                # Remplacer les termes dans le template tex
+                text = re.sub("RDATE", date_text, text)
+
+                report_file.seek(0)
+                report_file.write(text)
+                report_file.truncate()
+
 
         # Choix de l'image à afficher sur la page de titre
         # Image choisie au hasard parmis les 8 disponibles
