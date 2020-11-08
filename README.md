@@ -17,18 +17,23 @@ obtenir le fichier, le programme utilise
 [garmin-connect-export](https://github.com/pe-st/garmin-connect-export)
 disponible sur Github.
 
-Commandes pour générer les PDF :
+**Commandes pour générer les PDF** :
+
+* Télécharger les activités et générer un PDF
 
 ```bash
-# Télécharger les activités et générer un PDF
 python triathlon-pystats.py --mail-garmin <mail_garmin_connect@mail.com> --date 2020
 python triathlon-pystats.py -m <mail_garmin_connect@mail.com> -d 2020
+```
 
-# Générer un rapport PDF sans télécharger les activités
-# Les activités doivent avoir été téléchargées au préalable
+* Générer un rapport PDF sans télécharger les activités (Les activités doivent
+avoir été téléchargées au préalable)
+```bash
 python triathlon-pystats.py -d 2020
+```
 
-# Afficher l'aide
+* Afficher l'aide
+```bash
 python triathlon-pystats.py --help
 ```
 
@@ -41,7 +46,12 @@ Les formats de date disponibles sont : "YYYY", "YYYY-MM", "YYYY-MM-DD", "all-tim
 * Génération des graphiques basée sur [Matplotlib](https://matplotlib.org)
 * Développé sous Linux Fedora 33 et macOS 10.15.7, non testé sur Windows 10
 
-## TODO :
+**Dépendances pip à installer** :
 
-[atricle Medium](https://medium.com/@azholud/analysis-and-visualization-of-activities-from-garmin-connect-b3e021c62472)
+* [matplotlib](https://pypi.org/project/matplotlib)
+* [gitpython](https://pypi.org/project/GitPython)
+
+## Idées d'améliorations
+
+* Réaliser des cartes à partir des fichiers gpx avec Folium
 * Faire des graphiques pour montrer des évolutions sur plusieurs mois

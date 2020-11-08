@@ -7,7 +7,6 @@ __description__ = "Triathlon-pystats"
 __version = "1.0"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
-
 import sys
 from statistics import mean
 import datetime

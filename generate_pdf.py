@@ -54,9 +54,9 @@ class Generate_pdf:
 
         # Nombre d'entrainements total du mois
         training_nb = str(self._activities.get_number_activities(date=date,
-                                                                sport="all"))
+                                                                 sport="all"))
         training_ratio = str(self._stats.number_activities_per_day(date=date,
-                                                                sport="all"))
+                                                                   sport="all"))
 
         # Distance totale
         distance = str(self._stats.total_distance(date=date, sport="all"))
