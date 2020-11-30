@@ -8,8 +8,11 @@ __version__ = "1.0"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
 import os
-import matplotlib.pyplot as plt
 from datetime import timedelta
+
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+import numpy as np
 
 from parse_csv_activities import Parse_csv_activities
 from make_statistics import Make_statistics
@@ -297,10 +300,26 @@ class Create_graphics:
         #plt.show()
         plt.savefig(filename, dpi=800, bbox_inches="tight")
         plt.close()
+
+    def distance_history(self, date):
+        """Graphique permettant de visualiser l'historique
+        des distances parcourues mensuellement"""
+
+        #if len(date) == 4:
+
+        x = np.arange(12)
+
+        distance = self._activities.get_distances_list(date=date, sport="all")
+
+        fig, ax = plt.subplots()
+        ax.yaxis.set_major_formatter(distance)
+        plt.bar(x, distance)
+        plt.xticks(x, ('Jan', 'Fev', 'Mar', 'Avr', "Mai", "Juin", "Jui", "Aou", "Sep", "Oct", "Nov", "Dec"))
+        plt.show()
         
 
 if __name__ == "__main__":
 
 	graphs = Create_graphics(activities_file="activities/activities.csv")
 
-	graphs.location_sharing_all_sports(date="2020")
+	graphs.distance_history(date="2020")
