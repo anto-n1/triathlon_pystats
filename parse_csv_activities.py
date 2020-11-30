@@ -24,7 +24,7 @@ class Parse_csv_activities:
 			"Trail Running", "Street Running",
 			"Road Cycling", "Mountain Biking",
 			"Open Water Swimming", "Pool Swimming",
-			"Strength Training"
+			"Strength Training", "Hiking"
 			]
 		self.verify_csv()
 
