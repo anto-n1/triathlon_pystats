@@ -9,6 +9,7 @@ __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
 import argparse
 import sys
+import os
 
 from generate_pdf import Generate_pdf
 from download_data import Download_data
@@ -17,6 +18,11 @@ from download_data import Download_data
 def main():
     parser = argparse.ArgumentParser()
     
+    if not os.path.exists("activities"):
+        print("Aucun répertoire d'activités trouvé.")
+        print("Création d'un répertoire.")
+        os.mkdir("activities")
+
     # A l'avenir, pour génération graphiques
     #parser.add_argument("-g", "--generate", help="Choix du pdf à générer", action="store_true")
 

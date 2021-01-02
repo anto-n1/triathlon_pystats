@@ -61,10 +61,7 @@ class Download_data:
                     pass
 
                 else:
-                    sys.stdout.write("Please respond with 'yes' or 'no'")
-                    
-
-
+                    sys.stdout.write("Merci de répondre par 'yes' ou 'no'.")
 
 if __name__ == "__main__":
 
