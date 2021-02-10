@@ -148,7 +148,6 @@ class Make_statistics:
         
         return activities_per_day
 
-
     def total_distance(self, date, sport):
         """Calcul du total de distance"""
 

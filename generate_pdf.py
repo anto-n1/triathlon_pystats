@@ -141,8 +141,15 @@ class Generate_pdf:
         training_ratio = str(self._stats.number_activities_per_day(date=date,
                                                             sport="cyclisme"))
 
+        # Nombre d'entrainements total home trainer du mois
+        training_nb_ht = str(self._activities.get_number_activities(date=date,
+                                                            sport="home_trainer"))
+
         # Distance totale
         distance = str(self._stats.total_distance(date=date,sport="cyclisme"))
+
+        # Distance totale home trainer
+        distance_ht = str(self._stats.total_distance(date=date,sport="home_trainer"))
 
         # Dénivelé
         elevation = str(self._stats.total_elevation(date=date,
@@ -168,9 +175,11 @@ class Generate_pdf:
 
             # Remplacer le template
             text = re.sub("RCACTIVITIES-NUMBER", training_nb, text)
+            text = re.sub("RHOMETRAINER-NUMBER", training_nb_ht, text)
             text = re.sub("RCRATIO", training_ratio, text)
             text = re.sub("RCDURATION", duration, text)
             text = re.sub("RCTOTAL-DISTANCE", distance, text)
+            text = re.sub("RCTOTALHT-DISTANCE", distance_ht, text)
             text = re.sub("RCAVERAGE-SPEED", average_speed, text)
             text = re.sub("RCAVERAGE-HR", average_hr, text)
             text = re.sub("RCMAX-HR", max_hr, text)

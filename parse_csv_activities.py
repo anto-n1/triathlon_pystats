@@ -23,6 +23,8 @@ class Parse_csv_activities:
 		self._sports = [
 			"Trail Running", "Street Running",
 			"Road Cycling", "Mountain Biking",
+			"Indoor Cycling", # Cyclisme en intérieur (non virtuel, sans application ordinateur)
+			"Virtual Cycling", # Cyslicme virtuel (zwift)
 			"Open Water Swimming", "Pool Swimming",
 			"Strength Training", "Hiking"
 			]
@@ -519,12 +521,12 @@ class Parse_csv_activities:
 		- vitesse ou distance en renforcement musculaire
 		"""
 
-		accepted_sports = ["all", "cyclisme", "running", "natation", "renfo"]
+		accepted_sports = ["all", "cyclisme", "home_trainer", "running", "natation", "renfo"]
 
 		not_elevation = [ "renfo", "natation" ]
 		not_special_distance = [ "renfo", "cyclisme" ]
 
-		not_vo2max = [ "renfo", "cyclisme", "natation"]
+		not_vo2max = [ "renfo", "cyclisme", "home_trainer", "natation"]
 
 		if sport == "natation" and sport_type == "heart_rate":
 			print("Aucune donnée de fréquence cardiaque disponible" \
@@ -565,7 +567,9 @@ class Parse_csv_activities:
 		if sport == "all":
 			sports = self._sports
 		elif sport == "cyclisme":
-			sports = ["Road Cycling", "Mountain Biking"]
+			sports = ["Road Cycling", "Mountain Biking", "Virtual Cycling", "Indoor Cycling"]
+		elif sport == "home_trainer":
+			sports = ["Virtual Cycling", "Indoor Cycling"]
 		elif sport == "running":
 			sports = ["Street Running", "Trail Running"]
 		elif sport == "renfo":
@@ -674,4 +678,4 @@ if __name__ == "__main__":
 
 	activities = Parse_csv_activities("activities/activities.csv")
 
-	print(activities.get_date_activities_list(date="2020", sport="renfo"))
+	print(activities.get_distances_list(date="2020", sport="home_trainer"))
