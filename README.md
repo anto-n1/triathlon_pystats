@@ -56,18 +56,4 @@ Les formats de date disponibles sont : "YYYY", "YYYY-MM", "YYYY-MM-DD", "all-tim
 
 ## Idées d'améliorations
 
-* Réaliser des cartes à partir des fichiers gpx avec Folium
 * Faire des graphiques pour montrer des évolutions sur plusieurs mois
-
-## TODO v2.0
-
-* Choisir les diagrammes
-    * Moyenne des rythmes cardiaques
-    * Vitesses moyenne
-    * Temps d'activité
-    * Distance totale
-    * VO2max
-    * Dans chaque sport
-* Préparer les données
-* Générer les graphiques
-* Générer le PDF
