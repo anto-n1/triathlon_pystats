@@ -154,6 +154,10 @@ class Generate_pdf:
         # Dénivelé
         elevation = str(self._stats.total_elevation(date=date,
                                                     sport="cyclisme"))
+                                                    
+        # Dénivelé home trainer
+        elevation_ht = str(self._stats.total_elevation(date=date,
+                                                    sport="home_trainer"))
 
         # Temps total d'activité
         duration = str(self._stats.activities_duration(date=date,
@@ -184,6 +188,7 @@ class Generate_pdf:
             text = re.sub("RCAVERAGE-HR", average_hr, text)
             text = re.sub("RCMAX-HR", max_hr, text)
             text = re.sub("RCELEVATION", elevation, text)
+            text = re.sub("RCELEVHT", elevation_ht, text)
             
             report_file.seek(0)
             report_file.write(text)
