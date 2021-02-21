@@ -13,6 +13,7 @@ from datetime import timedelta
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 import numpy as np
+import pandas as pd
 
 from parse_csv_activities import Parse_csv_activities
 from make_statistics import Make_statistics
@@ -317,9 +318,51 @@ class Create_graphics:
         plt.xticks(x, ('Jan', 'Fev', 'Mar', 'Avr', "Mai", "Juin", "Jui", "Aou", "Sep", "Oct", "Nov", "Dec"))
         plt.show()
         
+    def distribution_ht_road(self, date):
+        """Graphique permettant de visualiser la répartition des km
+        réalisés sur route et sur home trainer en vélo"""
+
+        filename = "images/graphs/repartition_distances_velo.png"
+        if os.path.exists(filename):
+            os.remove(filename)
+
+        km_ht = self._stats.total_distance(date=date,sport="home_trainer")
+        km_total = self._stats.total_distance(date=date,sport="cyclisme")
+        km_road = km_total - km_ht
+
+        ## Default
+        df_bar = pd.DataFrame([km_road, km_ht], index=['Route', 'Home trainer'], columns=['growth'])
+        df_bar.plot(kind='barh')
+
+        # 1. Delete legend legend=False
+        # 2. Tighten the space between bars width=0.8
+        width = 0.8
+        fig, ax = plt.subplots(figsize=(6, 3))
+        df_bar.plot(kind='barh', legend=False, ax=ax, width=width)
+        # 3. Re-order the y-axis
+        ax.invert_yaxis()
+
+        # 4. Delete the square spines
+        [spine.set_visible(False) for spine in ax.spines.values()]
+
+        # 5. Delete ticks for x and y axis
+        # 6. Delete tick label for x axis
+        ax.tick_params(bottom=False, left=False, labelbottom=False)
+
+        # 7. Increase the size of the label for y axis
+        ax.tick_params(axis='y', labelsize='x-large')
+
+        # 8. Display each value next to the bar
+        vmax = df_bar['growth'].max()
+
+        for i, value in enumerate(df_bar['growth']):
+            ax.text(value+vmax*0.02, i, f'{value:,}', fontsize='x-large', va='center', color='C0')
+
+        plt.savefig(filename, dpi=800, bbox_inches="tight")
+        plt.close()
 
 if __name__ == "__main__":
 
 	graphs = Create_graphics(activities_file="activities/activities.csv")
 
-	graphs.distance_history(date="2020")
+	graphs.distribution_ht_road(date="2021")
