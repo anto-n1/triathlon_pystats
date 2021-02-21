@@ -52,7 +52,7 @@ Les formats de date disponibles sont : "YYYY", "YYYY-MM", "YYYY-MM-DD", "all-tim
 
 * [matplotlib](https://pypi.org/project/matplotlib)
 * [gitpython](https://pypi.org/project/GitPython)
-
+* [pandas](https://pypi.org/project/pandas)
 ## Idées d'améliorations
 
 * Réaliser des cartes à partir des fichiers gpx avec Folium
