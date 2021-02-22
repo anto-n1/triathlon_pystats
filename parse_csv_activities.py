@@ -24,7 +24,7 @@ class Parse_csv_activities:
 			"Trail Running", "Street Running",
 			"Road Cycling", "Mountain Biking",
 			"Indoor Cycling", # Cyclisme en intérieur (non virtuel, sans application ordinateur)
-			"Virtual Cycling", # Cyslicme virtuel (zwift)
+			"Virtual Cycling", # Cyclisme virtuel (zwift)
 			"Open Water Swimming", "Pool Swimming",
 			"Strength Training", "Hiking"
 			]
