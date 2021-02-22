@@ -360,6 +360,49 @@ class Create_graphics:
         plt.savefig(filename, dpi=800, bbox_inches="tight")
         plt.close()
 
+    def distribution_trail_running(self, date):
+        """Graphique permettant de visualiser la répartition des km
+        réalisés sur route et en trail en course à pied"""
+
+        filename = "images/graphs/repartition_distances_cap.png"
+        if os.path.exists(filename):
+            os.remove(filename)
+
+        km_trail = self._stats.total_distance(date=date,sport="trail")
+        km_total = self._stats.total_distance(date=date,sport="running")
+        km_road = km_total - km_trail
+
+        ## Default
+        df_bar = pd.DataFrame([km_road, km_trail], index=['Route', 'Trail'], columns=['growth'])
+        df_bar.plot(kind='barh')
+
+        # 1. Delete legend legend=False
+        # 2. Tighten the space between bars width=0.8
+        width = 0.8
+        fig, ax = plt.subplots(figsize=(6, 3))
+        df_bar.plot(kind='barh', legend=False, ax=ax, width=width)
+        # 3. Re-order the y-axis
+        ax.invert_yaxis()
+
+        # 4. Delete the square spines
+        [spine.set_visible(False) for spine in ax.spines.values()]
+
+        # 5. Delete ticks for x and y axis
+        # 6. Delete tick label for x axis
+        ax.tick_params(bottom=False, left=False, labelbottom=False)
+
+        # 7. Increase the size of the label for y axis
+        ax.tick_params(axis='y', labelsize='x-large')
+
+        # 8. Display each value next to the bar
+        vmax = df_bar['growth'].max()
+
+        for i, value in enumerate(df_bar['growth']):
+            ax.text(value+vmax*0.02, i, f'{value:,}', fontsize='x-large', va='center', color='C0')
+
+        plt.savefig(filename, dpi=800, bbox_inches="tight")
+        plt.close()
+
 if __name__ == "__main__":
 
 	graphs = Create_graphics(activities_file="activities/activities.csv")

@@ -108,6 +108,7 @@ class Generate_pdf:
         self._graphs.distance_sharing(date=date)
         self._graphs.location_sharing_all_sports(date=date)
         self._graphs.distribution_ht_road(date=date)
+        self._graphs.distribution_trail_running(date=date)
 
         # Partie statistiques tous sports confondus
         with open(report_file_name, 'r+') as report_file:
@@ -233,13 +234,36 @@ class Generate_pdf:
         # Distance totale
         distance = str(self._stats.total_distance(date=date, sport="running"))
 
-        # Dénivelé
+        # Distance totale trail
+        distance_trail = str(self._stats.total_distance(date=date, sport="trail"))
+
+        # Distance totale route
+        distance_road = float(distance) - float(distance_trail)
+        distance_road = str(distance_road)
+
+        # Dénivelé total
         elevation = str(self._stats.total_elevation(date=date,
                                                     sport="running"))
+        # Dénivelé trail
+        elevation_trail = str(self._stats.total_elevation(date=date,
+                                                    sport="trail"))
+
+        # Dénivelé route
+        elevation_road = int(elevation) - int(elevation_trail)
+        elevation_road = str(elevation_road)
 
         # Temps total d'activité
         duration = str(self._stats.activities_duration(date=date,
                                                        sport="running"))
+        # Temps total d'activité trail
+        duration_trail = str(self._stats.activities_duration(date=date,
+                                                       sport="trail"))
+
+        # Temps total d'activité route
+        d_trail = self._stats.activities_duration(date=date, sport="trail")
+        d_running = self._stats.activities_duration(date=date, sport="running")
+        duration_road = d_running - d_trail
+        duration_road = str(duration_road)
 
         # Vitesse moyenne tous sports confondus
         average_speed = str(self._stats.average_speed(date=date,
@@ -265,14 +289,25 @@ class Generate_pdf:
             # Remplacer le template
             text = re.sub("RPACTIVITIES-NUMBER", training_nb, text)
             text = re.sub("RPRATIO", training_ratio, text)
+            
             text = re.sub("RPDURATION", duration, text)
+            text = re.sub("RPTRAILDURATION", duration_trail, text)
+            text = re.sub("RPROADDURATION", duration_road, text)
+
             text = re.sub("RPTOTAL-DISTANCE", distance, text)
+            text = re.sub("RPTOTALROAD-DISTANCE", distance_road, text)
+            text = re.sub("RPTOTALTRAIL-DISTANCE", distance_trail, text)
+            
             text = re.sub("RPAVERAGE-SPEED", average_speed, text)
+            
             text = re.sub("RPAVERAGE-HR", average_hr, text)
             text = re.sub("RPMAX-HR", max_hr, text)
             text = re.sub("RPMAX-VO2", max_vo2max, text)
             text = re.sub("RPAVERAGE-VO2", average_vo2max, text)
+            
             text = re.sub("RPELEVATION", elevation, text)
+            text = re.sub("RPROADELEVATION", elevation_road, text)
+            text = re.sub("RPTRAILELEVATION", elevation_trail, text)
             
             report_file.seek(0)
             report_file.write(text)

@@ -230,7 +230,7 @@ class Make_statistics:
         total_elevation = 0
 
         if len(list_elevation) == 0:
-            total_elevation = "Aucune donnée"
+            total_elevation = 0
 
         else:
             list_elevation = list(map(float, list_elevation))

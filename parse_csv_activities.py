@@ -520,10 +520,10 @@ class Parse_csv_activities:
 		- vitesse ou distance en renforcement musculaire
 		"""
 
-		accepted_sports = ["all", "cyclisme", "home_trainer", "running", "natation", "renfo"]
+		accepted_sports = ["all", "cyclisme", "home_trainer", "running", "trail", "natation", "renfo"]
 
 		not_elevation = [ "renfo", "natation" ]
-		not_special_distance = [ "renfo", "cyclisme" ]
+		not_special_distance = [ "renfo", "cyclisme", "home_trainer" ]
 
 		not_vo2max = [ "renfo", "cyclisme", "home_trainer", "natation"]
 
@@ -571,6 +571,8 @@ class Parse_csv_activities:
 			sports = ["Virtual Cycling", "Indoor Cycling"]
 		elif sport == "running":
 			sports = ["Street Running", "Trail Running"]
+		elif sport == "trail":
+			sports = ["Trail Running"]
 		elif sport == "renfo":
 			sports = ["Strength Training"]
 		elif sport == "natation":
