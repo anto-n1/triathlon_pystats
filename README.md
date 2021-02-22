@@ -46,13 +46,20 @@ Les formats de date disponibles sont : "YYYY", "YYYY-MM", "YYYY-MM-DD", "all-tim
 * Version python : 3.8
 * Génération des PDF basée sur [LaTeX](https://www.latex-project.org)
 * Génération des graphiques basée sur [Matplotlib](https://matplotlib.org)
-* Développé sous Linux Fedora 33 et macOS 10.15.7, non testé sur Windows 10
+* Développé sous Linux Fedora 33 et macOS 11.X, non testé sur Windows 10
 
 **Dépendances pip à installer** :
 
 * [matplotlib](https://pypi.org/project/matplotlib)
 * [gitpython](https://pypi.org/project/GitPython)
 * [pandas](https://pypi.org/project/pandas)
+
+Les développements de l'outil sont faits sans réflexion au préalable,
+le code n'est pas optimisé et peut ne pas toujours être très clair.
+
+## Bugs connus
+
+* Dossier non présent la première fois
 
 ## Idées d'améliorations
 
