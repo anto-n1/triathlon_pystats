@@ -4,7 +4,6 @@
 __author__ = "Antonin DOUILLARD"
 __email__ = "antonin.info@protonmail.com"
 __description__ = "Triathlon-pystats"
-__version = "1.0"
 __uri__ = "https://git.antonin.io/projets/triathlon-pystats"
 
 import sys
@@ -168,7 +167,7 @@ class Make_statistics:
         list_speed = self._activities.get_speed_list(date=date, sport=sport)
 
         if len(list_speed) == 0:
-            average_speed = "Aucune donnée"
+            average_speed = 0
 
         else:
             average_speed = round(mean(list_speed), 2)
