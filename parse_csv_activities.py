@@ -4,7 +4,7 @@
 __author__ = "Antonin DOUILLARD"
 __email__ = "antonin.info@protonmail.com"
 __description__ = "Triathlon-pystats"
-__uri__ = "https://git.antonin.io/projets/triathlon-pystats"
+__uri__ = "https://git.antonin.io/projets_personnels/triathlon-pystats"
 
 from datetime import timedelta
 import csv
