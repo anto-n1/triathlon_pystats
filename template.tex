@@ -185,29 +185,42 @@ ratio de \textbf{RNRATIO entraînement/jour}
 \section*{Statistiques cyclisme}
 \thispagestyle{empty}
 
+\textbullet Nombre d'entraînements : \textbf{RCACTIVITIES-NUMBER} - ratio de \textbf{RCRATIO entraînement/jour}
 
-\textbullet Nombre d'entraînements : \textbf{RCACTIVITIES-NUMBER} (dont \textbf{RHOMETRAINER-NUMBER} sur home trainer) -
-ratio de \textbf{RCRATIO entraînement/jour}
-
-\textbullet Distance totale parcourue : \textbf{RCTOTAL-DISTANCE km} (dont \textbf{RCTOTALHT-DISTANCE km} sur home trainer) -
-avec \textbf{RCELEVATION m} de dénivelé positif (dont \textbf{RCELEVHT m} sur home trainer)
-
-METTRE UN TABLEAU POUR MIEUR VOIR
+\textbullet Distance totale parcourue : \textbf{RCTOTAL-DISTANCE km} avec \textbf{RCELEVATION m} de dénivelé positif
 
 \textbullet Temps total d'activité : \textbf{RCDURATION}
 
 \textbullet Vitesse moyenne : \textbf{RCAVERAGE-SPEED km/h}
 
-\textbullet Fréquence cardiaque moyenne : \textbf{RCAVERAGE-HR bpm} -
-maximale atteinte \textbf{RCMAX-HR bpm}
+\textbullet Fréquence cardiaque moyenne : \textbf{RCAVERAGE-HR bpm} - maximale atteinte \textbf{RCMAX-HR bpm}
 
 \begin{figure}[!ht]
-\centering
+	\begin{subfigure}{.49\linewidth}
 	
-\includegraphics[height=3cm]{graphs/repartition_distances_velo.png}
-\caption*{Répartition du nombre de km en vélo}
+	\centering
 	
-\end{figure}
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		TYPE         & DISTANCE                & TEMPS           & D+           \\ \hline
+		Route        & RCTOTALROAD-DISTANCE km & RCHROADDURATION & RCELEVROAD m  \\ \hline
+		Home trainer & RCTOTALHT-DISTANCE km   & RCHTDURATION    & RCELEVHT m    \\ \hline
+		Total        & RCTOTAL-DISTANCE km     & RCDURATION      & RCELEVATION m \\ \hline
+		\end{tabular}
+		\caption*{Comparaison home trainer / route}
+
+	\end{subfigure}\hfill
+	\begin{subfigure}{.49\linewidth}
+	
+	\centering
+	
+	\includegraphics[height=3cm]{graphs/repartition_distances_velo.png}
+	\caption*{Répartition du nombre de km}
+	
+	\end{subfigure}
+	
+	\end{figure}
+	
 
 % ------------------------------------------------------------------------------
 % Statistiques pour le running

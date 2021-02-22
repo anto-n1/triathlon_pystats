@@ -108,6 +108,7 @@ class Generate_pdf:
         self._graphs.time_sharing(date=date)
         self._graphs.distance_sharing(date=date)
         self._graphs.location_sharing_all_sports(date=date)
+        self._graphs.distribution_ht_road(date=date)
 
         # Partie statistiques tous sports confondus
         with open(report_file_name, 'r+') as report_file:
@@ -151,6 +152,10 @@ class Generate_pdf:
         # Distance totale home trainer
         distance_ht = str(self._stats.total_distance(date=date,sport="home_trainer"))
 
+        # Distance totale route
+        distance_road = float(distance) - float(distance_ht)
+        distance_road = str(distance_road)
+        
         # Dénivelé
         elevation = str(self._stats.total_elevation(date=date,
                                                     sport="cyclisme"))
@@ -158,10 +163,24 @@ class Generate_pdf:
         # Dénivelé home trainer
         elevation_ht = str(self._stats.total_elevation(date=date,
                                                     sport="home_trainer"))
+        
+        # Dénivelé route
+        elevation_road = float(elevation) - float(elevation_ht)
+        elevation_road = str(round(elevation_road))
 
         # Temps total d'activité
         duration = str(self._stats.activities_duration(date=date,
                                                        sport="cyclisme"))
+
+        # Temps total d'activité home trainer
+        duration_ht = str(self._stats.activities_duration(date=date,
+                                                       sport="home_trainer"))
+
+        # Temps total d'activité route
+        total = self._stats.activities_duration(date=date, sport="cyclisme")
+        ht = self._stats.activities_duration(date=date, sport="home_trainer")
+        duration_road = total - ht
+        duration_road = str(duration_road)
 
         # Vitesse moyenne tous sports confondus
         average_speed = str(self._stats.average_speed(date=date,
@@ -180,15 +199,25 @@ class Generate_pdf:
             # Remplacer le template
             text = re.sub("RCACTIVITIES-NUMBER", training_nb, text)
             text = re.sub("RHOMETRAINER-NUMBER", training_nb_ht, text)
+
             text = re.sub("RCRATIO", training_ratio, text)
+
             text = re.sub("RCDURATION", duration, text)
+            text = re.sub("RCHTDURATION", duration_ht, text)
+            text = re.sub("RCHROADDURATION", duration_road, text)
+
             text = re.sub("RCTOTAL-DISTANCE", distance, text)
             text = re.sub("RCTOTALHT-DISTANCE", distance_ht, text)
+            text = re.sub("RCTOTALROAD-DISTANCE", distance_road, text)
+
             text = re.sub("RCAVERAGE-SPEED", average_speed, text)
+
             text = re.sub("RCAVERAGE-HR", average_hr, text)
             text = re.sub("RCMAX-HR", max_hr, text)
+
             text = re.sub("RCELEVATION", elevation, text)
             text = re.sub("RCELEVHT", elevation_ht, text)
+            text = re.sub("RCELEVROAD", elevation_road, text)
             
             report_file.seek(0)
             report_file.write(text)
