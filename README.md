@@ -57,10 +57,6 @@ Les formats de date disponibles sont : "YYYY", "YYYY-MM", "YYYY-MM-DD", "all-tim
 Les développements de l'outil sont faits sans réflexion au préalable,
 le code n'est pas optimisé et peut ne pas toujours être très clair.
 
-## Bugs connus
-
-* Dossier non présent la première fois
-
 ## Idées d'améliorations
 
 * Faire des graphiques pour montrer des évolutions sur plusieurs mois
