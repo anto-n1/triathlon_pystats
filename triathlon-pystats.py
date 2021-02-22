@@ -18,15 +18,10 @@ from download_data import Download_data
 def main():
     parser = argparse.ArgumentParser()
     
-    if not os.path.exists("activities"):
-        print("Aucun répertoire d'activités trouvé.")
-        print("Création d'un répertoire.")
-        os.mkdir("activities")
-
     # A l'avenir, pour génération graphiques
     #parser.add_argument("-g", "--generate", help="Choix du pdf à générer", action="store_true")
 
-    parser.add_argument("-m", "--mail-garmin", help="Adresse mail Garmin Connect", default=False)
+    parser.add_argument("-m", "--mail-garmin", help="Adresse mail Garmin Connect")
 
     parser.add_argument("-d", "--date", help="Date pour laquelle générer un document pdf ('YYYY', 'YYYY-MM', 'YYYY-MM-DD', 'all-time')")
       

@@ -41,8 +41,8 @@ class Parse_csv_activities:
 		bad_activities_types = ['Swimming', 'Running', 'Cycling']
 
 		if not os.path.exists(self._activities_file):
-			print("Le fichier csv n'est pas trouvé.")
-			print("Veuillez télécharger les activités.")
+			print("Le fichier csv n'est pas trouvé, veuillez télécharger les activités.")
+			print("Lancez l'aide avec '--help' pour plus d'informations.")
 			sys.exit(1)
 
 		with open(self._activities_file, newline='') as csvfile:
