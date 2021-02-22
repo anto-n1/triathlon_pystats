@@ -4,7 +4,7 @@
 __author__ = "Antonin DOUILLARD"
 __email__ = "antonin.info@protonmail.com"
 __description__ = "Triathlon-pystats"
-__version = "1.2"
+__version = "1.3"
 __uri__ = "https://git.antonin.io/projets_personnels/triathlon-pystats"
 
 import argparse
