@@ -328,6 +328,7 @@ class Create_graphics:
         km_ht = self._stats.total_distance(date=date,sport="home_trainer")
         km_total = self._stats.total_distance(date=date,sport="cyclisme")
         km_road = km_total - km_ht
+        km_road = round(km_road, 2)
 
         ## Default
         df_bar = pd.DataFrame([km_road, km_ht], index=['Route', 'Home trainer'], columns=['growth'])

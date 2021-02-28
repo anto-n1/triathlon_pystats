@@ -154,7 +154,7 @@ class Generate_pdf:
 
         # Distance totale route
         distance_road = float(distance) - float(distance_ht)
-        distance_road = str(distance_road)
+        distance_road = str(round(distance_road, 2))
         
         # Dénivelé
         elevation = str(self._stats.total_elevation(date=date,
