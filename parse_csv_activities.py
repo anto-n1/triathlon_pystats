@@ -25,7 +25,8 @@ class Parse_csv_activities:
 			"Indoor Cycling", # Cyclisme en intérieur (non virtuel, sans application ordinateur)
 			"Virtual Cycling", # Cyclisme virtuel (zwift)
 			"Open Water Swimming", "Pool Swimming",
-			"Strength Training", "Hiking"
+			"Strength Training",
+			"Hiking", "Cross Country Classic Skiing" # Marche et ski de fond (non géré, permet d'éviter les erreurs de vérification des sports)
 			]
 		self.verify_csv()
 
