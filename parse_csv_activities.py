@@ -26,7 +26,8 @@ class Parse_csv_activities:
 			"Virtual Cycling", # Cyclisme virtuel (zwift)
 			"Open Water Swimming", "Pool Swimming",
 			"Strength Training",
-			"Hiking", "Cross Country Classic Skiing" # Marche et ski de fond (non géré, permet d'éviter les erreurs de vérification des sports)
+			"Hiking", "Cross Country Classic Skiing", # Marche et ski de fond (non géré, permet d'éviter les erreurs de vérification des sports)
+			"Multisport" # Les courses du type triathlon sont référencées en tant que Multisport. Les courses ne sont pas prises en compte dans les calculs des statistiques
 			]
 		self.verify_csv()
 
