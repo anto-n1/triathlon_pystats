@@ -1,4 +1,4 @@
-# Triathlon-pystats
+# Triathlon pystats
 
 L'objectif du programme est de générer des PDF contenant des statistiques
 écrites, et sous formes de graphiques. Il est possible de générer des PDF
@@ -60,3 +60,4 @@ le code n'est pas optimisé et peut ne pas toujours être très clair.
 ## Idées d'améliorations
 
 * Faire des graphiques pour montrer des évolutions sur plusieurs mois
+* Gérer les courses triathlon et afficher les résultats
