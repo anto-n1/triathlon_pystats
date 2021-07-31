@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 __author__ = "Antonin DOUILLARD"
@@ -54,7 +54,7 @@ class Download_data:
                 
                 if choice in yes:
                     shutil.rmtree("activities")
-                    os.system("python garmin-connect-export/gcexport.py --username {} -d activities --count {}".format(self._garmin_connect_mail, self._number))
+                    os.system("python3 garmin-connect-export/gcexport.py --username {} -d activities --count {}".format(self._garmin_connect_mail, self._number))
 
                 elif choice in no:
                     pass
@@ -63,7 +63,7 @@ class Download_data:
                     sys.stdout.write("Merci de répondre par 'yes' ou 'no'.")
             else:
                 print("Téléchargement des activités...")
-                os.system("python garmin-connect-export/gcexport.py --username {} -d activities --count {}".format(self._garmin_connect_mail, self._number))
+                os.system("python3 garmin-connect-export/gcexport.py --username {} -d activities --count {}".format(self._garmin_connect_mail, self._number))
 
 if __name__ == "__main__":
 
