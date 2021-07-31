@@ -27,7 +27,7 @@ class Parse_csv_activities:
 			"Open Water Swimming", "Pool Swimming",
 			"Strength Training",
 			"Hiking", "Cross Country Classic Skiing", # Marche et ski de fond (non géré, permet d'éviter les erreurs de vérification des sports)
-			"Multisport" # Les courses du type triathlon sont référencées en tant que Multisport. Les courses ne sont pas prises en compte dans les calculs des statistiques
+			"Multisport", "Transition" # Les courses du type triathlon sont référencées en tant que Multisport. Les courses ne sont pas prises en compte dans les calculs des statistiques
 			]
 		self.verify_csv()
 
@@ -51,7 +51,7 @@ class Parse_csv_activities:
 			reader = csv.DictReader(csvfile)
 
 			for row in reader:
-			
+
 				activity_type = row["Activity Type"]
 				activity_date = row["Start Time"][:10]
 
@@ -62,7 +62,7 @@ class Parse_csv_activities:
 					print("Les types d'activités acceptés sont : {}." \
 						  .format(str(good_activities_names)))
 					sys.exit(1)
-				
+
 				if activity_type not in good_activities_names:
 					print("Le type d'activité '{}' daté du {} dans le " \
 					    "fichier csv qui n'est pas reconnu." \
@@ -148,7 +148,7 @@ class Parse_csv_activities:
 						max_heart_rate_list.append(max_heart_rate_row)
 
 					continue
-					
+
 				date_row = row["Start Time"][:complete_date[2]]
 
 				# Sinon si c'est le sport souhaité et la bonne date
@@ -187,13 +187,13 @@ class Parse_csv_activities:
 						number_activities += 1
 
 					continue
-					
+
 				date_row = row["Start Time"][:complete_date[2]]
 
 				# Sinon si c'est le sport souhaité et la bonne date
 				if sport_row in sport and date_row == complete_date[1]:
 					number_activities += 1
-		
+
 		return number_activities
 
 	def get_distances_list(self, date, sport):
@@ -224,7 +224,7 @@ class Parse_csv_activities:
 				# Conversion en float avec 2 chiffres après virgule
 				distance_row = float(distance_row)
 				distance_row = round(distance_row, 2)
-				
+
 				# Si tous les temps
 				if date == "all-time":
 
@@ -309,7 +309,7 @@ class Parse_csv_activities:
 			reader = csv.DictReader(csvfile)
 
 			for row in reader:
-				
+
 				sport_row = row["Activity Type"]
 				duration_row = row["Duration (h:m:s)"]
 
@@ -322,8 +322,8 @@ class Parse_csv_activities:
 					elif sport_row in sport:
 						duration_list.append(duration_row)
 
-					continue			
-				
+					continue
+
 				date_row = row["Start Time"][:complete_date[2]]
 
 				# Sinon si c'est le sport souhaité et la bonne date
@@ -349,7 +349,7 @@ class Parse_csv_activities:
 			reader = csv.DictReader(csvfile)
 
 			for row in reader:
-				
+
 				sport_row = row["Activity Type"]
 				vo2max_row = row["VO2max"]
 
@@ -366,8 +366,8 @@ class Parse_csv_activities:
 					elif sport_row in sport:
 						vo2max_list.append(vo2max_row)
 
-					continue			
-				
+					continue
+
 				date_row = row["Start Time"][:complete_date[2]]
 
 				# Sinon si c'est le sport souhaité et la bonne date
@@ -393,7 +393,7 @@ class Parse_csv_activities:
 			reader = csv.DictReader(csvfile)
 
 			for row in reader:
-				
+
 				sport_row = row["Activity Type"]
 				elevation_row = row["Elevation Gain (m)"]
 
@@ -410,8 +410,8 @@ class Parse_csv_activities:
 					elif sport_row in sport:
 						elevation_list.append(elevation_row)
 
-					continue			
-				
+					continue
+
 				date_row = row["Start Time"][:complete_date[2]]
 
 				# Sinon si c'est le sport souhaité et la bonne date
@@ -425,7 +425,7 @@ class Parse_csv_activities:
 		Retourne une liste des dates des activités
 		Dates sous la forme 'YYYY-MM-DD'
 		"""
-		
+
 		# Vérification date conforme et récupération type
 		complete_date = self.verify_date(date=date)
 
@@ -533,12 +533,12 @@ class Parse_csv_activities:
 			print("Aucune donnée de fréquence cardiaque disponible" \
 				  " en natation.")
 			sys.exit(1)
-		
+
 		elif sport == "renfo" and sport_type == "speed_distance":
 			print("Aucune donnée de distance ou vitesse disponible" \
 				  " en renforcement musculaire.")
 			sys.exit(1)
-		
+
 		elif (sport in not_elevation) and (sport_type == "elevation"):
 			print("Aucune donnée de dénivelé disponible en natation et" \
 				  " en renforcement musculaire.")
@@ -579,7 +579,7 @@ class Parse_csv_activities:
 			sports = ["Strength Training"]
 		elif sport == "natation":
 			sports = ["Open Water Swimming", "Pool Swimming"]
-		
+
 		if sport_type == "heart_rate":
 			for item in not_heart_rate_sports:
 				if item in sports:
@@ -589,7 +589,7 @@ class Parse_csv_activities:
 			for item in not_speed_distance_sports:
 				if item in sports:
 					sports.remove(item)
-		
+
 		elif sport_type == "elevation":
 			for item in not_elevation_sports:
 				if item in sports:
@@ -601,7 +601,7 @@ class Parse_csv_activities:
 					sports.remove(item)
 
 		return sports
-	
+
 	def month_name(self, date):
 		"""Connaître le nom du mois"""
 
@@ -622,7 +622,7 @@ class Parse_csv_activities:
 			"11": "Novembre",
 			"12": "Décembre"
 		}
-		
+
 		month_name = dict_month[month]+" "+year
 
 		return month_name
@@ -656,7 +656,7 @@ class Parse_csv_activities:
 			print("La date {} n'est pas reconnu.".format(date))
 			print("Les formats de date connus sont : {}.".format(valid_dates))
 			sys.exit(1)
-		
+
 		return date
 
 	"""Getters and setters"""
