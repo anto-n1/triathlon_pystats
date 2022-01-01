@@ -15,3 +15,4 @@ rapport-triathlon*
 *.toc
 images/graphs
 gcexport.log
+*.DS_Store
