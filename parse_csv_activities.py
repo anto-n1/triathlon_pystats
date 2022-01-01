@@ -27,8 +27,8 @@ class Parse_csv_activities:
 			"Open Water Swimming", "Pool Swimming",
 			"Strength Training",
 			"Hiking", "Cross Country Classic Skiing", # Marche et ski de fond (non géré, permet d'éviter les erreurs de vérification des sports)
-			"Multisport", "Transition" # Les courses du type triathlon sont référencées en tant que Multisport. Les courses ne sont pas prises en compte dans les calculs des statistiques
-			]
+			"Multisport", "Transition", # Les courses du type triathlon sont référencées en tant que Multisport. Les courses ne sont pas prises en compte dans les calculs des statistiques
+			"Tennis" ]
 		self.verify_csv()
 
 	def verify_csv(self):
